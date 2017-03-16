@@ -129,17 +129,21 @@ public class GameScreen implements Screen {
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
 //            player.jump();
 
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body.getLinearVelocity().x <= 2) {
-            player.body.applyLinearImpulse(new Vector2(0.1f, 0), player.body.getWorldCenter(), true);
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) /*&& player.body.getLinearVelocity().x <= 2*/) {
+            player.body.applyLinearImpulse(new Vector2(10f, 0), player.body.getWorldCenter(), true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.body.getLinearVelocity().x >= -2) {
-            player.body.applyLinearImpulse(new Vector2(-0.1f, 0), player.body.getWorldCenter(), true);
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) /*&& player.body.getLinearVelocity().x >= -2*/) {
+            player.body.applyLinearImpulse(new Vector2(-10f, 0), player.body.getWorldCenter(), true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && player.body.getLinearVelocity().y >= -2) {
-            player.body.applyLinearImpulse(new Vector2(0, -0.1f), player.body.getWorldCenter(), true);
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) /*&& player.body.getLinearVelocity().y >= -2*/) {
+            player.body.applyLinearImpulse(new Vector2(0, -10f), player.body.getWorldCenter(), true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) && player.body.getLinearVelocity().y <= 2) {
-            player.body.applyLinearImpulse(new Vector2(0, 0.1f), player.body.getWorldCenter(), true);
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) /*&& player.body.getLinearVelocity().y <= 2*/) {
+            player.body.applyLinearImpulse(new Vector2(0, 10f), player.body.getWorldCenter(), true);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            player.fire();
         }
 
     }

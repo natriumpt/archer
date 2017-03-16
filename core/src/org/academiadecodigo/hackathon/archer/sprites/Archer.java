@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
 import org.academiadecodigo.hackathon.archer.screens.GameScreen;
+import org.academiadecodigo.hackathon.archer.sprites.projectile.Projectile;
 
 public class Archer extends Sprite {
 
@@ -46,14 +47,14 @@ public class Archer extends Sprite {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-//        fixtureDef.density = 1f;
-//        fixtureDef.friction = 0.4f;
-//        fixtureDef.restitution = 0.6f;
         body.createFixture(fixtureDef);
 
-//        shape.dispose();
+        shape.dispose();
 
 
     }
 
+    public void fire() {
+        new Projectile(gameScreen, body.getLocalCenter().x, body.getLocalCenter().y);
+    }
 }
