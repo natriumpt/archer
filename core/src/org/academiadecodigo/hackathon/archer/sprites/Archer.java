@@ -12,7 +12,6 @@ public class Archer extends Sprite {
     public World world;
     public Body body;
     public Vector2 velocityVector;
-
     private GameScreen gameScreen;
 
     public Archer(GameScreen gameScreen) {
@@ -30,17 +29,18 @@ public class Archer extends Sprite {
     }
 
 
+
     private void defineArcher() {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
-        bodyDef.position.set(32, 32);
+        bodyDef.position.set(32 / ArcherGame.PPM, 32 / ArcherGame.PPM);
 
         body = world.createBody(bodyDef);
 
         CircleShape shape = new CircleShape();
-        shape.setRadius(500 / ArcherGame.PPM);
+        shape.setRadius(5 / ArcherGame.PPM);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
