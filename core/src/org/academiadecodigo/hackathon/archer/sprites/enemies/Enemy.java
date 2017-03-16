@@ -10,11 +10,11 @@ public abstract class Enemy extends Sprite {
 
 
     private World world;
-    private Body body;
     private GameScreen gameScreen;
-    private Vector2 velocity;
     private int health;
 
+    Vector2 velocity;
+    protected Body enemyBody;
 
 
     public Enemy(GameScreen screen, float initial_x, float initial_y){
@@ -24,7 +24,7 @@ public abstract class Enemy extends Sprite {
         setPosition(initial_x, initial_y);
         defineEnemy();
         velocity = new Vector2(-1f, -2f);
-        body.setActive(false);
+        enemyBody.setActive(false);
     }
 
     protected abstract void defineEnemy();
@@ -33,20 +33,16 @@ public abstract class Enemy extends Sprite {
 
     public abstract void hitByEnemy(Enemy enemy);
 
-    void setBody(Body body){
-        this.body = body;
-    }
 
-    public Body getBody() {
-        return body;
-    }
-
-    World getWorld(){
+    public World getWorld(){
         return world;
     }
 
+    public GameScreen getGameScreen() {
+        return gameScreen;
+    }
 
-//    public void reverseVelocity(boolean x, boolean y){
+    //    public void reverseVelocity(boolean x, boolean y){
 //        if(x)
 //            velocity.x = -velocity.x;
 //        if(y)

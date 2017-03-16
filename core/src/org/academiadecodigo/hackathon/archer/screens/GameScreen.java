@@ -30,7 +30,7 @@ public class GameScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
 
     private World world;
-    private Archer player;
+    private Archer archer;
     private ArcherGame game;
     private Box2DDebugRenderer debugRenderer;
 
@@ -45,7 +45,7 @@ public class GameScreen implements Screen {
 
         this.game = archerGame;
         world = new World(new Vector2(0, 0), true);
-        player = new Archer(this);
+        archer = new Archer(this);
 
 
         gamecam = new OrthographicCamera();
@@ -71,8 +71,8 @@ public class GameScreen implements Screen {
 
         world.step(1/60f, 6, 2);
 
-        gamecam.position.x = player.body.getPosition().x;
-        gamecam.position.y = player.body.getPosition().y;
+        gamecam.position.x = archer.body.getPosition().x;
+        gamecam.position.y = archer.body.getPosition().y;
         gamecam.update();
         renderer.setView(gamecam);
     }
@@ -130,33 +130,37 @@ public class GameScreen implements Screen {
     public void handleInput() {
 
 
-        // TODO: Provide the player class with a speed value;
+        // TODO: Provide the archer class with a speed value;
         // TODO: Update/merge with the firing method;
 
-        // Accounts for the player holding opposite keys.
+        // Accounts for the archer holding opposite keys.
         // Movement code starts here
         if (inputProcessor.aKey && !inputProcessor.dKey) {
-            player.velocityVector.x = -1f;
+            archer.velocityVector.x = -1f;
         } else if (inputProcessor.dKey && !inputProcessor.aKey) {
-            player.velocityVector.x = 1f;
+            archer.velocityVector.x = 1f;
         } else {
-            player.velocityVector.x = 0;
+            archer.velocityVector.x = 0;
         }
 
         if (inputProcessor.wKey) {
-            player.velocityVector.y = 1f;
+            archer.velocityVector.y = 1f;
         } else if (inputProcessor.sKey) {
-            player.velocityVector.y = -1f;
+            archer.velocityVector.y = -1f;
         } else {
-            player.velocityVector.y = 0;
+            archer.velocityVector.y = 0;
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            player.fire();
+            archer.fire();
         }
 
-        player.body.setLinearVelocity(player.velocityVector);
+        archer.body.setLinearVelocity(archer.velocityVector);
         // Movement code ends here.
+    }
+
+    public Archer getArcher() {
+        return archer;
     }
 
     public World getWorld() {
