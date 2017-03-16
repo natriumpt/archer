@@ -19,19 +19,19 @@ public abstract class Enemy extends Sprite {
 
     public Enemy(GameScreen screen, float initial_x, float initial_y){
 
-        this.world = screen.getWorld();
         this.gameScreen = screen;
-        setPosition(initial_x, initial_y);
+        this.world = screen.getWorld();
+//        setPosition(initial_x, initial_y);
         defineEnemy();
         velocity = new Vector2(-1f, -2f);
-        enemyBody.setActive(false);
+//        enemyBody.setActive(false);
     }
 
     protected abstract void defineEnemy();
 
-    public abstract void update(float dt);
+//    public abstract void update(float dt);
 
-    public abstract void hitByEnemy(Enemy enemy);
+//    public abstract void hitByEnemy(Enemy enemy);
 
 
     public World getWorld(){

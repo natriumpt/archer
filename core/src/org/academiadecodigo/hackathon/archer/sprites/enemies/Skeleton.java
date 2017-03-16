@@ -27,12 +27,12 @@ public class Skeleton extends Enemy {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(200, 200);
+        bodyDef.position.set(40 / ArcherGame.PPM, 40 / ArcherGame.PPM);
 
         enemyBody = getWorld().createBody(bodyDef);
 
         CircleShape shape = new CircleShape();
-        shape.setRadius(400 / ArcherGame.PPM);
+        shape.setRadius( 5 / ArcherGame.PPM);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
@@ -44,17 +44,6 @@ public class Skeleton extends Enemy {
 //        shape.dispose();
 
     }
-
-    @Override
-    public void update(float dt) {
-
-    }
-
-    @Override
-    public void hitByEnemy(Enemy enemy) {
-
-    }
-
 
     public void moveToArcher(){
 

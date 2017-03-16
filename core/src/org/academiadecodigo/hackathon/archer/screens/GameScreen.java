@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
 import org.academiadecodigo.hackathon.archer.sprites.archer.Archer;
+import org.academiadecodigo.hackathon.archer.sprites.enemies.Skeleton;
 import org.academiadecodigo.hackathon.archer.tools.ArcherInputProcessor;
 
 public class GameScreen implements Screen {
@@ -30,11 +31,11 @@ public class GameScreen implements Screen {
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
 
-    private World world;
-    private Archer archer;
     private ArcherGame game;
+    private World world;
     private Box2DDebugRenderer debugRenderer;
 
+    private Archer archer;
     private ArcherInputProcessor inputProcessor;
 
     public static final float VIEWPORT_WIDTH = 10f;
@@ -47,6 +48,8 @@ public class GameScreen implements Screen {
         this.game = archerGame;
         world = new World(new Vector2(0, 0), true);
         archer = new Archer(this);
+        Skeleton skeleton = new Skeleton(this, 40/ArcherGame.PPM, 40/ ArcherGame.PPM);
+
 
 
         gamecam = new OrthographicCamera();
@@ -66,10 +69,10 @@ public class GameScreen implements Screen {
         FixtureDef fdef =  new FixtureDef();
         Body body;
 
-        for( MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-        }
+//        for( MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
+//            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+//
+//        }
         bdef.type = BodyDef.BodyType.StaticBody;
 
     }
