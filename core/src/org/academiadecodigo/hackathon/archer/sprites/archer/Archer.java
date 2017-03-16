@@ -3,6 +3,7 @@ package org.academiadecodigo.hackathon.archer.sprites.archer;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
 import org.academiadecodigo.hackathon.archer.screens.GameScreen;
 import org.academiadecodigo.hackathon.archer.sprites.projectile.Projectile;
@@ -13,6 +14,7 @@ public class Archer extends Sprite {
     public Body body;
     public Vector2 velocityVector;
     private GameScreen gameScreen;
+    private Array<Projectile> projectiles;
 
     public Archer(GameScreen gameScreen) {
 
@@ -20,6 +22,8 @@ public class Archer extends Sprite {
         this.world = gameScreen.getWorld();
 
         defineArcher();
+
+        projectiles = new Array<Projectile>();
 
     }
 
@@ -50,7 +54,7 @@ public class Archer extends Sprite {
 
     }
 
-    public void fire() {
-        new Projectile(gameScreen, body.getPosition());
+    public void fire(Vector2 velocityVector, boolean fireRight) {
+        projectiles.add(new Projectile(gameScreen, body.getPosition(), velocityVector, fireRight));
     }
 }

@@ -29,18 +29,18 @@ public class ArcherInputProcessor implements InputProcessor {
         if (keycode == Input.Keys.D) {
             dKey = true;
         }
-        if (keycode == Input.Keys.UP) {
-            upKey = true;
-        }
-        if (keycode == Input.Keys.DOWN) {
-            downKey = true;
-        }
-        if (keycode == Input.Keys.LEFT) {
-            leftKey = true;
-        }
-        if (keycode == Input.Keys.RIGHT) {
-            rightKey = true;
-        }
+//        if (keycode == Input.Keys.UP) {
+//            upKey = true;
+//        }
+//        if (keycode == Input.Keys.DOWN) {
+//            downKey = true;
+//        }
+//        if (keycode == Input.Keys.LEFT) {
+//            leftKey = true;
+//        }
+//        if (keycode == Input.Keys.RIGHT) {
+//            rightKey = true;
+//        }
 
         return false;
 
@@ -61,18 +61,18 @@ public class ArcherInputProcessor implements InputProcessor {
         if (keycode == Input.Keys.D) {
             dKey = false;
         }
-        if (keycode == Input.Keys.UP) {
-            upKey = false;
-        }
-        if (keycode == Input.Keys.DOWN) {
-            downKey = false;
-        }
-        if (keycode == Input.Keys.LEFT) {
-            leftKey = false;
-        }
-        if (keycode == Input.Keys.RIGHT) {
-            rightKey = false;
-        }
+//        if (keycode == Input.Keys.UP) {
+//            upKey = false;
+//        }
+//        if (keycode == Input.Keys.DOWN) {
+//            downKey = false;
+//        }
+//        if (keycode == Input.Keys.LEFT) {
+//            leftKey = false;
+//        }
+//        if (keycode == Input.Keys.RIGHT) {
+//            rightKey = false;
+//        }
         
         return false;
         
