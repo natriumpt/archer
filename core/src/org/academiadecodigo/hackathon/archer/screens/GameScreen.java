@@ -40,6 +40,7 @@ public class GameScreen implements Screen {
 
     public static final float VIEWPORT_WIDTH = 10f;
     public static final float VIEWPORT_HEIGHT = 7.5f;
+    public static final float PROJECTILE_VELOCITY = 3f;
 
     public GameScreen(ArcherGame archerGame) {
 
@@ -167,8 +168,18 @@ public class GameScreen implements Screen {
             archer.velocityVector.y = 0;
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            archer.fire();
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+            archer.fire(new Vector2(PROJECTILE_VELOCITY, 0), true);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+            archer.fire(new Vector2(-PROJECTILE_VELOCITY, 0), false);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+            archer.fire(new Vector2(0, PROJECTILE_VELOCITY), true);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+            archer.fire(new Vector2(0, -PROJECTILE_VELOCITY), true);
         }
 
         archer.body.setLinearVelocity(archer.velocityVector);

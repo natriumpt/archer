@@ -13,21 +13,23 @@ public class Projectile extends Sprite{
     World world;
     Body body;
     Archer archer;
+    boolean fireRight;
 
-    public Projectile(GameScreen gameScreen, Vector2 vector2){
+    public Projectile(GameScreen gameScreen, Vector2 vector2, Vector2 velocityVector, boolean fireRight){
 
         this.gameScreen = gameScreen;
         this.world = gameScreen.getWorld();
+        this.fireRight = fireRight;
 
-        defineProjectile(vector2.x, vector2.y);
+        defineProjectile(vector2.x, vector2.y, velocityVector);
     }
 
-    private void defineProjectile(float x, float y){
+    private void defineProjectile(float x, float y, Vector2 velocityVector){
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
-        bodyDef.position.set(x, y);
+        bodyDef.position.set(fireRight? x : x - 1 / ArcherGame.PPM, y);
 
         body = world.createBody(bodyDef);
 
@@ -38,7 +40,7 @@ public class Projectile extends Sprite{
         fixtureDef.shape = shape;
         body.createFixture(fixtureDef);
 
-        body.setLinearVelocity(new Vector2(10f, 0));
+        body.setLinearVelocity(velocityVector);
 
         shape.dispose();
 
