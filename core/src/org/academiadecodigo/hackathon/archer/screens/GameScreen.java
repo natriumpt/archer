@@ -51,7 +51,7 @@ public class GameScreen implements Screen {
         gamecam = new OrthographicCamera();
         viewPort = new FitViewport(archerGame.V_WIDTH / archerGame.PPM, archerGame.V_HEIGHT / archerGame.PPM, gamecam);
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("map/testmap.tmx");
+        map = mapLoader.load("map/forest.tmx");
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / archerGame.PPM);
         gamecam.position.set(viewPort.getWorldWidth()/2, viewPort.getWorldHeight()/2, 0);
