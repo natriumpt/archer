@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
 import org.academiadecodigo.hackathon.archer.sprites.Archer;
 
@@ -18,10 +19,11 @@ public class GameScreen implements Screen {
     private Archer player;
     private ArcherGame game;
     private Box2DDebugRenderer debugRenderer;
+    private Viewport viewport;
 
 
     private OrthographicCamera camera;
-    public static final float VIEWPORT_WIDTH = 10;
+    public static final float VIEWPORT_WIDTH = 10f;
     public static final float VIEWPORT_HEIGHT = 7.5f;
 
     public GameScreen(ArcherGame archerGame) {
@@ -104,6 +106,7 @@ public class GameScreen implements Screen {
         //control our player using immediate impulses
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
 //            player.jump();
+
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body.getLinearVelocity().x <= 2) {
             player.body.applyLinearImpulse(new Vector2(0.1f, 0), player.body.getWorldCenter(), true);
         }

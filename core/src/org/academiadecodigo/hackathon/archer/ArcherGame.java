@@ -7,6 +7,8 @@ import org.academiadecodigo.hackathon.archer.screens.GameScreen;
 
 public class ArcherGame extends Game {
 
+	public static final float PPM = 100;
+
 	private SpriteBatch getBatch;
 	Texture img;
 	

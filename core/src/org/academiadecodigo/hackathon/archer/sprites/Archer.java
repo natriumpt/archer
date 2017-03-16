@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import org.academiadecodigo.hackathon.archer.ArcherGame;
 import org.academiadecodigo.hackathon.archer.screens.GameScreen;
 
 public class Archer extends Sprite {
@@ -36,12 +37,12 @@ public class Archer extends Sprite {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
-        bodyDef.position.set(3,3);
+        bodyDef.position.set(32 / ArcherGame.PPM, 32 / ArcherGame.PPM);
 
         body = world.createBody(bodyDef);
 
         CircleShape shape = new CircleShape();
-        shape.setRadius(1);
+        shape.setRadius(75 / ArcherGame.PPM);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
@@ -51,6 +52,7 @@ public class Archer extends Sprite {
         body.createFixture(fixtureDef);
 
 //        shape.dispose();
+
 
     }
 
