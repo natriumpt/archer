@@ -152,11 +152,10 @@ public class GameScreen implements Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             player.fire();
-
-            player.body.setLinearVelocity(player.velocityVector);
-            // Movement code ends here.
-
         }
+
+        player.body.setLinearVelocity(player.velocityVector);
+        // Movement code ends here.
     }
 
     public World getWorld() {
