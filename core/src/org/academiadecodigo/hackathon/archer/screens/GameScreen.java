@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
 import org.academiadecodigo.hackathon.archer.sprites.Archer;
+import org.academiadecodigo.hackathon.archer.tools.ArcherInputProcessor;
 
 import static java.awt.Color.red;
 
@@ -35,13 +36,13 @@ public class GameScreen implements Screen {
     private ArcherGame game;
     private Box2DDebugRenderer debugRenderer;
 
+    private ArcherInputProcessor inputProcessor;
 
     public static final float VIEWPORT_WIDTH = 10f;
     public static final float VIEWPORT_HEIGHT = 7.5f;
 
     public GameScreen(ArcherGame archerGame) {
 
-        // Start the physics engine
         Box2D.init();
 
         this.game = archerGame;
@@ -53,15 +54,13 @@ public class GameScreen implements Screen {
         viewPort = new FitViewport(archerGame.V_WIDTH / archerGame.PPM, archerGame.V_HEIGHT / archerGame.PPM, gamecam);
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("map/testmap.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, 1 / archerGame.PPM);
-        System.out.println(viewPort.getScreenWidth());
-        System.out.println(viewPort.getScreenHeight());
-        gamecam.position.set(viewPort.getWorldWidth()/2, viewPort.getWorldHeight()/2, 0);
 
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / archerGame.PPM);
+        gamecam.position.set(viewPort.getWorldWidth()/2, viewPort.getWorldHeight()/2, 0);
         debugRenderer = new Box2DDebugRenderer();
 
-
-git
+        inputProcessor = new ArcherInputProcessor();
+        Gdx.input.setInputProcessor(inputProcessor);
     }
 
 
@@ -87,7 +86,7 @@ git
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderer.render();
-        world.step(1/60f, 6, 2);
+        world.step(1 / 60f, 6, 2);
 
         // This is so that the world bodies outline are showned
         // (just for testing purposes)
@@ -131,23 +130,35 @@ git
     }
 
     public void handleInput() {
-        //control our player using immediate impulses
-//        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
-//            player.jump();
 
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body.getLinearVelocity().x <= 2) {
-            player.body.applyLinearImpulse(new Vector2(0.1f, 0), player.body.getWorldCenter(), true);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.body.getLinearVelocity().x >= -2) {
-            player.body.applyLinearImpulse(new Vector2(-0.1f, 0), player.body.getWorldCenter(), true);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && player.body.getLinearVelocity().y >= -2) {
-            player.body.applyLinearImpulse(new Vector2(0, -0.1f), player.body.getWorldCenter(), true);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) && player.body.getLinearVelocity().y <= 2) {
-            player.body.applyLinearImpulse(new Vector2(0, 0.1f), player.body.getWorldCenter(), true);
+
+        // TODO: Provide the player class with a speed value;
+        // TODO: Update/merge with the firing method;
+
+        // Accounts for the player holding opposite keys.
+        // Movement code starts here
+        if (inputProcessor.aKey && !inputProcessor.dKey) {
+            player.velocityVector.x = -100.0f;
+        } else if (inputProcessor.dKey && !inputProcessor.aKey) {
+            player.velocityVector.x = 100.0f;
+        } else {
+            player.velocityVector.x = 0;
         }
 
+        if (inputProcessor.wKey) {
+            player.velocityVector.y = 100.0f;
+        } else if (inputProcessor.sKey) {
+            player.velocityVector.y = -100.0f;
+        } else {
+            player.velocityVector.y = 0;
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            player.fire();
+        }
+
+        player.body.setLinearVelocity(player.velocityVector);
+        // Movement code ends here.
     }
 
     public World getWorld() {
