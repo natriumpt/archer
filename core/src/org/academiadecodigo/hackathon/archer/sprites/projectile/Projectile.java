@@ -27,12 +27,12 @@ public class Projectile extends Sprite{
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
-        bodyDef.position.set(archer.getOriginX(), archer.getOriginY());
+        bodyDef.position.set(archer.getOriginX() / ArcherGame.PPM, archer.getOriginY() / ArcherGame.PPM);
 
         body = world.createBody(bodyDef);
 
         CircleShape shape = new CircleShape();
-        shape.setRadius(250 / ArcherGame.PPM);
+        shape.setRadius(3 / ArcherGame.PPM);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;

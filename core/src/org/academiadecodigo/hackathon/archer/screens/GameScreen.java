@@ -138,17 +138,17 @@ public class GameScreen implements Screen {
         // Accounts for the player holding opposite keys.
         // Movement code starts here
         if (inputProcessor.aKey && !inputProcessor.dKey) {
-            player.velocityVector.x = -100.0f;
+            player.velocityVector.x = -1f;
         } else if (inputProcessor.dKey && !inputProcessor.aKey) {
-            player.velocityVector.x = 100.0f;
+            player.velocityVector.x = 1f;
         } else {
             player.velocityVector.x = 0;
         }
 
         if (inputProcessor.wKey) {
-            player.velocityVector.y = 100.0f;
+            player.velocityVector.y = 1f;
         } else if (inputProcessor.sKey) {
-            player.velocityVector.y = -100.0f;
+            player.velocityVector.y = -1f;
         } else {
             player.velocityVector.y = 0;
         }
