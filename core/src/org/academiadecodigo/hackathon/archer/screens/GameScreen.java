@@ -17,6 +17,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
 import org.academiadecodigo.hackathon.archer.sprites.Archer;
 
+import static java.awt.Color.red;
+
 public class GameScreen implements Screen {
 
     //  Texture texture;
@@ -48,16 +50,18 @@ public class GameScreen implements Screen {
 
 
         gamecam = new OrthographicCamera();
-        viewPort = new FitViewport(800, 480, gamecam);
+        viewPort = new FitViewport(archerGame.V_WIDTH / archerGame.PPM, archerGame.V_HEIGHT / archerGame.PPM, gamecam);
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("map/testmap.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map);
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / archerGame.PPM);
         System.out.println(viewPort.getScreenWidth());
         System.out.println(viewPort.getScreenHeight());
         gamecam.position.set(viewPort.getWorldWidth()/2, viewPort.getWorldHeight()/2, 0);
 
         debugRenderer = new Box2DDebugRenderer();
 
+
+git
     }
 
 
@@ -67,6 +71,11 @@ public class GameScreen implements Screen {
     }
 
     public void update(float dt) {
+
+        world.step(1/60f, 6, 2);
+
+        gamecam.position.x = player.body.getPosition().x;
+        gamecam.position.y = player.body.getPosition().y;
         gamecam.update();
         renderer.setView(gamecam);
     }
@@ -84,16 +93,12 @@ public class GameScreen implements Screen {
         // (just for testing purposes)
         debugRenderer.render(world, gamecam.combined);
 
-        // tell the gamecam to update its matrices.
-        gamecam.update();
-
+        // only draw what the projection sees
         game.getBatch().setProjectionMatrix(gamecam.combined);
 
         // begin a new batch and draw the bucket and
-        // all drops
         game.getBatch().begin();
         game.getBatch().end();
-
 
         handleInput();
 
@@ -101,6 +106,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
+
         viewPort.update(width, height);
     }
 
