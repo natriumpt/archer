@@ -15,10 +15,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
-import org.academiadecodigo.hackathon.archer.sprites.Archer;
+import org.academiadecodigo.hackathon.archer.sprites.archer.Archer;
 import org.academiadecodigo.hackathon.archer.tools.ArcherInputProcessor;
-
-import static java.awt.Color.red;
 
 public class GameScreen implements Screen {
 
