@@ -1,4 +1,4 @@
-package org.academiadecodigo.hackathon.archer.sprites;
+package org.academiadecodigo.hackathon.archer.sprites.archer;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -51,6 +51,7 @@ public class Archer extends Sprite {
     }
 
     public void fire() {
-        new Projectile(gameScreen, this);
+        CircleShape circle = (CircleShape) body.getFixtureList().get(0).getShape();
+        new Projectile(gameScreen, circle.getPosition());
     }
 }
