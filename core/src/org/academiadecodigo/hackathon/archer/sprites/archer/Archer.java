@@ -51,7 +51,6 @@ public class Archer extends Sprite {
     }
 
     public void fire() {
-        CircleShape circle = (CircleShape) body.getFixtureList().get(0).getShape();
-        new Projectile(gameScreen, circle.getPosition());
+        new Projectile(gameScreen, body.getPosition());
     }
 }
