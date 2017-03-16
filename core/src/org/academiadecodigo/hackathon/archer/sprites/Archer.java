@@ -51,6 +51,6 @@ public class Archer extends Sprite {
     }
 
     public void fire() {
-        new Projectile(gameScreen, body.getLocalCenter().x, body.getLocalCenter().y);
+        new Projectile(gameScreen, this);
     }
 }
