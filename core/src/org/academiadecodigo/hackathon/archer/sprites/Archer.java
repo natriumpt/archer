@@ -1,9 +1,6 @@
 package org.academiadecodigo.hackathon.archer.sprites;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
@@ -14,26 +11,26 @@ public class Archer extends Sprite {
 
     public World world;
     public Body body;
-
+    public Vector2 velocityVector;
 
     private GameScreen gameScreen;
 
-    public Archer(GameScreen gameScreen){
+    public Archer(GameScreen gameScreen) {
 
         this.gameScreen = gameScreen;
         this.world = gameScreen.getWorld();
 
         defineArcher();
-    }
-
-
-
-    private void init(){
 
     }
 
 
-    private void defineArcher(){
+    private void init() {
+
+    }
+
+
+    private void defineArcher() {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -49,8 +46,7 @@ public class Archer extends Sprite {
         fixtureDef.shape = shape;
         body.createFixture(fixtureDef);
 
-        shape.dispose();
-
+        velocityVector = new Vector2(0,0);
 
     }
 
