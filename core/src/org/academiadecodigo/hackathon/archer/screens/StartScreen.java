@@ -3,6 +3,9 @@ package org.academiadecodigo.hackathon.archer.screens;
 import com.badlogic.gdx.Screen;
 
 public class StartScreen implements Screen {
+
+    // TODO: Actual start screen
+
     @Override
     public void show() {
 
