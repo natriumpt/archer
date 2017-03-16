@@ -18,6 +18,7 @@ public class Projectile extends Sprite{
 
         this.gameScreen = gameScreen;
         this.world = gameScreen.getWorld();
+
         defineProjectile(vector2.x, vector2.y);
     }
 
@@ -26,7 +27,7 @@ public class Projectile extends Sprite{
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
-        bodyDef.position.set(x / ArcherGame.PPM, y / ArcherGame.PPM);
+        bodyDef.position.set(x, y);
 
         body = world.createBody(bodyDef);
 

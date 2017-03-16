@@ -2,10 +2,10 @@ package org.academiadecodigo.hackathon.archer.screens;
 
 import com.badlogic.gdx.Screen;
 
-/**
- * Created by betacodecadet on 16/03/17.
- */
 public class EndScreen implements Screen {
+
+    // TODO: Actual end screen
+
     @Override
     public void show() {
 
