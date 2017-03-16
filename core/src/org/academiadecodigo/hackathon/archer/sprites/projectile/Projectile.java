@@ -5,26 +5,29 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
 import org.academiadecodigo.hackathon.archer.screens.GameScreen;
+import org.academiadecodigo.hackathon.archer.sprites.Archer;
 
 public class Projectile extends Sprite{
 
     GameScreen gameScreen;
     World world;
     Body body;
+    Archer archer;
 
-    public Projectile(GameScreen gameScreen, float x, float y){
+    public Projectile(GameScreen gameScreen, Archer archer){
 
         this.gameScreen = gameScreen;
         this.world = gameScreen.getWorld();
-        defineProjectile(x,y);
+        this.archer = archer;
+        defineProjectile();
     }
 
-    private void defineProjectile(float x, float y){
+    private void defineProjectile(){
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
-        bodyDef.position.set(x, y);
+        bodyDef.position.set(archer.getOriginX(), archer.getOriginY());
 
         body = world.createBody(bodyDef);
 
