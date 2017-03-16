@@ -1,0 +1,174 @@
+
+archerset.png
+size: 256,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+death
+  rotate: false
+  xy: 2, 202
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 1
+death
+  rotate: false
+  xy: 2, 152
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 2
+death
+  rotate: false
+  xy: 52, 202
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 3
+firing_e
+  rotate: false
+  xy: 2, 102
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 1
+firing_e
+  rotate: false
+  xy: 52, 152
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 2
+firing_n
+  rotate: false
+  xy: 102, 202
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 1
+firing_n
+  rotate: false
+  xy: 2, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 2
+firing_s
+  rotate: false
+  xy: 52, 102
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 1
+firing_s
+  rotate: false
+  xy: 102, 152
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 2
+standing_e
+  rotate: false
+  xy: 152, 202
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+standing_n
+  rotate: false
+  xy: 2, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+standing_s
+  rotate: false
+  xy: 52, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+walking_e
+  rotate: false
+  xy: 102, 102
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 1
+walking_e
+  rotate: false
+  xy: 152, 152
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 2
+walking_e
+  rotate: false
+  xy: 202, 202
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 3
+walking_e
+  rotate: false
+  xy: 52, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 4
+walking_n
+  rotate: false
+  xy: 102, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 1
+walking_n
+  rotate: false
+  xy: 152, 102
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 2
+walking_n
+  rotate: false
+  xy: 202, 152
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 3
+walking_n
+  rotate: false
+  xy: 102, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 4
+walking_s
+  rotate: false
+  xy: 152, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 1
+walking_s
+  rotate: false
+  xy: 202, 102
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 2
+walking_s
+  rotate: false
+  xy: 152, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 3
+walking_s
+  rotate: false
+  xy: 202, 52
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 4
