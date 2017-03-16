@@ -55,23 +55,30 @@ public class GameScreen implements Screen {
         map = mapLoader.load("map/forest.tmx");
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / archerGame.PPM);
-        gamecam.position.set(viewPort.getWorldWidth()/2, viewPort.getWorldHeight()/2, 0);
+        gamecam.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2, 0);
         debugRenderer = new Box2DDebugRenderer();
 
         inputProcessor = new ArcherInputProcessor();
         Gdx.input.setInputProcessor(inputProcessor);
 
+
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
-        FixtureDef fdef =  new FixtureDef();
+        FixtureDef fdef = new FixtureDef();
         Body body;
 
-        for( MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
+        //Create tree bodies/fixtures
+        for (MapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
-        }
-        bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set(rect.getX() + rect.getWidth()/2, rect.getY() + rect.getHeight()/2);
 
+            body = world.createBody(bdef);
+            shape.setAsBox(rect.getWidth()/2, rect.getHeight()/2);
+            fdef.shape = shape;
+            body.createFixture(fdef);
+        }
     }
 
 
@@ -82,7 +89,7 @@ public class GameScreen implements Screen {
 
     public void update(float dt) {
 
-        world.step(1/60f, 6, 2);
+        world.step(1 / 60f, 6, 2);
 
         gamecam.position.x = player.body.getPosition().x;
         gamecam.position.y = player.body.getPosition().y;
