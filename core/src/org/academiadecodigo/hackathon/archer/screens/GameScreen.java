@@ -69,9 +69,10 @@ public class GameScreen implements Screen {
         FixtureDef fdef =  new FixtureDef();
         Body body;
 
-        for( MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class));
-        Rectangle rect = ((RectangleMapObject) object).getRectangle();
+        for( MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
+        }
         bdef.type = BodyDef.BodyType.StaticBody;
 
     }
