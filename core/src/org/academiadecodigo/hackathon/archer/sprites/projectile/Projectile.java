@@ -35,12 +35,12 @@ public class Projectile extends Animatable {
 
     @Override
     public Body getBody() {
-        return null;
+        return body;
     }
 
     @Override
     public State getState() {
-        return null;
+        return currentState;
     }
 
     public void setTextureRegions() {
