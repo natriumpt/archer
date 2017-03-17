@@ -110,14 +110,17 @@ public class Archer extends Animatable {
         return State.STANDING;
     }
 
-    public void fire(Vector2 velocityVector, boolean fireRight) {
+    public void fire(Vector2 velocityVector, boolean fireRight, Orientation orientation) {
 
         ArcherGame.manager.get("audio/sounds/arrow-shot.wav", Sound.class).play();
 
         if (projectiles.size < NUMBER_PROJECTILES) {
-            projectiles.add(new Projectile(gameScreen, body.getPosition(), velocityVector, fireRight));
+            projectiles.add(new Projectile(gameScreen, body.getPosition(), velocityVector, fireRight, orientation));
         }
     }
 
 
+    public Orientation getCurrentOrientation() {
+        return currentOrientation;
+    }
 }

@@ -7,28 +7,19 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
 import org.academiadecodigo.hackathon.archer.screens.GameScreen;
+import org.academiadecodigo.hackathon.archer.sprites.Animatable;
 import org.academiadecodigo.hackathon.archer.sprites.archer.Archer;
 
-public class Projectile extends Sprite {
+public class Projectile extends Animatable {
 
-    public enum Orientation {NORTH, SOUTH, EAST, WEST}
 
     GameScreen gameScreen;
     World world;
     public Body body;
     boolean fireRight;
 
-    public Orientation currentOrientation;
-    public Orientation previousOrientation;
 
-    private TextureAtlas atlas;
-
-    private TextureRegion firingNorth;
-    private TextureRegion firingEast;
-    private TextureRegion firingSouth;
-
-
-    public Projectile(GameScreen gameScreen, Vector2 vector2, Vector2 velocityVector, boolean fireRight) {
+    public Projectile(GameScreen gameScreen, Vector2 vector2, Vector2 velocityVector, boolean fireRight, Orientation orientation) {
 
         this.gameScreen = gameScreen;
         this.world = gameScreen.getWorld();
@@ -40,13 +31,25 @@ public class Projectile extends Sprite {
         setBounds(0, 0, 32 / ArcherGame.PPM, 32 / ArcherGame.PPM);
 
         defineProjectile(vector2.x, vector2.y, velocityVector);
+
+        currentOrientation = orientation;
     }
 
-    private void setTextureRegions() {
+    @Override
+    public Body getBody() {
+        return body;
+    }
 
-        firingNorth = new TextureRegion(atlas.findRegion("arrow_n"));
-        firingEast = new TextureRegion(atlas.findRegion("arrow_e"));
-        firingSouth = new TextureRegion(atlas.findRegion("arrow_s"));
+    @Override
+    public State getState() {
+        return currentState;
+    }
+
+    public void setTextureRegions() {
+
+        standingNorth = new TextureRegion(atlas.findRegion("arrow_n"));
+        standingEast = new TextureRegion(atlas.findRegion("arrow_e"));
+        standingSouth = new TextureRegion(atlas.findRegion("arrow_s"));
     }
 
     private void defineProjectile(float x, float y, Vector2 velocityVector) {
@@ -81,16 +84,16 @@ public class Projectile extends Sprite {
 
     public TextureRegion getFrame(float dt) {
 
-        TextureRegion region = firingEast;
+        TextureRegion region = standingSouth;
 
-        if (currentOrientation == Orientation.EAST || currentOrientation == Projectile.Orientation.WEST) {
-            region = firingEast;
+        if (currentOrientation == Orientation.EAST || currentOrientation == Orientation.WEST) {
+            region = standingEast;
         }
         if (currentOrientation == Orientation.NORTH) {
-            region = firingNorth;
+            region = standingNorth;
         }
         if (currentOrientation == Orientation.SOUTH) {
-            region = firingSouth;
+            region = standingSouth;
         }
 
         flipRegionIfNeeded(region);
