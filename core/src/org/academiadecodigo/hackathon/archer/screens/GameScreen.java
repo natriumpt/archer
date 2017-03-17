@@ -23,11 +23,15 @@ import org.academiadecodigo.hackathon.archer.sprites.enemies.Skeleton;
 import org.academiadecodigo.hackathon.archer.sprites.projectile.Projectile;
 import org.academiadecodigo.hackathon.archer.tools.ArcherInputProcessor;
 
+import static sun.audio.AudioPlayer.player;
+
 public class GameScreen implements Screen {
 
     private BodyWorldCreator creator;
+    private TextureAtlas atlas;
 
     private OrthographicCamera gamecam;
+
     private Viewport viewPort;
 
     private TmxMapLoader mapLoader;
@@ -53,6 +57,8 @@ public class GameScreen implements Screen {
 
         Box2D.init();
 
+        atlas = new TextureAtlas("archerset.atlas");
+
         this.game = archerGame;
         world = new World(new Vector2(0, 0), true);
         archer = new Archer(this);
@@ -77,13 +83,18 @@ public class GameScreen implements Screen {
     public void show() {
     }
 
+    public TextureAtlas getAtlas() {
+        return atlas;
+    }
+
     public void update(float dt) {
 
         handleInput();
 
         world.step(1 / 60f, 6, 2);
-//
+
         setActiveEnemies();
+
 
         gamecam.position.x = archer.body.getPosition().x;
         gamecam.position.y = archer.body.getPosition().y;
@@ -92,28 +103,28 @@ public class GameScreen implements Screen {
 
         if (!skeleton.isDead()) {
 
-            skeleton.update(dt);
+                skeleton.update(dt);
 
-            for (Projectile projectile : archer.projectiles) {
+                for (Projectile projectile : archer.projectiles) {
 
-                CircleShape projectileShape = (CircleShape) projectile.body.getFixtureList().get(0).getShape();
-                CircleShape circleShape = (CircleShape) skeleton.enemyBody.getFixtureList().get(0).getShape();
 
-                float xD = projectile.body.getPosition().x - skeleton.enemyBody.getPosition().x;      // delta x
-                float yD = projectile.body.getPosition().y - skeleton.enemyBody.getPosition().y;      // delta y
-                float sqDist = xD * xD + yD * yD;  // square distance
-                boolean collision = sqDist <= (projectileShape.getRadius() + circleShape.getRadius()) * (projectileShape.getRadius() + circleShape.getRadius());
+                    CircleShape projectileShape = (CircleShape) projectile.body.getFixtureList().get(0).getShape();
+                    CircleShape skeletonShape = (CircleShape) skeleton.enemyBody.getFixtureList().get(0).getShape();
 
-                if (collision) {
-                    world.destroyBody(projectile.body);
-                    world.destroyBody(skeleton.enemyBody);
-                    archer.projectiles.removeValue(projectile, false);
-                    skeleton.setDead(true);
+                    float xD = projectile.body.getPosition().x - skeleton.enemyBody.getPosition().x;      // delta x
+                    float yD = projectile.body.getPosition().y - skeleton.enemyBody.getPosition().y;      // delta y
+                    float sqDist = xD * xD + yD * yD;  // square distance
+                    boolean collision = sqDist <= (projectileShape.getRadius() + skeletonShape.getRadius()) * (projectileShape.getRadius() + skeletonShape.getRadius());
+
+                    if (collision) {
+                        world.destroyBody(projectile.body);
+                        world.destroyBody(skeleton.enemyBody);
+                        archer.projectiles.removeValue(projectile, false);
+                        skeleton.setDead(true);
+                        break;
+                    }
                 }
-            }
         }
-
-
     }
 
     private void setActiveEnemies() {
@@ -136,6 +147,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderer.render();
+        archer.update(delta);
         world.step(1 / 60f, 6, 2);
 
         // This is so that the world bodies outline are showned
@@ -146,9 +158,15 @@ public class GameScreen implements Screen {
         game.getBatch().setProjectionMatrix(gamecam.combined);
 
         // begin a new batch and draw the bucket and
+<<<<<<< HEAD
         game.getBatch().begin();
         game.getBatch().end();
 
+=======
+        game.batch.begin();
+        archer.draw(game.batch);
+        game.batch.end();
+>>>>>>> d8856c3e8889f41b9f29404015673e3375cb1f7f
 
     }
 
@@ -231,5 +249,6 @@ public class GameScreen implements Screen {
     public World getWorld() {
         return world;
     }
+
 
 }
