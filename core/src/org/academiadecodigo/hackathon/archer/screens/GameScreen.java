@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
 import org.academiadecodigo.hackathon.archer.BodyWorldCreator;
+import org.academiadecodigo.hackathon.archer.scenes.Hud;
 import org.academiadecodigo.hackathon.archer.sprites.archer.Archer;
 import org.academiadecodigo.hackathon.archer.sprites.enemies.Skeleton;
 import org.academiadecodigo.hackathon.archer.sprites.projectile.Projectile;
@@ -43,6 +44,7 @@ public class GameScreen implements Screen {
     private ArcherGame game;
     private World world;
     private Box2DDebugRenderer debugRenderer;
+    private Hud hud;
 
     private Archer archer;
     private ArcherInputProcessor inputProcessor;
@@ -63,6 +65,9 @@ public class GameScreen implements Screen {
         this.game = archerGame;
         world = new World(new Vector2(0, 0), true);
         archer = new Archer(this);
+
+//        skeleton = new Skeleton(this, 40 / ArcherGame.PPM, 40 / ArcherGame.PPM);
+        hud = new Hud(game.batch);
 
         gamecam = new OrthographicCamera();
         viewPort = new FitViewport(archerGame.V_WIDTH / archerGame.PPM, archerGame.V_HEIGHT / archerGame.PPM, gamecam);
@@ -95,6 +100,8 @@ public class GameScreen implements Screen {
 
         archer.update(dt);
         setActiveEnemies();
+
+        hud.update(dt);
 
         gamecam.position.x = archer.body.getPosition().x;
         gamecam.position.y = archer.body.getPosition().y;
@@ -175,6 +182,9 @@ public class GameScreen implements Screen {
         game.batch.begin();
         archer.draw(game.batch);
         game.batch.end();
+
+        game.getBatch().setProjectionMatrix(hud.stage.getCamera().combined);
+        hud.stage.draw();
 
     }
 
