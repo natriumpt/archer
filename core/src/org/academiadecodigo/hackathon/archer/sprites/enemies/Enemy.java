@@ -20,7 +20,6 @@ public abstract class Enemy extends Sprite {
 
         this.gameScreen = screen;
         this.world = screen.getWorld();
-        defineEnemy(initial_x, initial_y);
 
         velocity = new Vector2(-1f, -2f);
 //        enemyBody.setActive(false);

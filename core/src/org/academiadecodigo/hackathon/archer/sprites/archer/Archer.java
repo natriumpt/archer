@@ -43,12 +43,12 @@ public class Archer extends Sprite {
 
     public Archer(GameScreen gameScreen) {
 
-        this.atlas = new TextureAtlas("archerset.atlas");
         this.world = gameScreen.getWorld();
         this.gameScreen = gameScreen;
+        this.atlas = new TextureAtlas("archerset.atlas");
 
-        setTextureRegions(gameScreen);
-        setAnimations(gameScreen);
+        setTextureRegions();
+        setAnimations();
 
         setBounds(0, 0, 48 / ArcherGame.PPM, 48 / ArcherGame.PPM);
         setRegion(archerStandingNorth);
@@ -70,7 +70,7 @@ public class Archer extends Sprite {
 
     }
 
-    private void setAnimations(GameScreen gameScreen) {
+    private void setAnimations() {
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
         for (int i = 1; i < 4; i++) {
@@ -92,7 +92,7 @@ public class Archer extends Sprite {
         frames.clear();
     }
 
-    private void setTextureRegions(GameScreen gameScreen) {
+    private void setTextureRegions() {
         archerStandingNorth = new TextureRegion(atlas.findRegion("standing_n"));
         archerStandingSouth = new TextureRegion(atlas.findRegion("standing_s"));
         archerStandingEast = new TextureRegion(atlas.findRegion("standing_e"));
@@ -117,7 +117,6 @@ public class Archer extends Sprite {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-
         bodyDef.position.set(300 / ArcherGame.PPM, 300 / ArcherGame.PPM);
 
         body = world.createBody(bodyDef);
