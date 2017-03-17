@@ -14,13 +14,14 @@ public class Projectile extends Animatable {
     public static final String ARROW_N = "arrow_n";
     public static final String ARROW_S = "arrow_s";
     public static final String ARROW_E = "arrow_e";
+
     public static final float WIDTH = 32;
     public static final float HEIGTH = 32;
 
-    GameScreen gameScreen;
-    World world;
+    private GameScreen gameScreen;
+    private World world;
     public Body body;
-    boolean fireRight;
+    private boolean fireRight;
 
 
     public Projectile(GameScreen gameScreen, Vector2 vector2, Vector2 velocityVector, boolean fireRight, Orientation orientation) {
