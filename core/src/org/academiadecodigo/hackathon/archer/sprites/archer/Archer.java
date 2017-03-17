@@ -1,5 +1,6 @@
 package org.academiadecodigo.hackathon.archer.sprites.archer;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -19,7 +20,6 @@ public class Archer extends Sprite {
     private TextureRegion archerStandingNorth;
     private TextureRegion archerStandingEast;
     private TextureRegion archerStandingSouth;
-    private TextureRegion archerStandingWest;
 
     public Array<Projectile> projectiles;
     public static final int NUMBER_PROJECTILES = 50;
@@ -39,7 +39,6 @@ public class Archer extends Sprite {
     private Animation walkingNorth;
     private Animation walkingSouth;
     private Animation walkingEast;
-    private Animation walkingWest;
 
     public float speed;
 
@@ -94,10 +93,9 @@ public class Archer extends Sprite {
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(dt));
 
-
 //        for (Projectile projectile: projectiles) {
-//            if (projectile.body.getLinearVelocity().x < 2 && projectile.body.getLinearVelocity().y < 2){
-//                world.destroyBody(projectile.body);
+//            if (projectile.body.getLinearVelocity().x < 5 && projectile.body.getLinearVelocity().y < 5){
+//                projectile.body.setTransform(1000000f,1000000f, projectile.body.getAngle());
 //                projectiles.removeValue(projectile, true);
 //            }
 //        }
@@ -165,21 +163,29 @@ public class Archer extends Sprite {
                 break;
         }
 
-        if (currentOrientation == Orientation.WEST && !region.isFlipX()) {
-            region.flip(true, false);
-        }
-        if(currentOrientation == Orientation.EAST && region.isFlipX()){
-            region.flip(true, false);
-        }
+        flipRegionIfNeeded(region);
+        updateState(dt);
 
 
+        return region;
+    }
+
+    private void updateState(float dt) {
         if (currentState == previousState) {
             stateTimer += dt;
         } else {
             stateTimer = 0;
         }
         previousState = currentState;
-        return region;
+    }
+
+    private void flipRegionIfNeeded(TextureRegion region) {
+        if (currentOrientation == Orientation.WEST && !region.isFlipX()) {
+            region.flip(true, false);
+        }
+        if(currentOrientation == Orientation.EAST && region.isFlipX()){
+            region.flip(true, false);
+        }
     }
 
     private void updateOrientation() {
@@ -215,6 +221,9 @@ public class Archer extends Sprite {
     }
 
     public void fire(Vector2 velocityVector, boolean fireRight) {
+
+        ArcherGame.manager.get("audio/sounds/arrow-shot.wav", Sound.class).play();
+
         if (projectiles.size < NUMBER_PROJECTILES) {
             projectiles.add(new Projectile(gameScreen, body.getPosition(), velocityVector, fireRight));
         }

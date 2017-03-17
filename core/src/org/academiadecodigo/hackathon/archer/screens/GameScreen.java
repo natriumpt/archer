@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
 import org.academiadecodigo.hackathon.archer.BodyWorldCreator;
+import org.academiadecodigo.hackathon.archer.scenes.Hud;
 import org.academiadecodigo.hackathon.archer.sprites.archer.Archer;
 import org.academiadecodigo.hackathon.archer.sprites.enemies.Skeleton;
 import org.academiadecodigo.hackathon.archer.sprites.projectile.Projectile;
@@ -43,19 +44,17 @@ public class GameScreen implements Screen {
     private ArcherGame game;
     private World world;
     private Box2DDebugRenderer debugRenderer;
+    private Hud hud;
 
     private Archer archer;
     private ArcherInputProcessor inputProcessor;
 
     public static final float VIEWPORT_WIDTH = 10f;
     public static final float VIEWPORT_HEIGHT = 7.5f;
-    public static final float PROJECTILE_VELOCITY = 3f;
+    public static final float PROJECTILE_VELOCITY = 6f;
 
-
-    //FOR TESTING--TO REMOVE FROM HERE
 
     public ArrayList<Skeleton> skeletons = new ArrayList<Skeleton>();
-//    private Skeleton skeleton;
 
     public GameScreen(ArcherGame archerGame) {
 
@@ -66,7 +65,9 @@ public class GameScreen implements Screen {
         this.game = archerGame;
         world = new World(new Vector2(0, 0), true);
         archer = new Archer(this);
+
 //        skeleton = new Skeleton(this, 40 / ArcherGame.PPM, 40 / ArcherGame.PPM);
+        hud = new Hud(game.batch);
 
         gamecam = new OrthographicCamera();
         viewPort = new FitViewport(archerGame.V_WIDTH / archerGame.PPM, archerGame.V_HEIGHT / archerGame.PPM, gamecam);
@@ -100,12 +101,20 @@ public class GameScreen implements Screen {
         archer.update(dt);
         setActiveEnemies();
 
+        hud.update(dt);
+
         gamecam.position.x = archer.body.getPosition().x;
         gamecam.position.y = archer.body.getPosition().y;
         gamecam.update();
         renderer.setView(gamecam);
 
-        for (Skeleton skeleton: skeletons) {
+        checkCollisions(dt);
+
+    }
+
+    private void checkCollisions(float dt) {
+
+        for (Skeleton skeleton : skeletons) {
 
             if (!skeleton.isDead()) {
 
@@ -120,30 +129,30 @@ public class GameScreen implements Screen {
                     float xD = projectile.body.getPosition().x - skeleton.enemyBody.getPosition().x;      // delta x
                     float yD = projectile.body.getPosition().y - skeleton.enemyBody.getPosition().y;      // delta y
                     float sqDist = xD * xD + yD * yD;  // square distance
-                    boolean collision = sqDist <= (projectileShape.getRadius() + skeletonShape.getRadius()) * (projectileShape.getRadius() + skeletonShape.getRadius());
+                    boolean collision = sqDist <= (projectileShape.getRadius() + skeletonShape.getRadius())
+                            * (projectileShape.getRadius() + skeletonShape.getRadius());
 
                     if (collision) {
-                        world.destroyBody(projectile.body);
-                        world.destroyBody(skeleton.enemyBody);
-                        archer.projectiles.removeValue(projectile, false);
+                        archer.projectiles.removeValue(projectile, true);
                         skeleton.setDead(true);
+                        projectile.body.setTransform(1000000f,1000000f, projectile.body.getAngle());
+                        skeleton.enemyBody.setTransform(1000000f,1000000f, projectile.body.getAngle());
                         break;
                     }
                 }
             }
 
         }
-
     }
 
     private void setActiveEnemies() {
 
-        for (Skeleton skeleton: skeletons) {
+        for (Skeleton skeleton : skeletons) {
             float enemyPosX = skeleton.getEnemyBody().getPosition().x;
             float enemyPosY = skeleton.getEnemyBody().getPosition().y;
             float archerPosX = archer.body.getPosition().x;
             float archerPosY = archer.body.getPosition().y;
-            double distanceDiff = ((Math.pow(archerPosX-enemyPosX, 2) + Math.pow(archerPosY-enemyPosY, 2)));
+            double distanceDiff = ((Math.pow(archerPosX - enemyPosX, 2) + Math.pow(archerPosY - enemyPosY, 2)));
 
             if (distanceDiff < 35) {
                 skeleton.getEnemyBody().setActive(true);
@@ -161,8 +170,8 @@ public class GameScreen implements Screen {
         renderer.render();
 
 
-        // Thisds is so that the world bodies outline are showned
-        // (just wfor testing purposes)
+        // This is so that the world bodies outline are showned
+        // (just for testing purposes)
         debugRenderer.render(world, gamecam.combined);
 
         // only draw what the projection sees
@@ -173,6 +182,9 @@ public class GameScreen implements Screen {
         game.batch.begin();
         archer.draw(game.batch);
         game.batch.end();
+
+        game.getBatch().setProjectionMatrix(hud.stage.getCamera().combined);
+        hud.stage.draw();
 
     }
 
@@ -203,7 +215,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
 
 
     }

@@ -2,6 +2,7 @@ package org.academiadecodigo.hackathon.archer;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.academiadecodigo.hackathon.archer.screens.GameScreen;
 import org.academiadecodigo.hackathon.archer.screens.StartScreen;
@@ -23,18 +24,21 @@ public class ArcherGame extends Game {
 		batch = new SpriteBatch();
 		setScreen(new StartScreen(this));
 
-        /*manager = new AssetManager();
-        manager.load("audio/music/");
-		setScreen(new GameScreen((this)));*/
+        manager = new AssetManager();
+        manager.load("audio/sounds/arrow-shot.wav", Sound.class);
+		setScreen(new GameScreen((this)));
 	}
 
 	@Override
 	public void render () {
 		super.render();
+        manager.update();
 	}
 	
 	@Override
 	public void dispose () {
+	    super.dispose();
+	    manager.dispose();
 		batch.dispose();
 	}
 
