@@ -94,6 +94,7 @@ public class GameScreen implements Screen {
         world.step(1 / 60f, 6, 2);
 
         setActiveEnemies();
+        archer.update(dt);
 
 
         gamecam.position.x = archer.body.getPosition().x;
@@ -147,7 +148,6 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderer.render();
-        archer.update(delta);
         world.step(1 / 60f, 6, 2);
 
         // This is so that the world bodies outline are showned
@@ -158,15 +158,10 @@ public class GameScreen implements Screen {
         game.getBatch().setProjectionMatrix(gamecam.combined);
 
         // begin a new batch and draw the bucket and
-<<<<<<< HEAD
-        game.getBatch().begin();
-        game.getBatch().end();
 
-=======
         game.batch.begin();
         archer.draw(game.batch);
         game.batch.end();
->>>>>>> d8856c3e8889f41b9f29404015673e3375cb1f7f
 
     }
 
