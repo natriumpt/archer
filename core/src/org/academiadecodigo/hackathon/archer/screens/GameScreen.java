@@ -109,18 +109,19 @@ public class GameScreen implements Screen {
                 for (Projectile projectile : archer.projectiles) {
 
                     CircleShape projectileShape = (CircleShape) projectile.body.getFixtureList().get(0).getShape();
-                    CircleShape circleShape = (CircleShape) skeleton.enemyBody.getFixtureList().get(0).getShape();
+                    CircleShape skeletonShape = (CircleShape) skeleton.enemyBody.getFixtureList().get(0).getShape();
 
                     float xD = projectile.body.getPosition().x - skeleton.enemyBody.getPosition().x;      // delta x
                     float yD = projectile.body.getPosition().y - skeleton.enemyBody.getPosition().y;      // delta y
                     float sqDist = xD * xD + yD * yD;  // square distance
-                    boolean collision = sqDist <= (projectileShape.getRadius() + circleShape.getRadius()) * (projectileShape.getRadius() + circleShape.getRadius());
+                    boolean collision = sqDist <= (projectileShape.getRadius() + skeletonShape.getRadius()) * (projectileShape.getRadius() + skeletonShape.getRadius());
 
                     if (collision) {
                         world.destroyBody(projectile.body);
                         world.destroyBody(skeleton.enemyBody);
                         archer.projectiles.removeValue(projectile, false);
                         skeleton.setDead(true);
+                        break;
                     }
                 }
 
