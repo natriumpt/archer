@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -21,8 +22,6 @@ import org.academiadecodigo.hackathon.archer.sprites.enemies.Skeleton;
 import org.academiadecodigo.hackathon.archer.tools.ArcherInputProcessor;
 
 public class GameScreen implements Screen {
-
-    //  Texture texture;
 
     private OrthographicCamera gamecam;
     private Viewport viewPort;
@@ -201,4 +200,5 @@ public class GameScreen implements Screen {
     public World getWorld() {
         return world;
     }
+
 }
