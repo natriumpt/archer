@@ -27,6 +27,8 @@ public class ArcherGame extends Game {
         manager = new AssetManager();
         manager.load("audio/sounds/arrow-hit.wav", Sound.class);
         manager.load("audio/sounds/arrow-shot.wav", Sound.class);
+        manager.load("audio/sounds/zombie-hit.wav", Sound.class);
+
 	}
 
 	@Override

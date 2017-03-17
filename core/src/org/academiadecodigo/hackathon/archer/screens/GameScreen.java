@@ -129,7 +129,7 @@ public class GameScreen implements Screen {
                             * (projectileShape.getRadius() + skeletonShape.getRadius());
 
                     if (collision) {
-
+                        ArcherGame.manager.get("audio/sounds/zombie-hit.wav", Sound.class).play();
                         archer.projectiles.removeValue(projectile, true);
                         skeleton.setDead(true);
                         projectile.body.setTransform(1000000f,1000000f, projectile.body.getAngle());

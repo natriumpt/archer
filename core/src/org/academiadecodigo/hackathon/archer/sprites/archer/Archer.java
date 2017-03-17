@@ -108,6 +108,7 @@ public class Archer extends Sprite {
         for (Projectile projectile: projectiles) {
             if ((projectile.body.getLinearVelocity().x < 2 && projectile.body.getLinearVelocity().y < 2)
                     && (projectile.body.getLinearVelocity().x > -2 && projectile.body.getLinearVelocity().y > -2)){
+                ArcherGame.manager.get("audio/sounds/arrow-hit.wav", Sound.class).play();
                 projectile.body.setTransform(1000000f,1000000f, projectile.body.getAngle());
                 projectiles.removeValue(projectile, true);
             }
