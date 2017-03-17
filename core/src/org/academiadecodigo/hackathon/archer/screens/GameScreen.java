@@ -6,12 +6,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -25,8 +22,6 @@ import org.academiadecodigo.hackathon.archer.sprites.projectile.Projectile;
 import org.academiadecodigo.hackathon.archer.tools.ArcherInputProcessor;
 
 import java.util.ArrayList;
-
-import static sun.audio.AudioPlayer.player;
 
 public class GameScreen implements Screen {
 
@@ -108,11 +103,11 @@ public class GameScreen implements Screen {
         gamecam.update();
         renderer.setView(gamecam);
 
-        checkCollisions(dt);
+        checkEnemyCollisions(dt);
 
     }
 
-    private void checkCollisions(float dt) {
+    private void checkEnemyCollisions(float dt) {
 
         for (Skeleton skeleton : skeletons) {
 
