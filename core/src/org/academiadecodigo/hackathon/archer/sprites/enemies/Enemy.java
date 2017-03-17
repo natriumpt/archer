@@ -14,7 +14,7 @@ public abstract class Enemy extends Sprite {
     private int health;
 
     Vector2 velocity;
-    protected Body enemyBody;
+    public Body enemyBody;
 
 
     public Enemy(GameScreen screen, float initial_x, float initial_y){
@@ -29,7 +29,7 @@ public abstract class Enemy extends Sprite {
 
     protected abstract void defineEnemy();
 
-//    public abstract void update(float dt);
+    public abstract void update(float dt);
 
 //    public abstract void hitByEnemy(Enemy enemy);
 
@@ -40,6 +40,10 @@ public abstract class Enemy extends Sprite {
 
     public GameScreen getGameScreen() {
         return gameScreen;
+    }
+
+    public Body getEnemyBody() {
+        return enemyBody;
     }
 
     //    public void reverseVelocity(boolean x, boolean y){

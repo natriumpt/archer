@@ -18,7 +18,7 @@ public class Archer extends Sprite {
     public Vector2 velocityVector;
     private GameScreen gameScreen;
 
-    private Array<Projectile> projectiles;
+    public Array<Projectile> projectiles;
 
     public enum State { STANDING, WALKING, FIRING, DEAD }
     public State currentState;
