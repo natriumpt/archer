@@ -29,6 +29,8 @@ public class ArcherGame extends Game {
         manager.load("audio/sounds/arrow-hit.wav", Sound.class);
         manager.load("audio/sounds/arrow-shot.wav", Sound.class);
         manager.load("audio/sounds/zombie-hit.wav", Sound.class);
+        manager.load("audio/music/wrath_of_sin.mp3", Music.class);
+        manager.load("audio/music/in_light_of_darkness.mp3", Music.class);
 
 	}
 

@@ -3,6 +3,7 @@ package org.academiadecodigo.hackathon.archer.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,7 +17,7 @@ public class StartScreen implements Screen {
     private OrthographicCamera camera;
     private Texture backgroundPicture;
     private Rectangle background;
-    private ArcherInputProcessor inputProcessor;
+    private Music music;
 
     public StartScreen(ArcherGame archerGame) {
         this.game = archerGame;
@@ -31,8 +32,10 @@ public class StartScreen implements Screen {
         background.width = 800;
         background.height = 480;
 
-        inputProcessor = new ArcherInputProcessor();
-        Gdx.input.setInputProcessor(inputProcessor);
+        // music = ArcherGame.manager.get("audio/music/wrath_of_sin.mp3", Music.class);
+        music = Gdx.audio.newMusic(Gdx.files.internal("audio/music/wrath_of_sin.mp3"));
+        music.setLooping(true);
+        music.play();
 
     }
 
@@ -58,6 +61,7 @@ public class StartScreen implements Screen {
 
     public void handleInput() {
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+            music.stop();
             game.setScreen(new GameScreen(game));
         }
     }
