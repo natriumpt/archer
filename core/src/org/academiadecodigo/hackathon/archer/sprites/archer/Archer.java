@@ -17,7 +17,7 @@ public class Archer extends Sprite {
     public Body body;
     public Vector2 velocityVector;
     private GameScreen gameScreen;
-    private TextureRegion archerStand;
+    private TextureRegion archerStanding;
 
     public Array<Projectile> projectiles;
 
@@ -32,40 +32,54 @@ public class Archer extends Sprite {
     public Orientation currentOrientation;
     public Orientation previousOrientation;
 
-    private TextureAtlas textureAtlas;
-
+    private Animation walkingNorth;
+    private Animation walkingSouth;
     private Animation walkingEast;
+    private Animation walkingWest;
 
     public Archer(GameScreen gameScreen) {
 
         super(gameScreen.getAtlas().findRegion("standing_n"));
-        this.gameScreen = gameScreen;
         this.world = gameScreen.getWorld();
+        this.gameScreen = gameScreen;
 
-        archerStand = new TextureRegion(getTexture(), 0, 0, 48, 48);
+        archerStanding = new TextureRegion(getTexture(), 2, 2, 48, 48);
         setBounds(0, 0, 48 / ArcherGame.PPM, 48 / ArcherGame.PPM);
-        setRegion(archerStand);
+        setRegion(archerStanding);
 
         defineArcher();
 
         projectiles = new Array<Projectile>();
-
-        currentState = State.WALKING;
-        currentOrientation = Orientation.EAST;
-
-        textureAtlas = new TextureAtlas("archerset.atlas");
+        previousState = State.STANDING;
+        currentState = State.STANDING;
+        currentOrientation = Orientation.NORTH;
+        stateTimer = 0;
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
         for (int i = 1; i < 4; i++) {
-            frames.add(new TextureRegion(textureAtlas.findRegion("walking_n")));
-            System.out.println(frames);
+            frames.add(new TextureRegion(gameScreen.getAtlas().findRegion("walking_e", i)));
         }
         walkingEast = new Animation(0.1f, frames);
-        setRegion((TextureRegion) walkingEast.getKeyFrame(stateTimer));
-
         frames.clear();
 
+        for (int i = 1; i < 5; i++) {
+            frames.add(new TextureRegion(gameScreen.getAtlas().findRegion("walking_n", i)));
+        }
+        walkingNorth = new Animation(0.1f, frames);
+        frames.clear();
+
+//        for (int i = 1; i < 5; i++) {
+//            frames.add(new TextureRegion(gameScreen.getAtlas().findRegion("walking_w", i)));
+//        }
+//        walkingWest = new Animation(0.1f, frames);
+//        frames.clear();
+
+        for (int i = 1; i < 5; i++) {
+            frames.add(new TextureRegion(gameScreen.getAtlas().findRegion("walking_s", i)));
+        }
+        walkingSouth = new Animation(0.1f, frames);
+        frames.clear();
     }
 
     private void init() {
@@ -74,8 +88,8 @@ public class Archer extends Sprite {
 
     public void update(float dt) {
 
-        setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y- getHeight()/2);
-
+        setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
+        setRegion(getFrame(dt));
     }
 
     private void defineArcher() {
@@ -100,18 +114,74 @@ public class Archer extends Sprite {
 
     public TextureRegion getFrame(float dt) {
 
-        TextureRegion region = null;
+        currentState = getState();
+
+        TextureRegion region;
+
+        currentOrientation = updateOrientation();
 
         switch (currentState) {
             case WALKING:
-                region = (TextureRegion) walkingEast.getKeyFrame(stateTimer, true);
-                break;
+                if (currentOrientation.equals(Orientation.EAST)) {
+                    region = (TextureRegion) walkingEast.getKeyFrame(stateTimer, true);
+                    break;
+                }
+//                if (currentOrientation.equals(Orientation.WEST)) {
+//                    region = (TextureRegion) walkingWest.getKeyFrame(stateTimer, true);
+//                    break;
+//                }
+                if (currentOrientation.equals(Orientation.NORTH)) {
+                    region = (TextureRegion) walkingNorth.getKeyFrame(stateTimer, true);
+                    break;
+                }
+                if (currentOrientation.equals(Orientation.SOUTH)) {
+                    region = (TextureRegion) walkingSouth.getKeyFrame(stateTimer, true);
+                    break;
+                }
             default:
+                region = archerStanding;
                 break;
         }
 
-        return region;
 
+        if (currentState == previousState) {
+            stateTimer += dt;
+        } else {
+            stateTimer = 0;
+        }
+        previousState = currentState;
+        return region;
+    }
+
+    private Orientation updateOrientation() {
+
+        if (body.getLinearVelocity().x > 0) {
+            return Orientation.EAST;
+        }
+        if (body.getLinearVelocity().x < 0) {
+            return Orientation.WEST;
+        }
+        if (body.getLinearVelocity().y > 0) {
+            return Orientation.NORTH;
+        }
+        if (body.getLinearVelocity().y < 0) {
+            return Orientation.SOUTH;
+        }
+        return currentOrientation;
+    }
+
+
+    //METODO PARA SABER SE ESTA A AND
+    private State getState() {
+
+        System.out.println("X VELOCITY : " + body.getLinearVelocity().x);
+        System.out.println("Y VELOCITY : " + body.getLinearVelocity().y);
+
+        if (body.getLinearVelocity().x != 0 || body.getLinearVelocity().y != 0) {
+            return State.WALKING;
+        }
+
+        return State.STANDING;
     }
 
     public void fire(Vector2 velocityVector, boolean fireRight) {

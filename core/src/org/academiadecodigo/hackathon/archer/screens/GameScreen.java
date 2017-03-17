@@ -136,7 +136,6 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderer.render();
-        archer.update(delta);
         world.step(1 / 60f, 6, 2);
 
         // This is so that the world bodies outline are showned
