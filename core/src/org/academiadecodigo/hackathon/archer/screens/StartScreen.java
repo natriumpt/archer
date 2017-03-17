@@ -12,8 +12,6 @@ import org.academiadecodigo.hackathon.archer.tools.ArcherInputProcessor;
 
 public class StartScreen implements Screen {
 
-    // TODO: Actual start screen
-
     private ArcherGame game;
     private OrthographicCamera camera;
     private Texture backgroundPicture;

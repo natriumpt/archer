@@ -17,6 +17,7 @@ public class Skeleton extends Enemy {
     private static final float SPEED = 1;
     private ArrayList<Projectile> projectiles;
     private boolean dead;
+    private final int points = 100;
 
     public Skeleton(GameScreen screen, float initialX, float initialY) {
         super(screen, initialX, initialY);
@@ -75,5 +76,9 @@ public class Skeleton extends Enemy {
 
     public void setDead(boolean dead) {
         this.dead = dead;
+    }
+
+    public int getPoints() {
+        return points;
     }
 }
