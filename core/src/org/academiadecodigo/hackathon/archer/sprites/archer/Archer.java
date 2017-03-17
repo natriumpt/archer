@@ -41,6 +41,8 @@ public class Archer extends Sprite {
     private Animation walkingEast;
     private Animation walkingWest;
 
+    public float speed;
+
     public Archer(GameScreen gameScreen) {
 
         super(gameScreen.getAtlas().findRegion("standing_n"));
@@ -60,6 +62,7 @@ public class Archer extends Sprite {
         currentState = State.STANDING;
         currentOrientation = Orientation.NORTH;
         stateTimer = 0;
+        speed = 3f;
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
@@ -97,7 +100,7 @@ public class Archer extends Sprite {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
-        bodyDef.position.set(600 / ArcherGame.PPM, 600 / ArcherGame.PPM);
+        bodyDef.position.set(300 / ArcherGame.PPM, 300 / ArcherGame.PPM);
 
         body = world.createBody(bodyDef);
 
