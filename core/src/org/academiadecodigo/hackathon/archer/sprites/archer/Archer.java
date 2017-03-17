@@ -104,6 +104,10 @@ public class Archer extends Sprite {
         setRegion(getFrame(dt));
 
         checkCollisionWithObstacles();
+
+        for (Projectile p: projectiles) {
+            p.update(dt);
+        }
     }
 
     private void checkCollisionWithObstacles() {
