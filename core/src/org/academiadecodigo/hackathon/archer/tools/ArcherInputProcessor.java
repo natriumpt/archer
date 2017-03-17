@@ -13,6 +13,7 @@ public class ArcherInputProcessor implements InputProcessor {
     public boolean downKey;
     public boolean leftKey;
     public boolean rightKey;
+    private boolean enterKey;
 
     @Override
     public boolean keyDown(int keycode) {

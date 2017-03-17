@@ -156,12 +156,13 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
         update(delta);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderer.render();
-        world.step(1 / 60f, 6, 2);
+
 
         // Thisds is so that the world bodies outline are showned
         // (just wfor testing purposes)
@@ -208,6 +209,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+
+
 
     }
 

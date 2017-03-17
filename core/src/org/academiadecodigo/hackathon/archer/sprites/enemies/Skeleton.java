@@ -41,7 +41,6 @@ public class Skeleton extends Enemy {
 //        fixtureDef.friction = 0.4f;
 //        fixtureDef.restitution = 0.6f;
         enemyBody.createFixture(fixtureDef);
-
 //        shape.dispose();
 
     }
