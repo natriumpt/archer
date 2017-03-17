@@ -1,6 +1,7 @@
 package org.academiadecodigo.hackathon.archer.sprites.enemies;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
@@ -17,6 +18,7 @@ public class Skeleton extends Enemy {
     private ArrayList<Projectile> projectiles;
     private boolean dead;
     private final int points = 100;
+    private TextureRegion region;
 
 
     public Skeleton(GameScreen gameScreen, float initialX, float initialY) {
@@ -88,6 +90,10 @@ public class Skeleton extends Enemy {
     //METODO PARA SABER SE ESTA A AND
     public State getState() {
 
+        if (isDead()) {
+            return State.DEAD;
+        }
+
         if (enemyBody.getLinearVelocity().x != 0 || enemyBody.getLinearVelocity().y != 0) {
             return State.WALKING;
         }
@@ -123,4 +129,5 @@ public class Skeleton extends Enemy {
     public int getPoints() {
         return points;
     }
+
 }

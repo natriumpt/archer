@@ -33,6 +33,7 @@ public abstract class Animatable extends Sprite {
     protected Animation walkingNorth;
     protected Animation walkingEast;
     protected Animation walkingSouth;
+    protected Animation deathAnimation;
 
     public abstract Body getBody();
 
@@ -64,6 +65,12 @@ public abstract class Animatable extends Sprite {
         }
         walkingSouth = new Animation(delay, frames);
         frames.clear();
+
+        /*for (int i = 1; i < 3; i++) {
+            frames.add(new TextureRegion(atlas.findRegion("death", i)));
+        }
+        deathAnimation = new Animation(delay, frames);
+        frames.clear();*/
     }
 
     public TextureRegion getFrame(float dt) {
@@ -100,6 +107,9 @@ public abstract class Animatable extends Sprite {
                     region = standingSouth;
                     break;
                 }
+            case DEAD:
+                region = (TextureRegion) deathAnimation.getKeyFrame(stateTimer,true);
+                break;
             default:
                 region = standingSouth;
                 break;

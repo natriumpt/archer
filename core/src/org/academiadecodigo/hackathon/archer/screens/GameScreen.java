@@ -165,6 +165,7 @@ public class GameScreen implements Screen {
                         manager.get("audio/sounds/zombie-hit.wav", Sound.class).play();
                         archer.projectiles.removeValue(projectile, true);
                         skeleton.setDead(true);
+                        skeleton.setRegion(402, 52, 48, 48); // MEGA WORKAROUND DE DEATHS LOL
                         projectile.body.setTransform(1000000f, 1000000f, projectile.body.getAngle());
                         skeleton.enemyBody.setTransform(1000000f, 1000000f, projectile.body.getAngle());
                         Hud.addScore(skeleton.getPoints());
@@ -203,7 +204,7 @@ public class GameScreen implements Screen {
 
         // This is so that the world bodies outline are showned
         // (just for testing purposes)
-        debugRenderer.render(world, gamecam.combined);
+        /*debugRenderer.render(world, gamecam.combined);*/
 
         // only draw what the projection sees
         game.getBatch().setProjectionMatrix(gamecam.combined);
