@@ -114,6 +114,36 @@ public class GameScreen implements Screen {
 
         checkEnemyCollisions(dt);
 
+        checkIfArcherDead(dt);
+
+    }
+
+    private void checkIfArcherDead(float dt) {
+
+        for (Skeleton skeleton : skeletons) {
+
+            if (!skeleton.isDead()) {
+
+                skeleton.update(dt);
+
+                CircleShape projectileShape = (CircleShape) archer.body.getFixtureList().get(0).getShape();
+                CircleShape skeletonShape = (CircleShape) skeleton.enemyBody.getFixtureList().get(0).getShape();
+
+                float xD = archer.body.getPosition().x - skeleton.enemyBody.getPosition().x;      // delta x
+                float yD = archer.body.getPosition().y - skeleton.enemyBody.getPosition().y;      // delta y
+                float sqDist = xD * xD + yD * yD;  // square distance
+                boolean collision = sqDist <= (projectileShape.getRadius() + skeletonShape.getRadius())
+                        * (projectileShape.getRadius() + skeletonShape.getRadius());
+
+                if (collision) {
+//                        manager.get("audio/sounds/zombie-hit.wav", Sound.class).play();
+                    archer.body.setActive(false);
+                    break;
+                }
+            }
+        }
+
+
     }
 
     private void checkEnemyCollisions(float dt) {

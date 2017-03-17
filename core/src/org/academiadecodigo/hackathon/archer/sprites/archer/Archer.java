@@ -13,7 +13,7 @@ import org.academiadecodigo.hackathon.archer.sprites.projectile.Projectile;
 
 public class Archer extends Sprite {
 
-    public static final int NUMBER_PROJECTILES = 50;
+    public static final int NUMBER_PROJECTILES = 5;
     public enum State {STANDING, WALKING, FIRING, DEAD}
     public enum Orientation {NORTH, SOUTH, EAST, WEST}
 
