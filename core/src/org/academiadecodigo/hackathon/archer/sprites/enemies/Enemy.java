@@ -23,15 +23,11 @@ public abstract class Enemy extends Animatable {
         this.world = screen.getWorld();
 
         velocity = new Vector2(-1f, -2f);
-//        enemyBody.setActive(false);
     }
 
     protected abstract void defineEnemy(float initial_x, float initial_y);
 
     public abstract void update(float dt);
-
-//    public abstract void hitByEnemy(Enemy enemy);
-
 
     public World getWorld(){
         return world;
@@ -41,15 +37,5 @@ public abstract class Enemy extends Animatable {
         return gameScreen;
     }
 
-    public Body getEnemyBody() {
-        return enemyBody;
-    }
-
-    //    public void reverseVelocity(boolean x, boolean y){
-//        if(x)
-//            velocity.x = -velocity.x;
-//        if(y)
-//            velocity.y = -velocity.y;
-//    }
 
 }
