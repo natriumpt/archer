@@ -80,9 +80,9 @@ public class GameScreen implements Screen {
         inputProcessor = new ArcherInputProcessor();
         Gdx.input.setInputProcessor(inputProcessor);
 
-        music = ArcherGame.manager.get("audio/sounds/ambience.wav", Music.class);
-        music.setLooping(true);
-        music.play();
+//        music = ArcherGame.manager.get("audio/sounds/ambience.wav", Music.class);
+//        music.setLooping(true);
+//        music.play();
     }
 
     @Override
