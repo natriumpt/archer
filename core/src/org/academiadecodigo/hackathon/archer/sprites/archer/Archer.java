@@ -58,6 +58,10 @@ public class Archer extends Animatable {
         setRegion(getFrame(dt));
 
         checkCollisionWithObstacles();
+
+        for (Projectile p: projectiles) {
+            p.update(dt);
+        }
     }
 
     private void checkCollisionWithObstacles() {

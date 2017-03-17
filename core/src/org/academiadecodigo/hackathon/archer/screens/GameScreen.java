@@ -218,7 +218,9 @@ public class GameScreen implements Screen {
         }
 
         archer.draw(game.batch);
-
+        for (Projectile p: archer.projectiles) {
+            p.draw(game.batch);
+        }
         game.batch.end();
 
         game.getBatch().setProjectionMatrix(hud.stage.getCamera().combined);
