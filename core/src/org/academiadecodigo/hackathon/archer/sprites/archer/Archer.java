@@ -1,42 +1,22 @@
 package org.academiadecodigo.hackathon.archer.sprites.archer;
 
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
 import org.academiadecodigo.hackathon.archer.screens.GameScreen;
+import org.academiadecodigo.hackathon.archer.sprites.Animatable;
 import org.academiadecodigo.hackathon.archer.sprites.projectile.Projectile;
 
-public class Archer extends Sprite {
+public class Archer extends Animatable {
 
     public static final int NUMBER_PROJECTILES = 5;
-    public enum State {STANDING, WALKING, FIRING, DEAD}
-    public enum Orientation {NORTH, SOUTH, EAST, WEST}
 
-    public State currentState;
-    public State previousState;
-    public Orientation currentOrientation;
-    public Orientation previousOrientation;
-    private float stateTimer;
 
-    public World world;
-    public Body body;
     public Vector2 velocityVector;
     private GameScreen gameScreen;
-
-    private TextureAtlas atlas;
-
-    private TextureRegion archerStandingNorth;
-    private TextureRegion archerStandingEast;
-    private TextureRegion archerStandingSouth;
-    private Animation walkingNorth;
-    private Animation walkingEast;
-    private Animation walkingSouth;
 
     public Array<Projectile> projectiles;
     public float speed;
@@ -51,7 +31,7 @@ public class Archer extends Sprite {
         setAnimations();
 
         setBounds(0, 0, 48 / ArcherGame.PPM, 48 / ArcherGame.PPM);
-        setRegion(archerStandingNorth);
+        setRegion(standingNorth);
 
         defineArcher();
 
@@ -70,33 +50,7 @@ public class Archer extends Sprite {
 
     }
 
-    private void setAnimations() {
-        Array<TextureRegion> frames = new Array<TextureRegion>();
 
-        for (int i = 1; i < 4; i++) {
-            frames.add(new TextureRegion(atlas.findRegion("walking_e", i)));
-        }
-        walkingEast = new Animation(0.1f, frames);
-        frames.clear();
-
-        for (int i = 1; i < 5; i++) {
-            frames.add(new TextureRegion(atlas.findRegion("walking_n", i)));
-        }
-        walkingNorth = new Animation(0.1f, frames);
-        frames.clear();
-
-        for (int i = 1; i < 5; i++) {
-            frames.add(new TextureRegion(atlas.findRegion("walking_s", i)));
-        }
-        walkingSouth = new Animation(0.1f, frames);
-        frames.clear();
-    }
-
-    private void setTextureRegions() {
-        archerStandingNorth = new TextureRegion(atlas.findRegion("standing_n"));
-        archerStandingSouth = new TextureRegion(atlas.findRegion("standing_s"));
-        archerStandingEast = new TextureRegion(atlas.findRegion("standing_e"));
-    }
 
     public void update(float dt) {
 
@@ -136,95 +90,14 @@ public class Archer extends Sprite {
 
     }
 
-    public TextureRegion getFrame(float dt) {
 
-        TextureRegion region;
-
-        currentState = getState();
-        updateOrientation();
-
-
-        switch (currentState) {
-            case WALKING:
-                if (currentOrientation == Orientation.EAST || currentOrientation == Orientation.WEST) {
-                    region = (TextureRegion) walkingEast.getKeyFrame(stateTimer, true);
-                    break;
-                }
-                if (currentOrientation == Orientation.NORTH) {
-                    region = (TextureRegion) walkingNorth.getKeyFrame(stateTimer, true);
-                    break;
-                }
-                if (currentOrientation == Orientation.SOUTH) {
-                    region = (TextureRegion) walkingSouth.getKeyFrame(stateTimer, true);
-                    break;
-                }
-            case STANDING:
-                if (currentOrientation == Orientation.EAST || currentOrientation == Orientation.WEST) {
-                    region = archerStandingEast;
-                    break;
-                }
-                if (currentOrientation == Orientation.NORTH) {
-                    region = archerStandingNorth;
-                    break;
-                }
-                if (currentOrientation == Orientation.SOUTH) {
-                    region = archerStandingSouth;
-                    break;
-                }
-            default:
-                region = archerStandingNorth;
-                break;
-        }
-
-        flipRegionIfNeeded(region);
-        updateState(dt);
-
-
-        return region;
+    @Override
+    public Body getBody() {
+        return body;
     }
 
-    private void updateState(float dt) {
-        if (currentState == previousState) {
-            stateTimer += dt;
-        } else {
-            stateTimer = 0;
-        }
-        previousState = currentState;
-    }
-
-    private void flipRegionIfNeeded(TextureRegion region) {
-        if (currentOrientation == Orientation.WEST && !region.isFlipX()) {
-            region.flip(true, false);
-        }
-        if(currentOrientation == Orientation.EAST && region.isFlipX()){
-            region.flip(true, false);
-        }
-    }
-
-    private void updateOrientation() {
-
-        previousOrientation = currentOrientation;
-
-        if (body.getLinearVelocity().x > 0) {
-            currentOrientation = Orientation.EAST;
-            return;
-        }
-        if (body.getLinearVelocity().x < 0) {
-            currentOrientation = Orientation.WEST;
-            return;
-        }
-        if (body.getLinearVelocity().y > 0) {
-            currentOrientation = Orientation.NORTH;
-            return;
-        }
-        if (body.getLinearVelocity().y < 0) {
-            currentOrientation = Orientation.SOUTH;
-        }
-    }
-
-
-    //METODO PARA SABER SE ESTA A AND
-    private State getState() {
+    @Override
+    public State getState() {
 
         if (body.getLinearVelocity().x != 0 || body.getLinearVelocity().y != 0) {
             return State.WALKING;
