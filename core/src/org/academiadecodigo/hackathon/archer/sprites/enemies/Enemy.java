@@ -21,13 +21,13 @@ public abstract class Enemy extends Sprite {
 
         this.gameScreen = screen;
         this.world = screen.getWorld();
-//        setPosition(initial_x, initial_y);
-        defineEnemy();
+        defineEnemy(initial_x, initial_y);
+
         velocity = new Vector2(-1f, -2f);
 //        enemyBody.setActive(false);
     }
 
-    protected abstract void defineEnemy();
+    protected abstract void defineEnemy(float initial_x, float initial_y);
 
     public abstract void update(float dt);
 

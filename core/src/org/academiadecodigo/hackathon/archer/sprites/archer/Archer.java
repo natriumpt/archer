@@ -2,7 +2,6 @@ package org.academiadecodigo.hackathon.archer.sprites.archer;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -17,7 +16,10 @@ public class Archer extends Sprite {
     public Body body;
     public Vector2 velocityVector;
     private GameScreen gameScreen;
-    private TextureRegion archerStanding;
+    private TextureRegion archerStandingNorth;
+    private TextureRegion archerStandingEast;
+    private TextureRegion archerStandingSouth;
+    private TextureRegion archerStandingWest;
 
     public Array<Projectile> projectiles;
     public static final int NUMBER_PROJECTILES = 50;
@@ -39,15 +41,19 @@ public class Archer extends Sprite {
     private Animation walkingEast;
     private Animation walkingWest;
 
+    public float speed;
+
     public Archer(GameScreen gameScreen) {
 
         super(gameScreen.getAtlas().findRegion("standing_n"));
         this.world = gameScreen.getWorld();
         this.gameScreen = gameScreen;
 
-        archerStanding = new TextureRegion(getTexture(), 2, 2, 48, 48);
+        archerStandingNorth = new TextureRegion(gameScreen.getAtlas().findRegion("standing_n"));
+        archerStandingSouth = new TextureRegion(gameScreen.getAtlas().findRegion("standing_s"));
+        archerStandingEast = new TextureRegion(gameScreen.getAtlas().findRegion("standing_e"));
         setBounds(0, 0, 48 / ArcherGame.PPM, 48 / ArcherGame.PPM);
-        setRegion(archerStanding);
+        setRegion(archerStandingNorth);
 
         defineArcher();
 
@@ -56,6 +62,7 @@ public class Archer extends Sprite {
         currentState = State.STANDING;
         currentOrientation = Orientation.NORTH;
         stateTimer = 0;
+        speed = 3f;
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
@@ -70,12 +77,6 @@ public class Archer extends Sprite {
         }
         walkingNorth = new Animation(0.1f, frames);
         frames.clear();
-
-//        for (int i = 1; i < 5; i++) {
-//            frames.add(new TextureRegion(gameScreen.getAtlas().findRegion("walking_w", i)));
-//        }
-//        walkingWest = new Animation(0.1f, frames);
-//        frames.clear();
 
         for (int i = 1; i < 5; i++) {
             frames.add(new TextureRegion(gameScreen.getAtlas().findRegion("walking_s", i)));
@@ -109,7 +110,7 @@ public class Archer extends Sprite {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
-        bodyDef.position.set(600 / ArcherGame.PPM, 600 / ArcherGame.PPM);
+        bodyDef.position.set(300 / ArcherGame.PPM, 300 / ArcherGame.PPM);
 
         body = world.createBody(bodyDef);
 
@@ -126,33 +127,49 @@ public class Archer extends Sprite {
 
     public TextureRegion getFrame(float dt) {
 
-        currentState = getState();
-
         TextureRegion region;
 
-        currentOrientation = updateOrientation();
+        currentState = getState();
+        updateOrientation();
+
 
         switch (currentState) {
             case WALKING:
-                if (currentOrientation.equals(Orientation.EAST)) {
+                if (currentOrientation == Orientation.EAST || currentOrientation == Orientation.WEST) {
                     region = (TextureRegion) walkingEast.getKeyFrame(stateTimer, true);
                     break;
                 }
-//                if (currentOrientation.equals(Orientation.WEST)) {
-//                    region = (TextureRegion) walkingWest.getKeyFrame(stateTimer, true);
-//                    break;
-//                }
-                if (currentOrientation.equals(Orientation.NORTH)) {
+                if (currentOrientation == Orientation.NORTH) {
                     region = (TextureRegion) walkingNorth.getKeyFrame(stateTimer, true);
                     break;
                 }
-                if (currentOrientation.equals(Orientation.SOUTH)) {
+                if (currentOrientation == Orientation.SOUTH) {
                     region = (TextureRegion) walkingSouth.getKeyFrame(stateTimer, true);
                     break;
                 }
+            case STANDING:
+                if (currentOrientation == Orientation.EAST || currentOrientation == Orientation.WEST) {
+                    region = archerStandingEast;
+                    break;
+                }
+                if (currentOrientation == Orientation.NORTH) {
+                    region = archerStandingNorth;
+                    break;
+                }
+                if (currentOrientation == Orientation.SOUTH) {
+                    region = archerStandingSouth;
+                    break;
+                }
             default:
-                region = archerStanding;
+                region = archerStandingNorth;
                 break;
+        }
+
+        if (currentOrientation == Orientation.WEST && !region.isFlipX()) {
+            region.flip(true, false);
+        }
+        if(currentOrientation == Orientation.EAST && region.isFlipX()){
+            region.flip(true, false);
         }
 
 
@@ -165,21 +182,25 @@ public class Archer extends Sprite {
         return region;
     }
 
-    private Orientation updateOrientation() {
+    private void updateOrientation() {
+
+        previousOrientation = currentOrientation;
 
         if (body.getLinearVelocity().x > 0) {
-            return Orientation.EAST;
+            currentOrientation = Orientation.EAST;
+            return;
         }
         if (body.getLinearVelocity().x < 0) {
-            return Orientation.WEST;
+            currentOrientation = Orientation.WEST;
+            return;
         }
         if (body.getLinearVelocity().y > 0) {
-            return Orientation.NORTH;
+            currentOrientation = Orientation.NORTH;
+            return;
         }
         if (body.getLinearVelocity().y < 0) {
-            return Orientation.SOUTH;
+            currentOrientation = Orientation.SOUTH;
         }
-        return currentOrientation;
     }
 
 

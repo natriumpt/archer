@@ -23,6 +23,8 @@ import org.academiadecodigo.hackathon.archer.sprites.enemies.Skeleton;
 import org.academiadecodigo.hackathon.archer.sprites.projectile.Projectile;
 import org.academiadecodigo.hackathon.archer.tools.ArcherInputProcessor;
 
+import java.util.ArrayList;
+
 import static sun.audio.AudioPlayer.player;
 
 public class GameScreen implements Screen {
@@ -51,7 +53,9 @@ public class GameScreen implements Screen {
 
 
     //FOR TESTING--TO REMOVE FROM HERE
-    private Skeleton skeleton;
+
+    public ArrayList<Skeleton> skeletons = new ArrayList<Skeleton>();
+//    private Skeleton skeleton;
 
     public GameScreen(ArcherGame archerGame) {
 
@@ -62,12 +66,12 @@ public class GameScreen implements Screen {
         this.game = archerGame;
         world = new World(new Vector2(0, 0), true);
         archer = new Archer(this);
-        skeleton = new Skeleton(this, 40 / ArcherGame.PPM, 40 / ArcherGame.PPM);
+//        skeleton = new Skeleton(this, 40 / ArcherGame.PPM, 40 / ArcherGame.PPM);
 
         gamecam = new OrthographicCamera();
         viewPort = new FitViewport(archerGame.V_WIDTH / archerGame.PPM, archerGame.V_HEIGHT / archerGame.PPM, gamecam);
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("map/forest.tmx");
+        map = mapLoader.load("map/level1.tmx");
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / archerGame.PPM);
         gamecam.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2, 0);
@@ -91,18 +95,19 @@ public class GameScreen implements Screen {
 
         handleInput();
 
-        world.step(1 / 60f, 6, 2);
+        /*world.step(1 / 60f, 6, 2);*/
 
-        setActiveEnemies();
         archer.update(dt);
-
+       setActiveEnemies();
 
         gamecam.position.x = archer.body.getPosition().x;
         gamecam.position.y = archer.body.getPosition().y;
         gamecam.update();
         renderer.setView(gamecam);
 
-        if (!skeleton.isDead()) {
+        for (Skeleton skeleton: skeletons) {
+
+            if (!skeleton.isDead()) {
 
                 skeleton.update(dt);
 
@@ -125,19 +130,24 @@ public class GameScreen implements Screen {
                         break;
                     }
                 }
+            }
+
         }
+
     }
 
     private void setActiveEnemies() {
 
-        float enemyPosX = skeleton.getEnemyBody().getPosition().x;
-        float enemyPosY = skeleton.getEnemyBody().getPosition().y;
-        float archerPosX = archer.body.getPosition().x;
-        float archerPosY = archer.body.getPosition().y;
-        double distanceDiff = ((Math.pow(archerPosX-enemyPosX, 2) + Math.pow(archerPosY-enemyPosY, 2)));
+        for (Skeleton skeleton: skeletons) {
+            float enemyPosX = skeleton.getEnemyBody().getPosition().x;
+            float enemyPosY = skeleton.getEnemyBody().getPosition().y;
+            float archerPosX = archer.body.getPosition().x;
+            float archerPosY = archer.body.getPosition().y;
+            double distanceDiff = ((Math.pow(archerPosX-enemyPosX, 2) + Math.pow(archerPosY-enemyPosY, 2)));
 
-        if (distanceDiff < 35) {
-            skeleton.getEnemyBody().setActive(true);
+            if (distanceDiff < 35) {
+                skeleton.getEnemyBody().setActive(true);
+            }
         }
     }
 
@@ -151,8 +161,8 @@ public class GameScreen implements Screen {
         renderer.render();
 
 
-        // This is so that the world bodies outline are showned
-        // (just for testing purposes)
+        // Thisds is so that the world bodies outline are showned
+        // (just wfor testing purposes)
         debugRenderer.render(world, gamecam.combined);
 
         // only draw what the projection sees
@@ -207,17 +217,17 @@ public class GameScreen implements Screen {
         // Accounts for the archer holding opposite keys.
         // Movement code starts here
         if (inputProcessor.aKey && !inputProcessor.dKey) {
-            archer.velocityVector.x = -1f;
+            archer.velocityVector.x = -archer.speed;
         } else if (inputProcessor.dKey && !inputProcessor.aKey) {
-            archer.velocityVector.x = 1f;
+            archer.velocityVector.x = archer.speed;
         } else {
             archer.velocityVector.x = 0;
         }
 
         if (inputProcessor.wKey) {
-            archer.velocityVector.y = 1f;
+            archer.velocityVector.y = archer.speed;
         } else if (inputProcessor.sKey) {
-            archer.velocityVector.y = -1f;
+            archer.velocityVector.y = -archer.speed;
         } else {
             archer.velocityVector.y = 0;
         }
