@@ -3,6 +3,7 @@ package org.academiadecodigo.hackathon.archer;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.academiadecodigo.hackathon.archer.screens.GameScreen;
+import org.academiadecodigo.hackathon.archer.screens.StartScreen;
 
 public class ArcherGame extends Game {
 
@@ -18,7 +19,8 @@ public class ArcherGame extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		setScreen(new GameScreen((this)));
+		setScreen(new StartScreen(this));
+		/*setScreen(new GameScreen(this));*/
 	}
 
 	@Override
