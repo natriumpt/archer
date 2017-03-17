@@ -46,7 +46,7 @@ public class Hud {
     private void init() {
         score = 0;
         timeCounter = 0;
-        timeToBeat = 60;
+        timeToBeat = 99;
         timeUp = false;
     }
 
@@ -60,7 +60,7 @@ public class Hud {
             } else {
                 timeUp = true;
             }
-            timeLabel.setText(String.format("%03d", timeToBeat));
+            timeLabel.setText(String.format("%02d", timeToBeat));
             timeCounter = 0;
         }
     }

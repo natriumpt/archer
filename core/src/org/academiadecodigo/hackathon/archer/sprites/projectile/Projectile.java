@@ -10,7 +10,7 @@ import org.academiadecodigo.hackathon.archer.sprites.Animatable;
 
 public class Projectile extends Animatable {
 
-    public static final String ATLAS = "porjectileset.atlas";
+    public static final String ATLAS = "projectileset.atlas";
     public static final String ARROW_N = "arrow_n";
     public static final String ARROW_S = "arrow_s";
     public static final String ARROW_E = "arrow_e";

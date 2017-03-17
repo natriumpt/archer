@@ -103,6 +103,14 @@ public class GameScreen implements Screen {
 
         checkEnemyCollisions(dt);
         checkIfArcherDead(dt);
+        checkIfTimeUp();
+
+    }
+
+    private void checkIfTimeUp() {
+        if (hud.isTimeUp()) {
+            endGame();
+        }
     }
 
 
