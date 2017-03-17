@@ -31,7 +31,6 @@ import static org.academiadecodigo.hackathon.archer.ArcherGame.manager;
 public class GameScreen implements Screen {
 
     private BodyWorldCreator creator;
-    private TextureAtlas atlas;
     private Music music;
     private OrthographicCamera gamecam;
     private Viewport viewPort;
@@ -63,7 +62,6 @@ public class GameScreen implements Screen {
         world = new World(new Vector2(0, 0), true);
         archer = new Archer(this);
 
-//        skeleton = new Skeleton(this, 40 / ArcherGame.PPM, 40 / ArcherGame.PPM);
         hud = new Hud(game.batch);
 
         gamecam = new OrthographicCamera();
@@ -80,9 +78,9 @@ public class GameScreen implements Screen {
         inputProcessor = new ArcherInputProcessor();
         Gdx.input.setInputProcessor(inputProcessor);
 
-        music = ArcherGame.manager.get("audio/sounds/ambience.wav", Music.class);
-        music.setLooping(true);
-        music.play();
+//        music = ArcherGame.manager.get("audio/sounds/ambience.wav", Music.class);
+//        music.setLooping(true);
+//        music.play();
     }
 
     @Override
@@ -180,14 +178,14 @@ public class GameScreen implements Screen {
     private void setActiveEnemies() {
 
         for (Skeleton skeleton : skeletons) {
-            float enemyPosX = skeleton.getEnemyBody().getPosition().x;
-            float enemyPosY = skeleton.getEnemyBody().getPosition().y;
+            float enemyPosX = skeleton.getBody().getPosition().x;
+            float enemyPosY = skeleton.getBody().getPosition().y;
             float archerPosX = archer.body.getPosition().x;
             float archerPosY = archer.body.getPosition().y;
             double distanceDiff = ((Math.pow(archerPosX - enemyPosX, 2) + Math.pow(archerPosY - enemyPosY, 2)));
 
             if (distanceDiff < 35) {
-                skeleton.getEnemyBody().setActive(true);
+                skeleton.getBody().setActive(true);
             }
         }
     }
