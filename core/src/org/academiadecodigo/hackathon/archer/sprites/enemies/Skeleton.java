@@ -1,12 +1,15 @@
 package org.academiadecodigo.hackathon.archer.sprites.enemies;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
 import org.academiadecodigo.hackathon.archer.screens.GameScreen;
+import org.academiadecodigo.hackathon.archer.sprites.archer.Archer;
 import org.academiadecodigo.hackathon.archer.sprites.projectile.Projectile;
 
 import java.util.ArrayList;
@@ -19,8 +22,75 @@ public class Skeleton extends Enemy {
     private boolean dead;
     private final int points = 100;
 
-    public Skeleton(GameScreen screen, float initialX, float initialY) {
-        super(screen, initialX, initialY);
+    public enum State {STANDING, WALKING, FIRING, DEAD}
+    public enum Orientation {NORTH, SOUTH, EAST, WEST}
+
+    public State currentState;
+    public State previousState;
+    public Orientation currentOrientation;
+    public Orientation previousOrientation;
+    private float stateTimer;
+
+    private TextureAtlas atlas;
+
+    private TextureRegion standingNorth;
+    private TextureRegion standingEast;
+    private TextureRegion standingSouth;
+    private Animation walkingNorth;
+    private Animation walkingEast;
+    private Animation walkingSouth;
+
+    public Skeleton(GameScreen gameScreen, float initialX, float initialY) {
+        super(gameScreen, initialX, initialY);
+
+        atlas = new TextureAtlas("skeletonset.atlas");
+
+        setTextureRegions();
+        setAnimations();
+//
+        setBounds(0, 0, 48 / ArcherGame.PPM, 48 / ArcherGame.PPM);
+        setRegion(standingSouth);
+
+        init();
+
+        defineEnemy(initialX, initialY);
+//
+    }
+
+    private void init() {
+        previousState = State.STANDING;
+        currentState = State.STANDING;
+        currentOrientation = Orientation.SOUTH;
+        stateTimer = 0;
+    }
+
+
+    private void setTextureRegions() {
+        standingNorth = new TextureRegion(atlas.findRegion("standing_n"));
+        standingSouth = new TextureRegion(atlas.findRegion("standing_s"));
+        standingEast = new TextureRegion(atlas.findRegion("standing_e"));
+    }
+
+    private void setAnimations() {
+        Array<TextureRegion> frames = new Array<TextureRegion>();
+
+        for (int i = 1; i < 5; i++) {
+            frames.add(new TextureRegion(atlas.findRegion("walking_e", i)));
+        }
+        walkingEast = new Animation(0.1f, frames);
+        frames.clear();
+
+        for (int i = 1; i < 5; i++) {
+            frames.add(new TextureRegion(atlas.findRegion("walking_n", i)));
+        }
+        walkingNorth = new Animation(0.1f, frames);
+        frames.clear();
+
+        for (int i = 1; i < 5; i++) {
+            frames.add(new TextureRegion(atlas.findRegion("walking_s", i)));
+        }
+        walkingSouth = new Animation(0.1f, frames);
+        frames.clear();
     }
 
     @Override
@@ -50,8 +120,109 @@ public class Skeleton extends Enemy {
     public void update(float dt) {
 
         moveToArcher();
+        setRegion(getFrame(dt));
 
     }
+
+
+
+    public TextureRegion getFrame(float dt) {
+
+        TextureRegion region;
+
+        currentState = getState();
+        updateOrientation();
+
+
+        switch (currentState) {
+            case WALKING:
+                if (currentOrientation == Orientation.EAST || currentOrientation == Orientation.WEST) {
+                    region = (TextureRegion) walkingEast.getKeyFrame(stateTimer, true);
+                    break;
+                }
+                if (currentOrientation == Orientation.NORTH) {
+                    region = (TextureRegion) walkingNorth.getKeyFrame(stateTimer, true);
+                    break;
+                }
+                if (currentOrientation == Orientation.SOUTH) {
+                    region = (TextureRegion) walkingSouth.getKeyFrame(stateTimer, true);
+                    break;
+                }
+            case STANDING:
+                if (currentOrientation == Orientation.EAST || currentOrientation == Orientation.WEST) {
+                    region = standingEast;
+                    break;
+                }
+                if (currentOrientation == Orientation.NORTH) {
+                    region = standingNorth;
+                    break;
+                }
+                if (currentOrientation == Orientation.SOUTH) {
+                    region = standingSouth;
+                    break;
+                }
+            default:
+                region = standingSouth;
+                break;
+        }
+
+        flipRegionIfNeeded(region);
+        updateState(dt);
+
+
+        return region;
+    }
+
+    private void updateState(float dt) {
+        if (currentState == previousState) {
+            stateTimer += dt;
+        } else {
+            stateTimer = 0;
+        }
+        previousState = currentState;
+    }
+
+    private void flipRegionIfNeeded(TextureRegion region) {
+        if (currentOrientation == Orientation.WEST && !region.isFlipX()) {
+            region.flip(true, false);
+        }
+        if(currentOrientation == Orientation.EAST && region.isFlipX()){
+            region.flip(true, false);
+        }
+    }
+
+    private void updateOrientation() {
+
+        previousOrientation = currentOrientation;
+
+        if (enemyBody.getLinearVelocity().x > 0) {
+            currentOrientation = Orientation.EAST;
+            return;
+        }
+        if (enemyBody.getLinearVelocity().x < 0) {
+            currentOrientation = Orientation.WEST;
+            return;
+        }
+        if (enemyBody.getLinearVelocity().y > 0) {
+            currentOrientation = Orientation.NORTH;
+            return;
+        }
+        if (enemyBody.getLinearVelocity().y < 0) {
+            currentOrientation = Orientation.SOUTH;
+        }
+    }
+
+
+    //METODO PARA SABER SE ESTA A AND
+    private State getState() {
+
+        if (enemyBody.getLinearVelocity().x != 0 || enemyBody.getLinearVelocity().y != 0) {
+            return State.WALKING;
+        }
+
+        return State.STANDING;
+    }
+
 
     public void moveToArcher(){
 

@@ -33,7 +33,6 @@ public class GameScreen implements Screen {
     private TextureAtlas atlas;
     private Music music;
     private OrthographicCamera gamecam;
-
     private Viewport viewPort;
 
     private TmxMapLoader mapLoader;
@@ -58,9 +57,6 @@ public class GameScreen implements Screen {
     public GameScreen(ArcherGame archerGame) {
 
         Box2D.init();
-
-
-        atlas = new TextureAtlas("archerset.atlas");
 
         this.game = archerGame;
         world = new World(new Vector2(0, 0), true);
@@ -90,10 +86,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-    }
-
-    public TextureAtlas getAtlas() {
-        return atlas;
     }
 
     public void update(float dt) {

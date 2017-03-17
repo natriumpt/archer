@@ -9,19 +9,17 @@ import org.academiadecodigo.hackathon.archer.screens.GameScreen;
 public abstract class Enemy extends Sprite {
 
 
-    private World world;
-    private GameScreen gameScreen;
-    private int health;
-
-    Vector2 velocity;
+    protected World world;
+    protected GameScreen gameScreen;
     public Body enemyBody;
+    Vector2 velocity;
 
+    private int health;
 
     public Enemy(GameScreen screen, float initial_x, float initial_y){
 
         this.gameScreen = screen;
         this.world = screen.getWorld();
-        defineEnemy(initial_x, initial_y);
 
         velocity = new Vector2(-1f, -2f);
 //        enemyBody.setActive(false);
