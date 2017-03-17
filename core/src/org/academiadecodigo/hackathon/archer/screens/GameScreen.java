@@ -78,7 +78,7 @@ public class GameScreen implements Screen {
         inputProcessor = new ArcherInputProcessor();
         Gdx.input.setInputProcessor(inputProcessor);
 
-        Music music = Gdx.audio.newMusic(Gdx.files.internal("audio/music/in_light_of_darkness.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("audio/music/in_light_of_darkness.mp3"));
         music.setLooping(true);
         music.play();
 
@@ -131,6 +131,8 @@ public class GameScreen implements Screen {
                 if (collision) {
 //                        manager.get("audio/sounds/zombie-hit.wav", Sound.class).play();
                     archer.body.setActive(false);
+                    music.stop();
+                    game.setScreen(new EndScreen(game));
                     break;
                 }
             }
