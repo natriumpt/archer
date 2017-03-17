@@ -82,8 +82,9 @@ public class GameScreen implements Screen {
         handleInput();
 
         world.step(1 / 60f, 6, 2);
+//
+        if(skeleton.enemyBody.getPosition().x <= archer.body.getPosition().x && !skeleton.isDead()){// + 224 / ArcherGame.PPM) {
 
-        if(skeleton.getX() == archer.getX()){// + 224 / ArcherGame.PPM) {
             skeleton.getEnemyBody().setActive(true);
         }
 
@@ -97,8 +98,6 @@ public class GameScreen implements Screen {
             skeleton.update(dt);
 
             for (Projectile projectile : archer.projectiles) {
-
-//                if (projectile.body.getFixtureList().size > 0 && skeleton.enemyBody.getFixtureList().size > 0) {
 
                     CircleShape projectileShape = (CircleShape) projectile.body.getFixtureList().get(0).getShape();
                     CircleShape circleShape = (CircleShape) skeleton.enemyBody.getFixtureList().get(0).getShape();
@@ -114,9 +113,6 @@ public class GameScreen implements Screen {
                         archer.projectiles.removeValue(projectile, false);
                         skeleton.setDead(true);
                     }
-
-//                }
-
             }
         }
 

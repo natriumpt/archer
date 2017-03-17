@@ -28,7 +28,7 @@ public class Skeleton extends Enemy {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(900 / ArcherGame.PPM, 900 / ArcherGame.PPM);
+        bodyDef.position.set(650 / ArcherGame.PPM, 650 / ArcherGame.PPM);
 
         enemyBody = getWorld().createBody(bodyDef);
         enemyBody.setActive(false);
