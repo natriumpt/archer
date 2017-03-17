@@ -52,8 +52,6 @@ public class GameScreen implements Screen {
         archer = new Archer(this);
         Skeleton skeleton = new Skeleton(this, 40/ArcherGame.PPM, 40/ ArcherGame.PPM);
 
-
-
         gamecam = new OrthographicCamera();
         viewPort = new FitViewport(archerGame.V_WIDTH / archerGame.PPM, archerGame.V_HEIGHT / archerGame.PPM, gamecam);
         mapLoader = new TmxMapLoader();
@@ -67,23 +65,15 @@ public class GameScreen implements Screen {
 
         inputProcessor = new ArcherInputProcessor();
         Gdx.input.setInputProcessor(inputProcessor);
-
-
-
-
-
     }
-
 
     @Override
     public void show() {
-
     }
 
     public void update(float dt) {
 
         world.step(1 / 60f, 6, 2);
-
         gamecam.position.x = archer.body.getPosition().x;
         gamecam.position.y = archer.body.getPosition().y;
         gamecam.update();
