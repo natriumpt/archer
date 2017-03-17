@@ -84,7 +84,6 @@ public class GameScreen implements Screen {
         world.step(1 / 60f, 6, 2);
 //
         if(skeleton.enemyBody.getPosition().x <= archer.body.getPosition().x && !skeleton.isDead()){// + 224 / ArcherGame.PPM) {
-
             skeleton.getEnemyBody().setActive(true);
         }
 

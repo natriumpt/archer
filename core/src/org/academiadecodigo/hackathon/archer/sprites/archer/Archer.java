@@ -19,6 +19,8 @@ public class Archer extends Sprite {
     private GameScreen gameScreen;
 
     public Array<Projectile> projectiles;
+    public static final int NUMBER_PROJECTILES = 15;
+
 
     public enum State { STANDING, WALKING, FIRING, DEAD }
     public State currentState;
@@ -101,7 +103,10 @@ public class Archer extends Sprite {
     }
 
     public void fire(Vector2 velocityVector, boolean fireRight) {
-        projectiles.add(new Projectile(gameScreen, body.getPosition(), velocityVector, fireRight));
+        System.out.println(projectiles.size);
+        if (projectiles.size < NUMBER_PROJECTILES) {
+            projectiles.add(new Projectile(gameScreen, body.getPosition(), velocityVector, fireRight));
+        }
     }
 
 
