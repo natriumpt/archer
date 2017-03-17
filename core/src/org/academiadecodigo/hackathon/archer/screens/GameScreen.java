@@ -7,7 +7,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -20,7 +19,6 @@ import org.academiadecodigo.hackathon.archer.BodyWorldCreator;
 import org.academiadecodigo.hackathon.archer.scenes.Hud;
 import org.academiadecodigo.hackathon.archer.sprites.Animatable;
 import org.academiadecodigo.hackathon.archer.sprites.archer.Archer;
-import org.academiadecodigo.hackathon.archer.sprites.enemies.Enemy;
 import org.academiadecodigo.hackathon.archer.sprites.enemies.Skeleton;
 import org.academiadecodigo.hackathon.archer.sprites.projectile.Projectile;
 import org.academiadecodigo.hackathon.archer.tools.ArcherInputProcessor;
@@ -31,58 +29,58 @@ import static org.academiadecodigo.hackathon.archer.ArcherGame.manager;
 
 public class GameScreen implements Screen {
 
-    private BodyWorldCreator creator;
     private Music music;
+
+    //Map and camera related stuff
+    private BodyWorldCreator creator;
     private OrthographicCamera gamecam;
     private Viewport viewPort;
-
     private TmxMapLoader mapLoader;
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
 
+    //World, game and player stuff
     private ArcherGame game;
     private World world;
-    private Box2DDebugRenderer debugRenderer;
     private Hud hud;
-
     private Archer archer;
     private ArcherInputProcessor inputProcessor;
+    public ArrayList<Skeleton> skeletons = new ArrayList<Skeleton>();
 
-    public static final float VIEWPORT_WIDTH = 10f;
-    public static final float VIEWPORT_HEIGHT = 7.5f;
     public static final float PROJECTILE_VELOCITY = 6f;
 
-
-    public ArrayList<Skeleton> skeletons = new ArrayList<Skeleton>();
 
     public GameScreen(ArcherGame archerGame) {
 
         Box2D.init();
 
         this.game = archerGame;
-        world = new World(new Vector2(0, 0), true);
-        archer = new Archer(this);
-
-        hud = new Hud(game.batch);
-
-        gamecam = new OrthographicCamera();
-        viewPort = new FitViewport(archerGame.V_WIDTH / archerGame.PPM, archerGame.V_HEIGHT / archerGame.PPM, gamecam);
-        mapLoader = new TmxMapLoader();
-        map = mapLoader.load("map/level1.tmx");
-
-        renderer = new OrthogonalTiledMapRenderer(map, 1 / archerGame.PPM);
-        gamecam.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2, 0);
-        debugRenderer = new Box2DDebugRenderer();
-
-        creator = new BodyWorldCreator(this);
-
-        inputProcessor = new ArcherInputProcessor();
-        Gdx.input.setInputProcessor(inputProcessor);
+        initGameElements();
 
         Music music = Gdx.audio.newMusic(Gdx.files.internal("audio/music/in_light_of_darkness.mp3"));
         music.setLooping(true);
         music.play();
 
+    }
+
+    private void initGameElements() {
+
+        world = new World(new Vector2(0, 0), true);
+        archer = new Archer(this);
+        hud = new Hud(game.batch);
+
+        gamecam = new OrthographicCamera();
+        viewPort = new FitViewport(game.V_WIDTH / game.PPM, game.V_HEIGHT / game.PPM, gamecam);
+        mapLoader = new TmxMapLoader();
+        map = mapLoader.load("map/level1.tmx");
+
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / game.PPM);
+        gamecam.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2, 0);
+
+        creator = new BodyWorldCreator(this);
+
+        inputProcessor = new ArcherInputProcessor();
+        Gdx.input.setInputProcessor(inputProcessor);
     }
 
     @Override
@@ -96,9 +94,7 @@ public class GameScreen implements Screen {
         world.step(1 / 60f, 6, 2);
 
         archer.update(dt);
-
         setActiveEnemies();
-
         hud.update(dt);
 
         gamecam.position.x = archer.body.getPosition().x;
@@ -107,10 +103,9 @@ public class GameScreen implements Screen {
         renderer.setView(gamecam);
 
         checkEnemyCollisions(dt);
-
         checkIfArcherDead(dt);
-
     }
+
 
     private void checkIfArcherDead(float dt) {
 
@@ -136,10 +131,7 @@ public class GameScreen implements Screen {
                 }
             }
         }
-
-
     }
-
 
 
     private void checkEnemyCollisions(float dt) {
@@ -151,7 +143,6 @@ public class GameScreen implements Screen {
                 skeleton.update(dt);
 
                 for (Projectile projectile : archer.projectiles) {
-
 
                     CircleShape projectileShape = (CircleShape) projectile.body.getFixtureList().get(0).getShape();
                     CircleShape skeletonShape = (CircleShape) skeleton.enemyBody.getFixtureList().get(0).getShape();
@@ -174,7 +165,6 @@ public class GameScreen implements Screen {
                     }
                 }
             }
-
         }
     }
 
@@ -202,16 +192,19 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderer.render();
 
+        drawMovables();
+        drawHud();
+    }
 
-        // This is so that the world bodies outline are showned
-        // (just for testing purposes)
-        /*debugRenderer.render(world, gamecam.combined);*/
 
-        // only draw what the projection sees
+    private void drawHud() {
+        game.getBatch().setProjectionMatrix(hud.stage.getCamera().combined);
+        hud.stage.draw();
+    }
+
+    private void drawMovables() {
+
         game.getBatch().setProjectionMatrix(gamecam.combined);
-
-        // begin a new batch and draw the bucket and
-
         game.batch.begin();
 
         for (Skeleton skeleton: skeletons) {
@@ -219,14 +212,12 @@ public class GameScreen implements Screen {
         }
 
         archer.draw(game.batch);
+
         for (Projectile p: archer.projectiles) {
             p.draw(game.batch);
         }
+
         game.batch.end();
-
-        game.getBatch().setProjectionMatrix(hud.stage.getCamera().combined);
-        hud.stage.draw();
-
     }
 
     public TiledMap getMap() {
@@ -262,12 +253,6 @@ public class GameScreen implements Screen {
 
     public void handleInput() {
 
-
-        // TODO: Provide the archer class with a speed value;
-        // TODO: Update/merge with the firing method;
-
-        // Accounts for the archer holding opposite keys.
-        // Movement code starts here
         if (inputProcessor.aKey && !inputProcessor.dKey) {
             archer.velocityVector.x = -archer.speed;
         } else if (inputProcessor.dKey && !inputProcessor.aKey) {
@@ -284,7 +269,6 @@ public class GameScreen implements Screen {
             archer.velocityVector.y = 0;
         }
 
-
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
             archer.fire(new Vector2(PROJECTILE_VELOCITY, 0), true, Animatable.Orientation.EAST);
         }
@@ -299,7 +283,6 @@ public class GameScreen implements Screen {
         }
 
         archer.body.setLinearVelocity(archer.velocityVector);
-        // Movement code ends here.
     }
 
     public Archer getArcher() {
