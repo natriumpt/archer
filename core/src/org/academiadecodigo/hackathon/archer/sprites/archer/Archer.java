@@ -103,14 +103,18 @@ public class Archer extends Sprite {
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(dt));
 
-//        for (Projectile projectile: projectiles) {
-//            if (projectile.body.getLinearVelocity().x < 5 && projectile.body.getLinearVelocity().y < 5){
-//                projectile.body.setTransform(1000000f,1000000f, projectile.body.getAngle());
-//                projectiles.removeValue(projectile, true);
-//            }
-//        }
+        checkCollisionWithObstacles();
+    }
 
-
+    private void checkCollisionWithObstacles() {
+        for (Projectile projectile: projectiles) {
+            if ((projectile.body.getLinearVelocity().x < 2 && projectile.body.getLinearVelocity().y < 2)
+                    && (projectile.body.getLinearVelocity().x > -2 && projectile.body.getLinearVelocity().y > -2)){
+                ArcherGame.manager.get("audio/sounds/arrow-hit.wav", Sound.class).play();
+                projectile.body.setTransform(1000000f,1000000f, projectile.body.getAngle());
+                projectiles.removeValue(projectile, true);
+            }
+        }
     }
 
     private void defineArcher() {

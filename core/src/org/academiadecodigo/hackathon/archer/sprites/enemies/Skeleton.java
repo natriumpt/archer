@@ -51,9 +51,10 @@ public class Skeleton extends Enemy {
         setBounds(0, 0, 48 / ArcherGame.PPM, 48 / ArcherGame.PPM);
         setRegion(standingSouth);
 
+        init();
+
         defineEnemy(initialX, initialY);
 //
-        init();
     }
 
     private void init() {

@@ -3,15 +3,14 @@ package org.academiadecodigo.hackathon.archer.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -26,11 +25,16 @@ import org.academiadecodigo.hackathon.archer.tools.ArcherInputProcessor;
 
 import java.util.ArrayList;
 
-import static sun.audio.AudioPlayer.player;
+import static org.academiadecodigo.hackathon.archer.ArcherGame.manager;
 
 public class GameScreen implements Screen {
 
     private BodyWorldCreator creator;
+<<<<<<< HEAD
+=======
+    private TextureAtlas atlas;
+    private Music music;
+>>>>>>> 5488daf3bc3020c825ce81ca47d1c2e944b3acd8
     private OrthographicCamera gamecam;
     private Viewport viewPort;
 
@@ -77,6 +81,10 @@ public class GameScreen implements Screen {
 
         inputProcessor = new ArcherInputProcessor();
         Gdx.input.setInputProcessor(inputProcessor);
+
+        music = ArcherGame.manager.get("audio/sounds/ambience.wav", Music.class);
+        music.setLooping(true);
+        music.play();
     }
 
     @Override
@@ -99,11 +107,11 @@ public class GameScreen implements Screen {
         gamecam.update();
         renderer.setView(gamecam);
 
-        checkCollisions(dt);
+        checkEnemyCollisions(dt);
 
     }
 
-    private void checkCollisions(float dt) {
+    private void checkEnemyCollisions(float dt) {
 
         for (Skeleton skeleton : skeletons) {
 
@@ -124,10 +132,11 @@ public class GameScreen implements Screen {
                             * (projectileShape.getRadius() + skeletonShape.getRadius());
 
                     if (collision) {
+                        manager.get("audio/sounds/zombie-hit.wav", Sound.class).play();
                         archer.projectiles.removeValue(projectile, true);
                         skeleton.setDead(true);
-                        projectile.body.setTransform(1000000f,1000000f, projectile.body.getAngle());
-                        skeleton.enemyBody.setTransform(1000000f,1000000f, projectile.body.getAngle());
+                        projectile.body.setTransform(1000000f, 1000000f, projectile.body.getAngle());
+                        skeleton.enemyBody.setTransform(1000000f, 1000000f, projectile.body.getAngle());
                         Hud.addScore(skeleton.getPoints());
                         break;
                     }
