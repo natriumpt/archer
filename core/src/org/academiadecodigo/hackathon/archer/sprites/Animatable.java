@@ -19,8 +19,6 @@ public abstract class Animatable extends Sprite {
     protected State currentState;
     protected State previousState;
     protected Orientation currentOrientation;
-
-
     protected Orientation previousOrientation;
     protected float stateTimer;
 

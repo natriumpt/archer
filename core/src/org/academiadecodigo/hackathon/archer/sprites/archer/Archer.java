@@ -120,4 +120,7 @@ public class Archer extends Animatable {
     }
 
 
+    public Orientation getCurrentOrientation() {
+        return currentOrientation;
+    }
 }
