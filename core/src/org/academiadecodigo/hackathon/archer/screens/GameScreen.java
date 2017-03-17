@@ -16,13 +16,14 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
+import org.academiadecodigo.hackathon.archer.BodyWorldCreator;
 import org.academiadecodigo.hackathon.archer.sprites.archer.Archer;
 import org.academiadecodigo.hackathon.archer.sprites.enemies.Skeleton;
 import org.academiadecodigo.hackathon.archer.tools.ArcherInputProcessor;
 
 public class GameScreen implements Screen {
 
-    //  Texture texture;
+    private BodyWorldCreator creator;
 
     private OrthographicCamera gamecam;
     private Viewport viewPort;
@@ -62,27 +63,15 @@ public class GameScreen implements Screen {
         gamecam.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2, 0);
         debugRenderer = new Box2DDebugRenderer();
 
+        creator = new BodyWorldCreator(this);
+
         inputProcessor = new ArcherInputProcessor();
         Gdx.input.setInputProcessor(inputProcessor);
 
 
-        BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fdef = new FixtureDef();
-        Body body;
 
-        //Create tree bodies/fixtures
-        for (MapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set(rect.getX() + rect.getWidth()/2, rect.getY() + rect.getHeight()/2);
 
-            body = world.createBody(bdef);
-            shape.setAsBox(rect.getWidth()/2, rect.getHeight()/2);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
     }
 
 
@@ -123,6 +112,10 @@ public class GameScreen implements Screen {
 
         handleInput();
 
+    }
+
+    public TiledMap getMap() {
+        return map;
     }
 
     @Override
