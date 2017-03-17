@@ -62,7 +62,7 @@ public class Archer extends Sprite {
             System.out.println(frames);
         }
         walkingEast = new Animation(0.1f, frames);
-        setRegion((TextureRegion) walgit add .kingEast.getKeyFrame(stateTimer));
+        setRegion((TextureRegion) walkingEast.getKeyFrame(stateTimer));
 
         frames.clear();
 

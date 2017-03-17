@@ -31,6 +31,7 @@ public class GameScreen implements Screen {
     private TextureAtlas atlas;
 
     private OrthographicCamera gamecam;
+
     private Viewport viewPort;
 
     private TmxMapLoader mapLoader;
@@ -94,33 +95,38 @@ public class GameScreen implements Screen {
 
         archer.update(dt);
 
-        skeleton.update(dt);
-//        if(skeleton.getX() < archer.getX() + 224 / ArcherGame.PPM) {
-//            skeleton.getEnemyBody().setActive(true);
-//        }
+        if (skeleton.enemyBody.getPosition().x <= archer.body.getPosition().x && !skeleton.isDead()) {// + 224 / ArcherGame.PPM) {
+            skeleton.getEnemyBody().setActive(true);
+        }
 
         gamecam.position.x = archer.body.getPosition().x;
         gamecam.position.y = archer.body.getPosition().y;
         gamecam.update();
         renderer.setView(gamecam);
 
-        for (Projectile p : archer.projectiles) {
+        if (!skeleton.isDead()) {
 
-            CircleShape projectileShape = (CircleShape) p.body.getFixtureList().get(0).getShape();
-            CircleShape circleShape = (CircleShape) skeleton.enemyBody.getFixtureList().get(0).getShape();
+                skeleton.update(dt);
 
-            float xD = p.body.getPosition().x - skeleton.enemyBody.getPosition().x;      // delta x
-            float yD = p.body.getPosition().y - skeleton.enemyBody.getPosition().y;      // delta y
-            float sqDist = xD * xD + yD * yD;  // square distance
-            boolean collision = sqDist <= (projectileShape.getRadius() + circleShape.getRadius()) * (projectileShape.getRadius() + circleShape.getRadius());
+                for (Projectile projectile : archer.projectiles) {
 
-            if (collision) {
-                world.destroyBody(p.body);
-                world.destroyBody(skeleton.enemyBody);
-            }
+                    CircleShape projectileShape = (CircleShape) projectile.body.getFixtureList().get(0).getShape();
+                    CircleShape circleShape = (CircleShape) skeleton.enemyBody.getFixtureList().get(0).getShape();
+
+                    float xD = projectile.body.getPosition().x - skeleton.enemyBody.getPosition().x;      // delta x
+                    float yD = projectile.body.getPosition().y - skeleton.enemyBody.getPosition().y;      // delta y
+                    float sqDist = xD * xD + yD * yD;  // square distance
+                    boolean collision = sqDist <= (projectileShape.getRadius() + circleShape.getRadius()) * (projectileShape.getRadius() + circleShape.getRadius());
+
+                    if (collision) {
+                        world.destroyBody(projectile.body);
+                        world.destroyBody(skeleton.enemyBody);
+                        archer.projectiles.removeValue(projectile, false);
+                        skeleton.setDead(true);
+                    }
+                }
+
         }
-
-
     }
 
     @Override
@@ -130,6 +136,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderer.render();
+        archer.update(delta);
         world.step(1 / 60f, 6, 2);
 
         // This is so that the world bodies outline are showned
@@ -143,7 +150,6 @@ public class GameScreen implements Screen {
         game.batch.begin();
         archer.draw(game.batch);
         game.batch.end();
-
 
     }
 
@@ -226,5 +232,6 @@ public class GameScreen implements Screen {
     public World getWorld() {
         return world;
     }
+
 
 }
