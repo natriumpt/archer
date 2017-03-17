@@ -17,15 +17,18 @@ public class Archer extends Sprite {
     public Body body;
     public Vector2 velocityVector;
     private GameScreen gameScreen;
+    private TextureRegion archerStand;
 
     public Array<Projectile> projectiles;
 
-    public enum State { STANDING, WALKING, FIRING, DEAD }
+    public enum State {STANDING, WALKING, FIRING, DEAD}
+
     public State currentState;
     public State previousState;
     private float stateTimer;
 
-    public enum Orientation { NORTH, SOUTH, EAST, WEST }
+    public enum Orientation {NORTH, SOUTH, EAST, WEST}
+
     public Orientation currentOrientation;
     public Orientation previousOrientation;
 
@@ -35,8 +38,13 @@ public class Archer extends Sprite {
 
     public Archer(GameScreen gameScreen) {
 
+        super(gameScreen.getAtlas().findRegion("standing_n"));
         this.gameScreen = gameScreen;
         this.world = gameScreen.getWorld();
+
+        archerStand = new TextureRegion(getTexture(), 0, 0, 48, 48);
+        setBounds(0, 0, 48 / ArcherGame.PPM, 48 / ArcherGame.PPM);
+        setRegion(archerStand);
 
         defineArcher();
 
@@ -53,14 +61,20 @@ public class Archer extends Sprite {
             frames.add(new TextureRegion(textureAtlas.findRegion("walking_n")));
             System.out.println(frames);
         }
-        walkingEast = new Animation(0.1f,frames);
-        setRegion((TextureRegion) walkingEast.getKeyFrame(stateTimer));
+        walkingEast = new Animation(0.1f, frames);
+        setRegion((TextureRegion) walgit add .kingEast.getKeyFrame(stateTimer));
 
         frames.clear();
 
     }
 
     private void init() {
+
+    }
+
+    public void update(float dt) {
+
+        setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y- getHeight()/2);
 
     }
 
@@ -80,7 +94,7 @@ public class Archer extends Sprite {
         fixtureDef.shape = shape;
         body.createFixture(fixtureDef);
 
-        velocityVector = new Vector2(0,0);
+        velocityVector = new Vector2(0, 0);
 
     }
 
@@ -88,7 +102,7 @@ public class Archer extends Sprite {
 
         TextureRegion region = null;
 
-        switch(currentState){
+        switch (currentState) {
             case WALKING:
                 region = (TextureRegion) walkingEast.getKeyFrame(stateTimer, true);
                 break;
