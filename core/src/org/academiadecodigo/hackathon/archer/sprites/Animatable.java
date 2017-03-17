@@ -13,14 +13,19 @@ import com.badlogic.gdx.utils.Array;
  */
 public abstract class Animatable extends Sprite {
 
+    public static final String STANDING_N = "standing_n";
+    public static final String STANDING_S = "standing_s";
+    public static final String STANDING_E = "standing_e";
+    public static final String WALKING_N = "walking_n";
+    public static final String WALKING_S = "walking_s";
+    public static final String WALKING_E = "walking e";
+
     public enum State {STANDING, WALKING, FIRING, DEAD}
     public enum Orientation {NORTH, SOUTH, EAST, WEST}
 
     protected State currentState;
     protected State previousState;
     protected Orientation currentOrientation;
-
-
     protected Orientation previousOrientation;
     protected float stateTimer;
 
@@ -28,7 +33,6 @@ public abstract class Animatable extends Sprite {
     public Body body;
 
     protected TextureAtlas atlas;
-
     protected TextureRegion standingNorth;
     protected TextureRegion standingEast;
     protected TextureRegion standingSouth;
@@ -36,45 +40,49 @@ public abstract class Animatable extends Sprite {
     protected Animation walkingEast;
     protected Animation walkingSouth;
 
+
     public abstract Body getBody();
 
     public abstract State getState();
 
+
     protected void setTextureRegions() {
-        standingNorth = new TextureRegion(atlas.findRegion("standing_n"));
-        standingSouth = new TextureRegion(atlas.findRegion("standing_s"));
-        standingEast = new TextureRegion(atlas.findRegion("standing_e"));
+
+        standingNorth = new TextureRegion(atlas.findRegion(STANDING_N));
+        standingSouth = new TextureRegion(atlas.findRegion(STANDING_S));
+        standingEast = new TextureRegion(atlas.findRegion(STANDING_E));
     }
 
+
     protected void setAnimations() {
+
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
         for (int i = 1; i < 4; i++) {
-            frames.add(new TextureRegion(atlas.findRegion("walking_e", i)));
+            frames.add(new TextureRegion(atlas.findRegion(WALKING_E, i)));
         }
         walkingEast = new Animation(0.1f, frames);
         frames.clear();
 
         for (int i = 1; i < 5; i++) {
-            frames.add(new TextureRegion(atlas.findRegion("walking_n", i)));
+            frames.add(new TextureRegion(atlas.findRegion(WALKING_N, i)));
         }
         walkingNorth = new Animation(0.1f, frames);
         frames.clear();
 
         for (int i = 1; i < 5; i++) {
-            frames.add(new TextureRegion(atlas.findRegion("walking_s", i)));
+            frames.add(new TextureRegion(atlas.findRegion(WALKING_S, i)));
         }
         walkingSouth = new Animation(0.1f, frames);
         frames.clear();
     }
 
-    public TextureRegion getFrame(float dt) {
+
+    protected TextureRegion getFrame(float dt) {
 
         TextureRegion region;
-
         currentState = getState();
         updateOrientation();
-
 
         switch (currentState) {
             case WALKING:
@@ -110,12 +118,12 @@ public abstract class Animatable extends Sprite {
 
         flipRegionIfNeeded(region);
         updateState(dt);
-
-
         return region;
     }
 
+
     private void updateState(float dt) {
+
         if (currentState == previousState) {
             stateTimer += dt;
         } else {
@@ -124,7 +132,9 @@ public abstract class Animatable extends Sprite {
         previousState = currentState;
     }
 
+
     private void flipRegionIfNeeded(TextureRegion region) {
+
         if (currentOrientation == Orientation.WEST && !region.isFlipX()) {
             region.flip(true, false);
         }
@@ -132,6 +142,7 @@ public abstract class Animatable extends Sprite {
             region.flip(true, false);
         }
     }
+
 
     private void updateOrientation() {
 
@@ -153,6 +164,4 @@ public abstract class Animatable extends Sprite {
             currentOrientation = Orientation.SOUTH;
         }
     }
-
-
 }
