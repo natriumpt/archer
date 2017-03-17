@@ -145,7 +145,7 @@ public abstract class Animatable extends Sprite {
     }
 
 
-    private void flipRegionIfNeeded(TextureRegion region) {
+    public void flipRegionIfNeeded(TextureRegion region) {
 
         if (currentOrientation == Orientation.WEST && !region.isFlipX()) {
             region.flip(true, false);

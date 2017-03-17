@@ -73,6 +73,8 @@ public class Projectile extends Animatable {
             region = standingSouth;
         }
 
+        flipRegionIfNeeded(region);
+
         return region;
     }
 
