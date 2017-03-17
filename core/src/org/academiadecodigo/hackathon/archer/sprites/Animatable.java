@@ -20,6 +20,10 @@ public abstract class Animatable extends Sprite {
     public static final String WALKING_S = "walking_s";
     public static final String WALKING_E = "walking_e";
 
+    public static final float PIXEL_WIDTH = 48;
+    public static final float PIXEL_HEIGHT = 48;
+
+
     public enum State {STANDING, WALKING, FIRING, DEAD}
     public enum Orientation {NORTH, SOUTH, EAST, WEST}
 
