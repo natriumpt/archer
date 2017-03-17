@@ -57,7 +57,7 @@ public class Skeleton extends Enemy {
         enemyBody.setActive(false);
 
         CircleShape shape = new CircleShape();
-        shape.setRadius(5 / ArcherGame.PPM);
+        shape.setRadius(15 / ArcherGame.PPM);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;

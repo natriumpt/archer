@@ -59,7 +59,7 @@ public class Projectile extends Sprite {
         body = world.createBody(bodyDef);
 
         CircleShape shape = new CircleShape();
-        shape.setRadius(3 / ArcherGame.PPM);
+        shape.setRadius(9 / ArcherGame.PPM);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
