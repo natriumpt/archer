@@ -17,6 +17,7 @@ public class Skeleton extends Enemy {
 
     private static final float SPEED = 1;
     private ArrayList<Projectile> projectiles;
+    private boolean dead;
 
     public Skeleton(GameScreen screen, float initial_x, float initial_y) {
         super(screen, initial_x, initial_y);
@@ -27,9 +28,10 @@ public class Skeleton extends Enemy {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(650 / ArcherGame.PPM, 650 / ArcherGame.PPM);
+        bodyDef.position.set(900 / ArcherGame.PPM, 900 / ArcherGame.PPM);
 
         enemyBody = getWorld().createBody(bodyDef);
+        enemyBody.setActive(false);
 
         CircleShape shape = new CircleShape();
         shape.setRadius( 5 / ArcherGame.PPM);
@@ -67,5 +69,13 @@ public class Skeleton extends Enemy {
 
     public void fire() {
 
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
     }
 }

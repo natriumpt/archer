@@ -45,6 +45,12 @@ public class Projectile extends Sprite{
 
     }
 
+    public void update(){
+
+
+
+    }
+
 
 
 }
