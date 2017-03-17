@@ -91,7 +91,7 @@ public class GameScreen implements Screen {
 
         handleInput();
 
-        world.step(1 / 60f, 6, 2);
+        /*world.step(1 / 60f, 6, 2);*/
 
         setActiveEnemies();
         archer.update(dt);
@@ -150,8 +150,8 @@ public class GameScreen implements Screen {
         renderer.render();
         world.step(1 / 60f, 6, 2);
 
-        // This is so that the world bodies outline are showned
-        // (just for testing purposes)
+        // Thisds is so that the world bodies outline are showned
+        // (just wfor testing purposes)
         debugRenderer.render(world, gamecam.combined);
 
         // only draw what the projection sees
@@ -204,17 +204,17 @@ public class GameScreen implements Screen {
         // Accounts for the archer holding opposite keys.
         // Movement code starts here
         if (inputProcessor.aKey && !inputProcessor.dKey) {
-            archer.velocityVector.x = -1f;
+            archer.velocityVector.x = -archer.speed;
         } else if (inputProcessor.dKey && !inputProcessor.aKey) {
-            archer.velocityVector.x = 1f;
+            archer.velocityVector.x = archer.speed;
         } else {
             archer.velocityVector.x = 0;
         }
 
         if (inputProcessor.wKey) {
-            archer.velocityVector.y = 1f;
+            archer.velocityVector.y = archer.speed;
         } else if (inputProcessor.sKey) {
-            archer.velocityVector.y = -1f;
+            archer.velocityVector.y = -archer.speed;
         } else {
             archer.velocityVector.y = 0;
         }
