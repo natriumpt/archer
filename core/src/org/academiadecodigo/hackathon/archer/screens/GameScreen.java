@@ -157,15 +157,10 @@ public class GameScreen implements Screen {
         game.getBatch().setProjectionMatrix(gamecam.combined);
 
         // begin a new batch and draw the bucket and
-<<<<<<< HEAD
-        game.getBatch().begin();
-        game.getBatch().end();
 
-=======
         game.batch.begin();
         archer.draw(game.batch);
         game.batch.end();
->>>>>>> d8856c3e8889f41b9f29404015673e3375cb1f7f
 
     }
 
