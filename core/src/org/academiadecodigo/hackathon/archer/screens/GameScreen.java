@@ -30,11 +30,8 @@ import static org.academiadecodigo.hackathon.archer.ArcherGame.manager;
 public class GameScreen implements Screen {
 
     private BodyWorldCreator creator;
-<<<<<<< HEAD
-=======
     private TextureAtlas atlas;
     private Music music;
->>>>>>> 5488daf3bc3020c825ce81ca47d1c2e944b3acd8
     private OrthographicCamera gamecam;
     private Viewport viewPort;
 
