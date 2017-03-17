@@ -13,49 +13,52 @@ import org.academiadecodigo.hackathon.archer.sprites.projectile.Projectile;
 
 public class Archer extends Sprite {
 
+    public static final int NUMBER_PROJECTILES = 50;
+    public enum State {STANDING, WALKING, FIRING, DEAD}
+    public enum Orientation {NORTH, SOUTH, EAST, WEST}
+
+    public State currentState;
+    public State previousState;
+    public Orientation currentOrientation;
+    public Orientation previousOrientation;
+    private float stateTimer;
+
     public World world;
     public Body body;
     public Vector2 velocityVector;
     private GameScreen gameScreen;
+
     private TextureRegion archerStandingNorth;
     private TextureRegion archerStandingEast;
     private TextureRegion archerStandingSouth;
+    private Animation walkingNorth;
+    private Animation walkingEast;
+    private Animation walkingSouth;
 
     public Array<Projectile> projectiles;
-    public static final int NUMBER_PROJECTILES = 50;
-
-
-    public enum State {STANDING, WALKING, FIRING, DEAD}
-
-    public State currentState;
-    public State previousState;
-    private float stateTimer;
-
-    public enum Orientation {NORTH, SOUTH, EAST, WEST}
-
-    public Orientation currentOrientation;
-    public Orientation previousOrientation;
-
-    private Animation walkingNorth;
-    private Animation walkingSouth;
-    private Animation walkingEast;
-
     public float speed;
 
     public Archer(GameScreen gameScreen) {
 
         super(gameScreen.getAtlas().findRegion("standing_n"));
+
         this.world = gameScreen.getWorld();
         this.gameScreen = gameScreen;
 
-        archerStandingNorth = new TextureRegion(gameScreen.getAtlas().findRegion("standing_n"));
-        archerStandingSouth = new TextureRegion(gameScreen.getAtlas().findRegion("standing_s"));
-        archerStandingEast = new TextureRegion(gameScreen.getAtlas().findRegion("standing_e"));
+        setTextureRegions(gameScreen);
+        setAnimations(gameScreen);
+
         setBounds(0, 0, 48 / ArcherGame.PPM, 48 / ArcherGame.PPM);
         setRegion(archerStandingNorth);
 
         defineArcher();
 
+        init();
+
+
+    }
+
+    private void init() {
         projectiles = new Array<Projectile>();
         previousState = State.STANDING;
         currentState = State.STANDING;
@@ -63,6 +66,9 @@ public class Archer extends Sprite {
         stateTimer = 0;
         speed = 3f;
 
+    }
+
+    private void setAnimations(GameScreen gameScreen) {
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
         for (int i = 1; i < 4; i++) {
@@ -84,8 +90,10 @@ public class Archer extends Sprite {
         frames.clear();
     }
 
-    private void init() {
-
+    private void setTextureRegions(GameScreen gameScreen) {
+        archerStandingNorth = new TextureRegion(gameScreen.getAtlas().findRegion("standing_n"));
+        archerStandingSouth = new TextureRegion(gameScreen.getAtlas().findRegion("standing_s"));
+        archerStandingEast = new TextureRegion(gameScreen.getAtlas().findRegion("standing_e"));
     }
 
     public void update(float dt) {
@@ -93,14 +101,17 @@ public class Archer extends Sprite {
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(dt));
 
-//        for (Projectile projectile: projectiles) {
-//            if (projectile.body.getLinearVelocity().x < 5 && projectile.body.getLinearVelocity().y < 5){
-//                projectile.body.setTransform(1000000f,1000000f, projectile.body.getAngle());
-//                projectiles.removeValue(projectile, true);
-//            }
-//        }
+        checkCollisionWithObstacles();
+    }
 
-
+    private void checkCollisionWithObstacles() {
+        for (Projectile projectile: projectiles) {
+            if ((projectile.body.getLinearVelocity().x < 2 && projectile.body.getLinearVelocity().y < 2)
+                    && (projectile.body.getLinearVelocity().x > -2 && projectile.body.getLinearVelocity().y > -2)){
+                projectile.body.setTransform(1000000f,1000000f, projectile.body.getAngle());
+                projectiles.removeValue(projectile, true);
+            }
+        }
     }
 
     private void defineArcher() {
