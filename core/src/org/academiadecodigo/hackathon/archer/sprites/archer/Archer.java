@@ -92,6 +92,16 @@ public class Archer extends Sprite {
 
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(dt));
+
+
+//        for (Projectile projectile: projectiles) {
+//            if (projectile.body.getLinearVelocity().x < 2 && projectile.body.getLinearVelocity().y < 2){
+//                world.destroyBody(projectile.body);
+//                projectiles.removeValue(projectile, true);
+//            }
+//        }
+
+
     }
 
     private void defineArcher() {
