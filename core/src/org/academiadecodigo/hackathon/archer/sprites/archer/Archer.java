@@ -19,7 +19,6 @@ public class Archer extends Sprite {
     private TextureRegion archerStandingNorth;
     private TextureRegion archerStandingEast;
     private TextureRegion archerStandingSouth;
-    private TextureRegion archerStandingWest;
 
     public Array<Projectile> projectiles;
     public static final int NUMBER_PROJECTILES = 50;
@@ -39,7 +38,6 @@ public class Archer extends Sprite {
     private Animation walkingNorth;
     private Animation walkingSouth;
     private Animation walkingEast;
-    private Animation walkingWest;
 
     public float speed;
 
@@ -155,21 +153,29 @@ public class Archer extends Sprite {
                 break;
         }
 
-        if (currentOrientation == Orientation.WEST && !region.isFlipX()) {
-            region.flip(true, false);
-        }
-        if(currentOrientation == Orientation.EAST && region.isFlipX()){
-            region.flip(true, false);
-        }
+        flipRegionIfNeeded(region);
+        updateState(dt);
 
 
+        return region;
+    }
+
+    private void updateState(float dt) {
         if (currentState == previousState) {
             stateTimer += dt;
         } else {
             stateTimer = 0;
         }
         previousState = currentState;
-        return region;
+    }
+
+    private void flipRegionIfNeeded(TextureRegion region) {
+        if (currentOrientation == Orientation.WEST && !region.isFlipX()) {
+            region.flip(true, false);
+        }
+        if(currentOrientation == Orientation.EAST && region.isFlipX()){
+            region.flip(true, false);
+        }
     }
 
     private void updateOrientation() {
