@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-up" width="30" height="25" tilewidth="32" tileheight="32" nextobjectid="19">
+<map version="1.0" orientation="orthogonal" renderorder="right-up" width="30" height="25" tilewidth="32" tileheight="32" nextobjectid="82">
  <tileset firstgid="1" name="Forest" tilewidth="32" tileheight="32" spacing="1" tilecount="380" columns="19">
   <image source="../tileset.png" width="626" height="659"/>
  </tileset>
@@ -54,5 +54,63 @@
   <object id="16" x="544" y="288" width="32" height="32"/>
   <object id="17" x="384" y="352" width="32" height="32"/>
   <object id="18" x="448" y="448" width="32" height="32"/>
+  <object id="19" x="704" y="128" width="32" height="32"/>
+  <object id="20" x="768" y="96" width="32" height="32"/>
+  <object id="21" x="832" y="128" width="32" height="32"/>
+  <object id="22" x="736" y="128" width="32" height="32"/>
+  <object id="23" x="768" y="128" width="32" height="32"/>
+  <object id="24" x="800" y="128" width="32" height="32"/>
+  <object id="25" x="704" y="96" width="32" height="32"/>
+  <object id="26" x="736" y="96" width="32" height="32"/>
+  <object id="27" x="800" y="96" width="32" height="32"/>
+  <object id="28" x="832" y="96" width="32" height="32"/>
+  <object id="29" x="544" y="96" width="32" height="32"/>
+  <object id="31" x="288" y="96" width="32" height="32"/>
+  <object id="32" x="192" y="96" width="32" height="32"/>
+  <object id="33" x="96" y="96" width="32" height="32"/>
+  <object id="34" x="96" y="192" width="32" height="32"/>
+  <object id="35" x="128" y="256" width="32" height="32"/>
+  <object id="36" x="96" y="352" width="32" height="32"/>
+  <object id="37" x="96" y="448" width="32" height="32"/>
+  <object id="38" x="160" y="416" width="32" height="32"/>
+  <object id="39" x="96" y="384" width="32" height="32"/>
+  <object id="40" x="160" y="384" width="32" height="32"/>
+  <object id="41" x="96" y="480" width="32" height="32"/>
+  <object id="42" x="448" y="416" width="32" height="32"/>
+  <object id="44" x="256" y="224" width="32" height="32"/>
+  <object id="45" x="288" y="192" width="32" height="32"/>
+  <object id="46" x="384" y="320" width="32" height="32"/>
+  <object id="47" x="512" y="224" width="32" height="32"/>
+  <object id="48" x="544" y="320" width="32" height="32"/>
+  <object id="49" x="448" y="288" width="32" height="32"/>
+  <object id="50" x="480" y="352" width="32" height="32"/>
+  <object id="51" x="544" y="416" width="32" height="32"/>
+  <object id="54" x="384" y="224" width="32" height="32"/>
+  <object id="55" x="416" y="192" width="32" height="32"/>
+  <object id="56" x="416" y="96" width="32" height="32"/>
+  <object id="58" x="96" y="576" width="32" height="32"/>
+  <object id="59" x="128" y="576" width="32" height="32"/>
+  <object id="60" x="224" y="576" width="32" height="32"/>
+  <object id="61" x="256" y="576" width="32" height="32"/>
+  <object id="62" x="128" y="672" width="32" height="32"/>
+  <object id="63" x="160" y="672" width="32" height="32"/>
+  <object id="64" x="256" y="672" width="32" height="32"/>
+  <object id="65" x="288" y="672" width="32" height="32"/>
+  <object id="66" x="512" y="576" width="32" height="32"/>
+  <object id="67" x="416" y="672" width="32" height="32"/>
+  <object id="68" x="384" y="576" width="32" height="32"/>
+  <object id="69" x="544" y="672" width="32" height="32"/>
+  <object id="70" x="352" y="576" width="32" height="32"/>
+  <object id="71" x="512" y="672" width="32" height="32"/>
+  <object id="72" x="384" y="672" width="32" height="32"/>
+  <object id="73" x="480" y="576" width="32" height="32"/>
+  <object id="74" x="768" y="576" width="32" height="32"/>
+  <object id="75" x="672" y="672" width="32" height="32"/>
+  <object id="76" x="640" y="576" width="32" height="32"/>
+  <object id="77" x="800" y="672" width="32" height="32"/>
+  <object id="78" x="608" y="576" width="32" height="32"/>
+  <object id="79" x="768" y="672" width="32" height="32"/>
+  <object id="80" x="640" y="672" width="32" height="32"/>
+  <object id="81" x="736" y="576" width="32" height="32"/>
  </objectgroup>
 </map>

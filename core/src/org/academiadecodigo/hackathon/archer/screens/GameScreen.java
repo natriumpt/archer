@@ -78,9 +78,10 @@ public class GameScreen implements Screen {
         inputProcessor = new ArcherInputProcessor();
         Gdx.input.setInputProcessor(inputProcessor);
 
-//        music = ArcherGame.manager.get("audio/sounds/ambience.wav", Music.class);
-//        music.setLooping(true);
-//        music.play();
+        Music music = Gdx.audio.newMusic(Gdx.files.internal("audio/music/in_light_of_darkness.mp3"));
+        music.setLooping(true);
+        music.play();
+
     }
 
     @Override
@@ -164,6 +165,7 @@ public class GameScreen implements Screen {
                         manager.get("audio/sounds/zombie-hit.wav", Sound.class).play();
                         archer.projectiles.removeValue(projectile, true);
                         skeleton.setDead(true);
+                        skeleton.setRegion(402, 52, 48, 48); // MEGA WORKAROUND DE DEATHS LOL
                         projectile.body.setTransform(1000000f, 1000000f, projectile.body.getAngle());
                         skeleton.enemyBody.setTransform(1000000f, 1000000f, projectile.body.getAngle());
                         Hud.addScore(skeleton.getPoints());
@@ -202,7 +204,7 @@ public class GameScreen implements Screen {
 
         // This is so that the world bodies outline are showned
         // (just for testing purposes)
-        debugRenderer.render(world, gamecam.combined);
+        /*debugRenderer.render(world, gamecam.combined);*/
 
         // only draw what the projection sees
         game.getBatch().setProjectionMatrix(gamecam.combined);

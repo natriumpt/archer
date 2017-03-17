@@ -18,7 +18,7 @@ public abstract class Animatable extends Sprite {
     public static final String STANDING_E = "standing_e";
     public static final String WALKING_N = "walking_n";
     public static final String WALKING_S = "walking_s";
-    public static final String WALKING_E = "walking e";
+    public static final String WALKING_E = "walking_e";
 
     public enum State {STANDING, WALKING, FIRING, DEAD}
     public enum Orientation {NORTH, SOUTH, EAST, WEST}
@@ -39,6 +39,7 @@ public abstract class Animatable extends Sprite {
     protected Animation walkingNorth;
     protected Animation walkingEast;
     protected Animation walkingSouth;
+    protected Animation deathAnimation;
 
 
     public abstract Body getBody();
@@ -53,28 +54,32 @@ public abstract class Animatable extends Sprite {
         standingEast = new TextureRegion(atlas.findRegion(STANDING_E));
     }
 
-
-    protected void setAnimations() {
-
+    protected void setAnimations(float delay) {
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
         for (int i = 1; i < 4; i++) {
             frames.add(new TextureRegion(atlas.findRegion(WALKING_E, i)));
         }
-        walkingEast = new Animation(0.1f, frames);
+        walkingEast = new Animation(delay, frames);
         frames.clear();
 
         for (int i = 1; i < 5; i++) {
             frames.add(new TextureRegion(atlas.findRegion(WALKING_N, i)));
         }
-        walkingNorth = new Animation(0.1f, frames);
+        walkingNorth = new Animation(delay, frames);
         frames.clear();
 
         for (int i = 1; i < 5; i++) {
             frames.add(new TextureRegion(atlas.findRegion(WALKING_S, i)));
         }
-        walkingSouth = new Animation(0.1f, frames);
+        walkingSouth = new Animation(delay, frames);
         frames.clear();
+
+        /*for (int i = 1; i < 3; i++) {
+            frames.add(new TextureRegion(atlas.findRegion("death", i)));
+        }
+        deathAnimation = new Animation(delay, frames);
+        frames.clear();*/
     }
 
 
@@ -111,6 +116,9 @@ public abstract class Animatable extends Sprite {
                     region = standingSouth;
                     break;
                 }
+            case DEAD:
+                region = (TextureRegion) deathAnimation.getKeyFrame(stateTimer,true);
+                break;
             default:
                 region = standingSouth;
                 break;

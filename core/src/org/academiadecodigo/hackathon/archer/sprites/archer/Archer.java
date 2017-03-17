@@ -28,7 +28,7 @@ public class Archer extends Animatable {
         this.atlas = new TextureAtlas("archerset.atlas");
 
         setTextureRegions();
-        setAnimations();
+        setAnimations(0.1f);
 
         setBounds(0, 0, 48 / ArcherGame.PPM, 48 / ArcherGame.PPM);
         setRegion(standingNorth);
@@ -84,7 +84,7 @@ public class Archer extends Animatable {
         body = world.createBody(bodyDef);
 
         CircleShape shape = new CircleShape();
-        shape.setRadius(5 / ArcherGame.PPM);
+        shape.setRadius(15 / ArcherGame.PPM);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
@@ -120,4 +120,7 @@ public class Archer extends Animatable {
     }
 
 
+    public Orientation getCurrentOrientation() {
+        return currentOrientation;
+    }
 }
