@@ -20,6 +20,8 @@ public class Archer extends Sprite {
     private TextureRegion archerStanding;
 
     public Array<Projectile> projectiles;
+    public static final int NUMBER_PROJECTILES = 50;
+
 
     public enum State {STANDING, WALKING, FIRING, DEAD}
 
@@ -185,7 +187,9 @@ public class Archer extends Sprite {
     }
 
     public void fire(Vector2 velocityVector, boolean fireRight) {
-        projectiles.add(new Projectile(gameScreen, body.getPosition(), velocityVector, fireRight));
+        if (projectiles.size < NUMBER_PROJECTILES) {
+            projectiles.add(new Projectile(gameScreen, body.getPosition(), velocityVector, fireRight));
+        }
     }
 
 

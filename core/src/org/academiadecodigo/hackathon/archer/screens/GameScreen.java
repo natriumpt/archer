@@ -93,11 +93,8 @@ public class GameScreen implements Screen {
 
         world.step(1 / 60f, 6, 2);
 
-        archer.update(dt);
+        setActiveEnemies();
 
-        if (skeleton.enemyBody.getPosition().x <= archer.body.getPosition().x && !skeleton.isDead()) {// + 224 / ArcherGame.PPM) {
-            skeleton.getEnemyBody().setActive(true);
-        }
 
         gamecam.position.x = archer.body.getPosition().x;
         gamecam.position.y = archer.body.getPosition().y;
@@ -110,22 +107,36 @@ public class GameScreen implements Screen {
 
                 for (Projectile projectile : archer.projectiles) {
 
+
                     CircleShape projectileShape = (CircleShape) projectile.body.getFixtureList().get(0).getShape();
-                    CircleShape circleShape = (CircleShape) skeleton.enemyBody.getFixtureList().get(0).getShape();
+                    CircleShape skeletonShape = (CircleShape) skeleton.enemyBody.getFixtureList().get(0).getShape();
 
                     float xD = projectile.body.getPosition().x - skeleton.enemyBody.getPosition().x;      // delta x
                     float yD = projectile.body.getPosition().y - skeleton.enemyBody.getPosition().y;      // delta y
                     float sqDist = xD * xD + yD * yD;  // square distance
-                    boolean collision = sqDist <= (projectileShape.getRadius() + circleShape.getRadius()) * (projectileShape.getRadius() + circleShape.getRadius());
+                    boolean collision = sqDist <= (projectileShape.getRadius() + skeletonShape.getRadius()) * (projectileShape.getRadius() + skeletonShape.getRadius());
 
                     if (collision) {
                         world.destroyBody(projectile.body);
                         world.destroyBody(skeleton.enemyBody);
                         archer.projectiles.removeValue(projectile, false);
                         skeleton.setDead(true);
+                        break;
                     }
                 }
+        }
+    }
 
+    private void setActiveEnemies() {
+
+        float enemyPosX = skeleton.getEnemyBody().getPosition().x;
+        float enemyPosY = skeleton.getEnemyBody().getPosition().y;
+        float archerPosX = archer.body.getPosition().x;
+        float archerPosY = archer.body.getPosition().y;
+        double distanceDiff = ((Math.pow(archerPosX-enemyPosX, 2) + Math.pow(archerPosY-enemyPosY, 2)));
+
+        if (distanceDiff < 35) {
+            skeleton.getEnemyBody().setActive(true);
         }
     }
 
@@ -146,9 +157,15 @@ public class GameScreen implements Screen {
         game.getBatch().setProjectionMatrix(gamecam.combined);
 
         // begin a new batch and draw the bucket and
+<<<<<<< HEAD
+        game.getBatch().begin();
+        game.getBatch().end();
+
+=======
         game.batch.begin();
         archer.draw(game.batch);
         game.batch.end();
+>>>>>>> d8856c3e8889f41b9f29404015673e3375cb1f7f
 
     }
 
