@@ -15,7 +15,7 @@ public class Skeleton extends Enemy {
 
     public static final int MAX_ACTIVE_PROJECTILES = 10;
 
-    private static final float SPEED = 10;
+    private static final float SPEED = 1;
     private ArrayList<Projectile> projectiles;
 
     public Skeleton(GameScreen screen, float initial_x, float initial_y) {
@@ -27,7 +27,7 @@ public class Skeleton extends Enemy {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(650 / ArcherGame.PPM, 550 / ArcherGame.PPM);
+        bodyDef.position.set(650 / ArcherGame.PPM, 650 / ArcherGame.PPM);
 
         enemyBody = getWorld().createBody(bodyDef);
 
@@ -45,17 +45,23 @@ public class Skeleton extends Enemy {
 
     }
 
+    @Override
+    public void update(float dt) {
+
+        moveToArcher();
+
+    }
+
     public void moveToArcher(){
 
         Vector2 enemyPos = new Vector2(enemyBody.getPosition());
         Vector2 archerPos = new Vector2(getGameScreen().getArcher().body.getPosition());
 
         //nor : Normaliza o vector
-        Vector2 delta = enemyPos.sub(archerPos).nor();
+        Vector2 delta = archerPos.sub(enemyPos).nor();
+        enemyBody.setLinearVelocity(delta);
+        setPosition((enemyBody.getPosition().x - getWidth() / 2)/ArcherGame.PPM, (enemyBody.getPosition().y - getHeight() / 2)/ArcherGame.PPM);
 
-        // Take alien current position and add the delta times velocity times delta-time
-        Vector2 newPos = new Vector2(enemyBody.getPosition());
-        newPos.add(delta.scl(SPEED * Gdx.graphics.getDeltaTime()));
 
     }
 
