@@ -98,17 +98,18 @@ public class GameScreen implements Screen {
 
         handleInput();
 
-        /*world.step(1 / 60f, 6, 2);*/
+        world.step(1 / 60f, 6, 2);
 
         archer.update(dt);
-       setActiveEnemies();
+        setActiveEnemies();
+        hud.update(dt);
 
         gamecam.position.x = archer.body.getPosition().x;
         gamecam.position.y = archer.body.getPosition().y;
         gamecam.update();
         renderer.setView(gamecam);
 
-        for (Skeleton skeleton: skeletons) {
+        for (Skeleton skeleton : skeletons) {
 
             if (!skeleton.isDead()) {
 
@@ -141,12 +142,12 @@ public class GameScreen implements Screen {
 
     private void setActiveEnemies() {
 
-        for (Skeleton skeleton: skeletons) {
+        for (Skeleton skeleton : skeletons) {
             float enemyPosX = skeleton.getEnemyBody().getPosition().x;
             float enemyPosY = skeleton.getEnemyBody().getPosition().y;
             float archerPosX = archer.body.getPosition().x;
             float archerPosY = archer.body.getPosition().y;
-            double distanceDiff = ((Math.pow(archerPosX-enemyPosX, 2) + Math.pow(archerPosY-enemyPosY, 2)));
+            double distanceDiff = ((Math.pow(archerPosX - enemyPosX, 2) + Math.pow(archerPosY - enemyPosY, 2)));
 
             if (distanceDiff < 35) {
                 skeleton.getEnemyBody().setActive(true);
@@ -209,7 +210,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
 
 
     }
