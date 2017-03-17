@@ -42,6 +42,10 @@ public class GameScreen implements Screen {
     public static final float VIEWPORT_HEIGHT = 7.5f;
     public static final float PROJECTILE_VELOCITY = 3f;
 
+
+    //FOR TESTING--TO REMOVE FROM HERE
+    private Skeleton skeleton;
+
     public GameScreen(ArcherGame archerGame) {
 
         Box2D.init();
@@ -49,7 +53,7 @@ public class GameScreen implements Screen {
         this.game = archerGame;
         world = new World(new Vector2(0, 0), true);
         archer = new Archer(this);
-        Skeleton skeleton = new Skeleton(this, 40/ArcherGame.PPM, 40/ ArcherGame.PPM);
+        skeleton = new Skeleton(this, 40/ArcherGame.PPM, 40/ ArcherGame.PPM);
 
 
 
@@ -94,7 +98,16 @@ public class GameScreen implements Screen {
 
     public void update(float dt) {
 
+        handleInput();
+
         world.step(1 / 60f, 6, 2);
+
+
+
+        skeleton.update(dt);
+//        if(skeleton.getX() < archer.getX() + 224 / ArcherGame.PPM) {
+//            skeleton.getEnemyBody().setActive(true);
+//        }
 
         gamecam.position.x = archer.body.getPosition().x;
         gamecam.position.y = archer.body.getPosition().y;
@@ -122,7 +135,7 @@ public class GameScreen implements Screen {
         game.getBatch().begin();
         game.getBatch().end();
 
-        handleInput();
+
 
     }
 
