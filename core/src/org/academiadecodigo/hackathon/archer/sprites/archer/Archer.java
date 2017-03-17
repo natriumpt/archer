@@ -14,12 +14,11 @@ public class Archer extends Animatable {
 
     public static final int NUMBER_PROJECTILES = 5;
 
-
-    public Vector2 velocityVector;
     private GameScreen gameScreen;
-
+    public Vector2 velocityVector;
     public Array<Projectile> projectiles;
     public float speed;
+
 
     public Archer(GameScreen gameScreen) {
 
@@ -29,27 +28,22 @@ public class Archer extends Animatable {
 
         setTextureRegions();
         setAnimations(0.1f);
-
-        setBounds(0, 0, 48 / ArcherGame.PPM, 48 / ArcherGame.PPM);
+        setBounds(0, 0, PIXEL_WIDTH / ArcherGame.PPM, PIXEL_HEIGHT / ArcherGame.PPM);
         setRegion(standingNorth);
-
         defineArcher();
-
         init();
-
-
     }
 
+
     private void init() {
+
         projectiles = new Array<Projectile>();
         previousState = State.STANDING;
         currentState = State.STANDING;
         currentOrientation = Orientation.NORTH;
         stateTimer = 0;
         speed = 3f;
-
     }
-
 
 
     public void update(float dt) {
@@ -59,21 +53,25 @@ public class Archer extends Animatable {
 
         checkCollisionWithObstacles();
 
-        for (Projectile p: projectiles) {
+        for (Projectile p : projectiles) {
             p.update(dt);
         }
     }
 
+
     private void checkCollisionWithObstacles() {
-        for (Projectile projectile: projectiles) {
+
+        for (Projectile projectile : projectiles) {
             if ((projectile.body.getLinearVelocity().x < 2 && projectile.body.getLinearVelocity().y < 2)
-                    && (projectile.body.getLinearVelocity().x > -2 && projectile.body.getLinearVelocity().y > -2)){
+                    && (projectile.body.getLinearVelocity().x > -2 && projectile.body.getLinearVelocity().y > -2)) {
+
                 ArcherGame.manager.get("audio/sounds/arrow-hit.wav", Sound.class).play();
-                projectile.body.setTransform(1000000f,1000000f, projectile.body.getAngle());
+                projectile.body.setTransform(1000000f, 1000000f, projectile.body.getAngle());
                 projectiles.removeValue(projectile, true);
             }
         }
     }
+
 
     private void defineArcher() {
 
@@ -91,7 +89,6 @@ public class Archer extends Animatable {
         body.createFixture(fixtureDef);
 
         velocityVector = new Vector2(0, 0);
-
     }
 
 
@@ -100,15 +97,16 @@ public class Archer extends Animatable {
         return body;
     }
 
+
     @Override
     public State getState() {
 
         if (body.getLinearVelocity().x != 0 || body.getLinearVelocity().y != 0) {
             return State.WALKING;
         }
-
         return State.STANDING;
     }
+
 
     public void fire(Vector2 velocityVector, boolean fireRight, Orientation orientation) {
 
@@ -117,10 +115,5 @@ public class Archer extends Animatable {
         if (projectiles.size < NUMBER_PROJECTILES) {
             projectiles.add(new Projectile(gameScreen, body.getPosition(), velocityVector, fireRight, orientation));
         }
-    }
-
-
-    public Orientation getCurrentOrientation() {
-        return currentOrientation;
     }
 }
