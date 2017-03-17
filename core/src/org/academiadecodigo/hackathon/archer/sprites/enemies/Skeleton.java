@@ -31,6 +31,9 @@ public class Skeleton extends Enemy {
     public Orientation previousOrientation;
     private float stateTimer;
 
+    public World world;
+    public Body body;
+
     private TextureAtlas atlas;
 
     private TextureRegion standingNorth;
@@ -41,7 +44,7 @@ public class Skeleton extends Enemy {
     private Animation walkingSouth;
 
     public Skeleton(GameScreen gameScreen, float initialX, float initialY) {
-        super(gameScreen, initialX, initialY);
+        super(gameScreen);
 
         atlas = new TextureAtlas("skeletonset.atlas");
 
@@ -54,8 +57,6 @@ public class Skeleton extends Enemy {
         defineEnemy(initialX, initialY);
 
         init();
-
-//
     }
 
     private void init() {
@@ -121,6 +122,7 @@ public class Skeleton extends Enemy {
     public void update(float dt) {
 
         moveToArcher();
+        setPosition(enemyBody.getPosition().x - getWidth() / 2 , enemyBody.getPosition().y - getHeight() / 2);
         setRegion(getFrame(dt));
 
     }
@@ -233,7 +235,6 @@ public class Skeleton extends Enemy {
         //nor : Normaliza o vector
         Vector2 delta = archerPos.sub(enemyPos).nor();
         enemyBody.setLinearVelocity(delta);
-        setPosition((enemyBody.getPosition().x - getWidth() / 2)/ArcherGame.PPM, (enemyBody.getPosition().y - getHeight() / 2)/ArcherGame.PPM);
 
 
     }
