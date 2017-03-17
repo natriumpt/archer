@@ -31,10 +31,7 @@ import static sun.audio.AudioPlayer.player;
 public class GameScreen implements Screen {
 
     private BodyWorldCreator creator;
-    private TextureAtlas atlas;
-
     private OrthographicCamera gamecam;
-
     private Viewport viewPort;
 
     private TmxMapLoader mapLoader;
@@ -60,8 +57,6 @@ public class GameScreen implements Screen {
 
         Box2D.init();
 
-        atlas = new TextureAtlas("archerset.atlas");
-
         this.game = archerGame;
         world = new World(new Vector2(0, 0), true);
         archer = new Archer(this);
@@ -86,10 +81,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-    }
-
-    public TextureAtlas getAtlas() {
-        return atlas;
     }
 
     public void update(float dt) {

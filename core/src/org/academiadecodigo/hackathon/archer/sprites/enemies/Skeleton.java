@@ -1,12 +1,14 @@
 package org.academiadecodigo.hackathon.archer.sprites.enemies;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.*;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
 import org.academiadecodigo.hackathon.archer.screens.GameScreen;
+import org.academiadecodigo.hackathon.archer.sprites.archer.Archer;
 import org.academiadecodigo.hackathon.archer.sprites.projectile.Projectile;
 
 import java.util.ArrayList;
@@ -19,8 +21,41 @@ public class Skeleton extends Enemy {
     private boolean dead;
     private final int points = 100;
 
-    public Skeleton(GameScreen screen, float initialX, float initialY) {
-        super(screen, initialX, initialY);
+    public enum State {STANDING, WALKING, FIRING, DEAD}
+    public enum Orientation {NORTH, SOUTH, EAST, WEST}
+
+    public State currentState;
+    public State previousState;
+    public Orientation currentOrientation;
+    public Orientation previousOrientation;
+    private float stateTimer;
+
+    private TextureAtlas atlas;
+
+    private TextureRegion archerStandingNorth;
+    private TextureRegion archerStandingEast;
+    private TextureRegion archerStandingSouth;
+    private Animation walkingNorth;
+    private Animation walkingEast;
+    private Animation walkingSouth;
+
+    public Skeleton(GameScreen gameScreen, float initialX, float initialY) {
+        super(gameScreen, initialX, initialY);
+
+        atlas = new TextureAtlas("skeletonset.atlas");
+
+//        setTextureRegions(gameScreen);
+//        setAnimations(gameScreen);
+//
+//        setTextureRegions(gameScreen);
+//        setAnimations(gameScreen);
+//
+//        setBounds(0, 0, 48 / ArcherGame.PPM, 48 / ArcherGame.PPM);
+//        setRegion(archerStandingNorth);
+//
+//        defineArcher();
+//
+//        init();
     }
 
     @Override

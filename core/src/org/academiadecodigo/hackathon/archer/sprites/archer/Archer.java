@@ -3,6 +3,7 @@ package org.academiadecodigo.hackathon.archer.sprites.archer;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -28,6 +29,8 @@ public class Archer extends Sprite {
     public Vector2 velocityVector;
     private GameScreen gameScreen;
 
+    private TextureAtlas atlas;
+
     private TextureRegion archerStandingNorth;
     private TextureRegion archerStandingEast;
     private TextureRegion archerStandingSouth;
@@ -40,8 +43,7 @@ public class Archer extends Sprite {
 
     public Archer(GameScreen gameScreen) {
 
-        super(gameScreen.getAtlas().findRegion("standing_n"));
-
+        this.atlas = new TextureAtlas("archerset.atlas");
         this.world = gameScreen.getWorld();
         this.gameScreen = gameScreen;
 
@@ -72,28 +74,28 @@ public class Archer extends Sprite {
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
         for (int i = 1; i < 4; i++) {
-            frames.add(new TextureRegion(gameScreen.getAtlas().findRegion("walking_e", i)));
+            frames.add(new TextureRegion(atlas.findRegion("walking_e", i)));
         }
         walkingEast = new Animation(0.1f, frames);
         frames.clear();
 
         for (int i = 1; i < 5; i++) {
-            frames.add(new TextureRegion(gameScreen.getAtlas().findRegion("walking_n", i)));
+            frames.add(new TextureRegion(atlas.findRegion("walking_n", i)));
         }
         walkingNorth = new Animation(0.1f, frames);
         frames.clear();
 
         for (int i = 1; i < 5; i++) {
-            frames.add(new TextureRegion(gameScreen.getAtlas().findRegion("walking_s", i)));
+            frames.add(new TextureRegion(atlas.findRegion("walking_s", i)));
         }
         walkingSouth = new Animation(0.1f, frames);
         frames.clear();
     }
 
     private void setTextureRegions(GameScreen gameScreen) {
-        archerStandingNorth = new TextureRegion(gameScreen.getAtlas().findRegion("standing_n"));
-        archerStandingSouth = new TextureRegion(gameScreen.getAtlas().findRegion("standing_s"));
-        archerStandingEast = new TextureRegion(gameScreen.getAtlas().findRegion("standing_e"));
+        archerStandingNorth = new TextureRegion(atlas.findRegion("standing_n"));
+        archerStandingSouth = new TextureRegion(atlas.findRegion("standing_s"));
+        archerStandingEast = new TextureRegion(atlas.findRegion("standing_e"));
     }
 
     public void update(float dt) {
