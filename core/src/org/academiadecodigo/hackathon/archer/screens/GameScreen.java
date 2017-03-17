@@ -3,6 +3,7 @@ package org.academiadecodigo.hackathon.archer.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -133,6 +134,7 @@ public class GameScreen implements Screen {
                             * (projectileShape.getRadius() + skeletonShape.getRadius());
 
                     if (collision) {
+
                         archer.projectiles.removeValue(projectile, true);
                         skeleton.setDead(true);
                         projectile.body.setTransform(1000000f,1000000f, projectile.body.getAngle());

@@ -25,6 +25,7 @@ public class ArcherGame extends Game {
 		setScreen(new StartScreen(this));
 
         manager = new AssetManager();
+        manager.load("audio/sounds/arrow-hit.wav", Sound.class);
         manager.load("audio/sounds/arrow-shot.wav", Sound.class);
 		setScreen(new GameScreen((this)));
 	}
