@@ -126,20 +126,28 @@ public class GameScreen implements Screen {
                 if (collision) {
 //                        manager.get("audio/sounds/zombie-hit.wav", Sound.class).play();
                     archer.body.setActive(false);
-                    music.stop();
-                    game.setScreen(new EndScreen(game));
+                    endGame();
                     break;
                 }
             }
         }
     }
 
+    public void endGame() {
+        music.stop();
+        game.setScreen(new EndScreen(game));
+    }
+
 
     private void checkEnemyCollisions(float dt) {
+
+        boolean allDead = true;
 
         for (Skeleton skeleton : skeletons) {
 
             if (!skeleton.isDead()) {
+
+                allDead = false;
 
                 skeleton.update(dt);
 
@@ -167,6 +175,11 @@ public class GameScreen implements Screen {
                 }
             }
         }
+
+        if (allDead) {
+            endGame();
+        }
+
     }
 
     private void setActiveEnemies() {
@@ -182,6 +195,7 @@ public class GameScreen implements Screen {
                 skeleton.getBody().setActive(true);
             }
         }
+
     }
 
     @Override
