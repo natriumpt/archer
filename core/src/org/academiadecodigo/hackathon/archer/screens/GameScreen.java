@@ -137,6 +137,7 @@ public class GameScreen implements Screen {
                         skeleton.setDead(true);
                         projectile.body.setTransform(1000000f,1000000f, projectile.body.getAngle());
                         skeleton.enemyBody.setTransform(1000000f,1000000f, projectile.body.getAngle());
+                        Hud.addScore(skeleton.getPoints());
                         break;
                     }
                 }
