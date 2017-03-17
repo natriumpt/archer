@@ -25,7 +25,7 @@ public class Skeleton extends Enemy {
         atlas = new TextureAtlas("skeletonset.atlas");
 
         setTextureRegions();
-        setAnimations();
+        setAnimations(0.3f);
 
         setBounds(0, 0, 48 / ArcherGame.PPM, 48 / ArcherGame.PPM);
         setRegion(standingSouth);

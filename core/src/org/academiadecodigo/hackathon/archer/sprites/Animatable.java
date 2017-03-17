@@ -44,25 +44,25 @@ public abstract class Animatable extends Sprite {
         standingEast = new TextureRegion(atlas.findRegion("standing_e"));
     }
 
-    protected void setAnimations() {
+    protected void setAnimations(float delay) {
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
         for (int i = 1; i < 4; i++) {
             frames.add(new TextureRegion(atlas.findRegion("walking_e", i)));
         }
-        walkingEast = new Animation(0.1f, frames);
+        walkingEast = new Animation(delay, frames);
         frames.clear();
 
         for (int i = 1; i < 5; i++) {
             frames.add(new TextureRegion(atlas.findRegion("walking_n", i)));
         }
-        walkingNorth = new Animation(0.1f, frames);
+        walkingNorth = new Animation(delay, frames);
         frames.clear();
 
         for (int i = 1; i < 5; i++) {
             frames.add(new TextureRegion(atlas.findRegion("walking_s", i)));
         }
-        walkingSouth = new Animation(0.1f, frames);
+        walkingSouth = new Animation(delay, frames);
         frames.clear();
     }
 
@@ -72,7 +72,6 @@ public abstract class Animatable extends Sprite {
 
         currentState = getState();
         updateOrientation();
-
 
         switch (currentState) {
             case WALKING:

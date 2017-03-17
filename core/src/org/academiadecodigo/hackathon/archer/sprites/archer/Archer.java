@@ -28,7 +28,7 @@ public class Archer extends Animatable {
         this.atlas = new TextureAtlas("archerset.atlas");
 
         setTextureRegions();
-        setAnimations();
+        setAnimations(0.1f);
 
         setBounds(0, 0, 48 / ArcherGame.PPM, 48 / ArcherGame.PPM);
         setRegion(standingNorth);
