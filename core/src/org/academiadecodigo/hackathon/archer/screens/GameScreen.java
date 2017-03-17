@@ -56,10 +56,6 @@ public class GameScreen implements Screen {
         this.game = archerGame;
         initGameElements();
 
-        Music music = Gdx.audio.newMusic(Gdx.files.internal("audio/music/in_light_of_darkness.mp3"));
-        music.setLooping(true);
-        music.play();
-
     }
 
     private void initGameElements() {
