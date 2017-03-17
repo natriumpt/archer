@@ -56,7 +56,7 @@ public class GameScreen implements Screen {
         this.game = archerGame;
         world = new World(new Vector2(0, 0), true);
         archer = new Archer(this);
-        skeleton = new Skeleton(this, 40/ArcherGame.PPM, 40/ ArcherGame.PPM);
+        skeleton = new Skeleton(this, 40 / ArcherGame.PPM, 40 / ArcherGame.PPM);
 
         gamecam = new OrthographicCamera();
         viewPort = new FitViewport(archerGame.V_WIDTH / archerGame.PPM, archerGame.V_HEIGHT / archerGame.PPM, gamecam);
@@ -83,10 +83,7 @@ public class GameScreen implements Screen {
 
         world.step(1 / 60f, 6, 2);
 //
-        if(skeleton.enemyBody.getPosition().x <= archer.body.getPosition().x && !skeleton.isDead()){// + 224 / ArcherGame.PPM) {
-
-            skeleton.getEnemyBody().setActive(true);
-        }
+        setActiveEnemies();
 
         gamecam.position.x = archer.body.getPosition().x;
         gamecam.position.y = archer.body.getPosition().y;
@@ -99,24 +96,37 @@ public class GameScreen implements Screen {
 
             for (Projectile projectile : archer.projectiles) {
 
-                    CircleShape projectileShape = (CircleShape) projectile.body.getFixtureList().get(0).getShape();
-                    CircleShape circleShape = (CircleShape) skeleton.enemyBody.getFixtureList().get(0).getShape();
+                CircleShape projectileShape = (CircleShape) projectile.body.getFixtureList().get(0).getShape();
+                CircleShape circleShape = (CircleShape) skeleton.enemyBody.getFixtureList().get(0).getShape();
 
-                    float xD = projectile.body.getPosition().x - skeleton.enemyBody.getPosition().x;      // delta x
-                    float yD = projectile.body.getPosition().y - skeleton.enemyBody.getPosition().y;      // delta y
-                    float sqDist = xD * xD + yD * yD;  // square distance
-                    boolean collision = sqDist <= (projectileShape.getRadius() + circleShape.getRadius()) * (projectileShape.getRadius() + circleShape.getRadius());
+                float xD = projectile.body.getPosition().x - skeleton.enemyBody.getPosition().x;      // delta x
+                float yD = projectile.body.getPosition().y - skeleton.enemyBody.getPosition().y;      // delta y
+                float sqDist = xD * xD + yD * yD;  // square distance
+                boolean collision = sqDist <= (projectileShape.getRadius() + circleShape.getRadius()) * (projectileShape.getRadius() + circleShape.getRadius());
 
-                    if (collision) {
-                        world.destroyBody(projectile.body);
-                        world.destroyBody(skeleton.enemyBody);
-                        archer.projectiles.removeValue(projectile, false);
-                        skeleton.setDead(true);
-                    }
+                if (collision) {
+                    world.destroyBody(projectile.body);
+                    world.destroyBody(skeleton.enemyBody);
+                    archer.projectiles.removeValue(projectile, false);
+                    skeleton.setDead(true);
+                }
             }
         }
 
 
+    }
+
+    private void setActiveEnemies() {
+
+        float enemyPosX = skeleton.getEnemyBody().getPosition().x;
+        float enemyPosY = skeleton.getEnemyBody().getPosition().y;
+        float archerPosX = archer.body.getPosition().x;
+        float archerPosY = archer.body.getPosition().y;
+        double distanceDiff = ((Math.pow(archerPosX-enemyPosX, 2) + Math.pow(archerPosY-enemyPosY, 2)));
+
+        if (distanceDiff < 35) {
+            skeleton.getEnemyBody().setActive(true);
+        }
     }
 
     @Override
@@ -138,7 +148,6 @@ public class GameScreen implements Screen {
         // begin a new batch and draw the bucket and
         game.getBatch().begin();
         game.getBatch().end();
-
 
 
     }
