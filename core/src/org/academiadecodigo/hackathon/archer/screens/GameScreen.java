@@ -11,7 +11,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Box2D;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
@@ -29,8 +31,9 @@ import static org.academiadecodigo.hackathon.archer.ArcherGame.manager;
 
 public class GameScreen implements Screen {
 
+    public static final float PROJECTILE_VELOCITY = 6f;
+    public ArrayList<Skeleton> skeletons = new ArrayList<Skeleton>();
     private Music music;
-
     //Map and camera related stuff
     private BodyWorldCreator creator;
     private OrthographicCamera gamecam;
@@ -38,16 +41,12 @@ public class GameScreen implements Screen {
     private TmxMapLoader mapLoader;
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
-
     //World, game and player stuff
     private ArcherGame game;
     private World world;
     private Hud hud;
     private Archer archer;
     private ArcherInputProcessor inputProcessor;
-    public ArrayList<Skeleton> skeletons = new ArrayList<Skeleton>();
-
-    public static final float PROJECTILE_VELOCITY = 6f;
 
 
     public GameScreen(ArcherGame archerGame) {
@@ -56,10 +55,6 @@ public class GameScreen implements Screen {
 
         this.game = archerGame;
         initGameElements();
-
-        Music music = Gdx.audio.newMusic(Gdx.files.internal("audio/music/in_light_of_darkness.mp3"));
-        music.setLooping(true);
-        music.play();
 
     }
 
@@ -81,6 +76,10 @@ public class GameScreen implements Screen {
 
         inputProcessor = new ArcherInputProcessor();
         Gdx.input.setInputProcessor(inputProcessor);
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("audio/music/in_light_of_darkness.mp3"));
+        music.setLooping(true);
+        music.play();
     }
 
     @Override
@@ -127,6 +126,8 @@ public class GameScreen implements Screen {
                 if (collision) {
 //                        manager.get("audio/sounds/zombie-hit.wav", Sound.class).play();
                     archer.body.setActive(false);
+                    music.stop();
+                    game.setScreen(new EndScreen(game));
                     break;
                 }
             }
@@ -207,13 +208,13 @@ public class GameScreen implements Screen {
         game.getBatch().setProjectionMatrix(gamecam.combined);
         game.batch.begin();
 
-        for (Skeleton skeleton: skeletons) {
+        for (Skeleton skeleton : skeletons) {
             skeleton.draw(game.batch);
         }
 
         archer.draw(game.batch);
 
-        for (Projectile p: archer.projectiles) {
+        for (Projectile p : archer.projectiles) {
             p.draw(game.batch);
         }
 
