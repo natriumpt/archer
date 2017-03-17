@@ -43,14 +43,6 @@ public class BodyWorldCreator {
 
             gameScreen.skeletons.add(new Skeleton(gameScreen, rect.getX()/ArcherGame.PPM, rect.getY()/ArcherGame.PPM));
 
-
-//            bdef.type = BodyDef.BodyType.StaticBody;
-//            bdef.position.set((rect.getX() + rect.getWidth()/2)/ArcherGame.PPM , (rect.getY() + rect.getHeight()/2)/ArcherGame.PPM);
-//
-//            body = world.createBody(bdef);
-//            shape.setAsBox(rect.getWidth()/2/ArcherGame.PPM, rect.getHeight()/2/ArcherGame.PPM);
-//            fdef.shape = shape;
-//            body.createFixture(fdef);
         }
     }
 

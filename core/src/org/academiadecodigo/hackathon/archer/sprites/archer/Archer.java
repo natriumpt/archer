@@ -176,9 +176,6 @@ public class Archer extends Sprite {
     //METODO PARA SABER SE ESTA A AND
     private State getState() {
 
-        System.out.println("X VELOCITY : " + body.getLinearVelocity().x);
-        System.out.println("Y VELOCITY : " + body.getLinearVelocity().y);
-
         if (body.getLinearVelocity().x != 0 || body.getLinearVelocity().y != 0) {
             return State.WALKING;
         }

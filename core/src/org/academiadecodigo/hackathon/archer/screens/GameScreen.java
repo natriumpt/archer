@@ -96,9 +96,9 @@ public class GameScreen implements Screen {
         handleInput();
 
         world.step(1 / 60f, 6, 2);
+
         archer.update(dt);
        setActiveEnemies();
-
 
         gamecam.position.x = archer.body.getPosition().x;
         gamecam.position.y = archer.body.getPosition().y;
