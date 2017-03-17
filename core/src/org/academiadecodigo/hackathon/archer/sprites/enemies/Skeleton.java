@@ -1,24 +1,17 @@
 package org.academiadecodigo.hackathon.archer.sprites.enemies;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
 import org.academiadecodigo.hackathon.archer.screens.GameScreen;
 import org.academiadecodigo.hackathon.archer.sprites.Animatable;
-import org.academiadecodigo.hackathon.archer.sprites.projectile.Projectile;
-
-import java.util.ArrayList;
 
 public class Skeleton extends Enemy {
 
-    public static final int MAX_ACTIVE_PROJECTILES = 10;
     private static final float SPEED = 1;
-    private ArrayList<Projectile> projectiles;
     private boolean dead;
     private final int points = 100;
-    private TextureRegion region;
 
 
     public Skeleton(GameScreen gameScreen, float initialX, float initialY) {
@@ -33,10 +26,9 @@ public class Skeleton extends Enemy {
         setRegion(standingSouth);
 
         defineEnemy(initialX, initialY);
-
         init();
-
     }
+
 
     private void init() {
         previousState = Animatable.State.STANDING;
@@ -44,8 +36,6 @@ public class Skeleton extends Enemy {
         currentOrientation = Animatable.Orientation.SOUTH;
         stateTimer = 0;
     }
-
-
 
 
     @Override
@@ -63,9 +53,6 @@ public class Skeleton extends Enemy {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-//        fixtureDef.density = 1f;
-//        fixtureDef.friction = 0.4f;
-//        fixtureDef.restitution = 0.6f;
         enemyBody.createFixture(fixtureDef);
 //        shape.dispose();
 
@@ -77,27 +64,22 @@ public class Skeleton extends Enemy {
         moveToArcher();
         setPosition(enemyBody.getPosition().x - getWidth() / 2, enemyBody.getPosition().y - getHeight() / 2);
         setRegion(getFrame(dt));
-
     }
 
-
-
-    public Body getBody(){
+    @Override
+    public Body getBody() {
         return enemyBody;
     }
 
-
-    //METODO PARA SABER SE ESTA A AND
+    @Override
     public State getState() {
 
         if (isDead()) {
             return State.DEAD;
         }
-
         if (enemyBody.getLinearVelocity().x != 0 || enemyBody.getLinearVelocity().y != 0) {
             return State.WALKING;
         }
-
         return State.STANDING;
     }
 
@@ -110,12 +92,6 @@ public class Skeleton extends Enemy {
         //nor : Normaliza o vector
         Vector2 delta = archerPos.sub(enemyPos).nor();
         enemyBody.setLinearVelocity(delta);
-
-
-    }
-
-    public void fire() {
-
     }
 
     public boolean isDead() {
