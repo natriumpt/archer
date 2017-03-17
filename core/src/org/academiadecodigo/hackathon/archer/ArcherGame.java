@@ -2,6 +2,7 @@ package org.academiadecodigo.hackathon.archer;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.academiadecodigo.hackathon.archer.screens.GameScreen;
@@ -25,6 +26,7 @@ public class ArcherGame extends Game {
 		setScreen(new StartScreen(this));
 
         manager = new AssetManager();
+        manager.load("audio/sounds/ambience.wav", Music.class);
         manager.load("audio/sounds/arrow-hit.wav", Sound.class);
         manager.load("audio/sounds/arrow-shot.wav", Sound.class);
         manager.load("audio/sounds/zombie-hit.wav", Sound.class);

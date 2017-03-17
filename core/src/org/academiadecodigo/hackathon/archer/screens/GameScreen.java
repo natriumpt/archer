@@ -3,6 +3,7 @@ package org.academiadecodigo.hackathon.archer.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -24,11 +25,13 @@ import org.academiadecodigo.hackathon.archer.tools.ArcherInputProcessor;
 
 import java.util.ArrayList;
 
+import static org.academiadecodigo.hackathon.archer.ArcherGame.manager;
+
 public class GameScreen implements Screen {
 
     private BodyWorldCreator creator;
     private TextureAtlas atlas;
-
+    private Music music;
     private OrthographicCamera gamecam;
 
     private Viewport viewPort;
@@ -56,6 +59,7 @@ public class GameScreen implements Screen {
 
         Box2D.init();
 
+
         atlas = new TextureAtlas("archerset.atlas");
 
         this.game = archerGame;
@@ -78,6 +82,10 @@ public class GameScreen implements Screen {
 
         inputProcessor = new ArcherInputProcessor();
         Gdx.input.setInputProcessor(inputProcessor);
+
+        music = ArcherGame.manager.get("audio/sounds/ambience.wav", Music.class);
+        music.setLooping(true);
+        music.play();
     }
 
     @Override
@@ -129,11 +137,11 @@ public class GameScreen implements Screen {
                             * (projectileShape.getRadius() + skeletonShape.getRadius());
 
                     if (collision) {
-                        ArcherGame.manager.get("audio/sounds/zombie-hit.wav", Sound.class).play();
+                        manager.get("audio/sounds/zombie-hit.wav", Sound.class).play();
                         archer.projectiles.removeValue(projectile, true);
                         skeleton.setDead(true);
-                        projectile.body.setTransform(1000000f,1000000f, projectile.body.getAngle());
-                        skeleton.enemyBody.setTransform(1000000f,1000000f, projectile.body.getAngle());
+                        projectile.body.setTransform(1000000f, 1000000f, projectile.body.getAngle());
+                        skeleton.enemyBody.setTransform(1000000f, 1000000f, projectile.body.getAngle());
                         Hud.addScore(skeleton.getPoints());
                         break;
                     }
