@@ -19,7 +19,7 @@ public class Projectile extends Animatable {
     boolean fireRight;
 
 
-    public Projectile(GameScreen gameScreen, Vector2 vector2, Vector2 velocityVector, boolean fireRight) {
+    public Projectile(GameScreen gameScreen, Vector2 vector2, Vector2 velocityVector, boolean fireRight, Orientation orientation) {
 
         this.gameScreen = gameScreen;
         this.world = gameScreen.getWorld();
@@ -31,6 +31,8 @@ public class Projectile extends Animatable {
         setBounds(0, 0, 32 / ArcherGame.PPM, 32 / ArcherGame.PPM);
 
         defineProjectile(vector2.x, vector2.y, velocityVector);
+
+        currentOrientation = orientation;
     }
 
     @Override
@@ -83,8 +85,6 @@ public class Projectile extends Animatable {
     public TextureRegion getFrame(float dt) {
 
         TextureRegion region = standingSouth;
-
-        currentOrientation = gameScreen.getArcher().getCurrentOrientation();
 
         if (currentOrientation == Orientation.EAST || currentOrientation == Orientation.WEST) {
             region = standingEast;

@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
 import org.academiadecodigo.hackathon.archer.BodyWorldCreator;
 import org.academiadecodigo.hackathon.archer.scenes.Hud;
+import org.academiadecodigo.hackathon.archer.sprites.Animatable;
 import org.academiadecodigo.hackathon.archer.sprites.archer.Archer;
 import org.academiadecodigo.hackathon.archer.sprites.enemies.Enemy;
 import org.academiadecodigo.hackathon.archer.sprites.enemies.Skeleton;
@@ -285,16 +286,16 @@ public class GameScreen implements Screen {
 
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-            archer.fire(new Vector2(PROJECTILE_VELOCITY, 0), true);
+            archer.fire(new Vector2(PROJECTILE_VELOCITY, 0), true, Animatable.Orientation.EAST);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-            archer.fire(new Vector2(-PROJECTILE_VELOCITY, 0), false);
+            archer.fire(new Vector2(-PROJECTILE_VELOCITY, 0), false, Animatable.Orientation.WEST);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            archer.fire(new Vector2(0, PROJECTILE_VELOCITY), true);
+            archer.fire(new Vector2(0, PROJECTILE_VELOCITY), true, Animatable.Orientation.NORTH);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            archer.fire(new Vector2(0, -PROJECTILE_VELOCITY), true);
+            archer.fire(new Vector2(0, -PROJECTILE_VELOCITY), true, Animatable.Orientation.SOUTH);
         }
 
         archer.body.setLinearVelocity(archer.velocityVector);
