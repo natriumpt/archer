@@ -95,7 +95,7 @@ public class GameScreen implements Screen {
 
         handleInput();
 
-        /*world.step(1 / 60f, 6, 2);*/
+        world.step(1 / 60f, 6, 2);
 
         archer.update(dt);
        setActiveEnemies();

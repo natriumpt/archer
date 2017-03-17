@@ -1,5 +1,6 @@
 package org.academiadecodigo.hackathon.archer.sprites.archer;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -215,6 +216,9 @@ public class Archer extends Sprite {
     }
 
     public void fire(Vector2 velocityVector, boolean fireRight) {
+
+        ArcherGame.manager.get("audio/sounds/arrow-shot.wav", Sound.class).play();
+
         if (projectiles.size < NUMBER_PROJECTILES) {
             projectiles.add(new Projectile(gameScreen, body.getPosition(), velocityVector, fireRight));
         }
