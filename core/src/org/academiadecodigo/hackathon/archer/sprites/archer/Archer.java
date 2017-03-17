@@ -99,7 +99,7 @@ public class Archer extends Sprite {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
-        bodyDef.position.set(600 / ArcherGame.PPM, 600 / ArcherGame.PPM);
+        bodyDef.position.set(300 / ArcherGame.PPM, 300 / ArcherGame.PPM);
 
         body = world.createBody(bodyDef);
 

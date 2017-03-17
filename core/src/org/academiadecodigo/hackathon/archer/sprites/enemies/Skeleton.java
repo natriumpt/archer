@@ -14,21 +14,20 @@ import java.util.ArrayList;
 public class Skeleton extends Enemy {
 
     public static final int MAX_ACTIVE_PROJECTILES = 10;
-
     private static final float SPEED = 1;
     private ArrayList<Projectile> projectiles;
     private boolean dead;
 
-    public Skeleton(GameScreen screen, float initial_x, float initial_y) {
-        super(screen, initial_x, initial_y);
+    public Skeleton(GameScreen screen, float initialX, float initialY) {
+        super(screen, initialX, initialY);
     }
 
     @Override
-    protected void defineEnemy() {
+    protected void defineEnemy(float initialX, float initialY) {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(650 / ArcherGame.PPM, 650 / ArcherGame.PPM);
+        bodyDef.position.set(initialX , initialY);
 
         enemyBody = getWorld().createBody(bodyDef);
         enemyBody.setActive(false);

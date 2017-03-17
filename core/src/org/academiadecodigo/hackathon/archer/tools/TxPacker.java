@@ -1,4 +1,4 @@
-package org.academiadecodigo.hackathon.archer.tools;
+/*package org.academiadecodigo.hackathon.archer.tools;
 
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 
@@ -9,4 +9,4 @@ public class TxPacker {
 
     }
 
-}
+}*/
