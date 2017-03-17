@@ -19,6 +19,7 @@ import org.academiadecodigo.hackathon.archer.ArcherGame;
 import org.academiadecodigo.hackathon.archer.BodyWorldCreator;
 import org.academiadecodigo.hackathon.archer.sprites.archer.Archer;
 import org.academiadecodigo.hackathon.archer.sprites.enemies.Skeleton;
+import org.academiadecodigo.hackathon.archer.sprites.projectile.Projectile;
 import org.academiadecodigo.hackathon.archer.tools.ArcherInputProcessor;
 
 public class GameScreen implements Screen {
@@ -43,6 +44,10 @@ public class GameScreen implements Screen {
     public static final float VIEWPORT_HEIGHT = 7.5f;
     public static final float PROJECTILE_VELOCITY = 3f;
 
+
+    //FOR TESTING--TO REMOVE FROM HERE
+    private Skeleton skeleton;
+
     public GameScreen(ArcherGame archerGame) {
 
         Box2D.init();
@@ -50,7 +55,7 @@ public class GameScreen implements Screen {
         this.game = archerGame;
         world = new World(new Vector2(0, 0), true);
         archer = new Archer(this);
-        Skeleton skeleton = new Skeleton(this, 40/ArcherGame.PPM, 40/ ArcherGame.PPM);
+        skeleton = new Skeleton(this, 40/ArcherGame.PPM, 40/ ArcherGame.PPM);
 
         gamecam = new OrthographicCamera();
         viewPort = new FitViewport(archerGame.V_WIDTH / archerGame.PPM, archerGame.V_HEIGHT / archerGame.PPM, gamecam);
@@ -73,11 +78,37 @@ public class GameScreen implements Screen {
 
     public void update(float dt) {
 
+        handleInput();
+
         world.step(1 / 60f, 6, 2);
+
+        skeleton.update(dt);
+//        if(skeleton.getX() < archer.getX() + 224 / ArcherGame.PPM) {
+//            skeleton.getEnemyBody().setActive(true);
+//        }
+
         gamecam.position.x = archer.body.getPosition().x;
         gamecam.position.y = archer.body.getPosition().y;
         gamecam.update();
         renderer.setView(gamecam);
+
+        for (Projectile p: archer.projectiles) {
+
+            CircleShape projectileShape = (CircleShape) p.body.getFixtureList().get(0).getShape();
+            CircleShape circleShape = (CircleShape) skeleton.enemyBody.getFixtureList().get(0).getShape();
+
+            float xD = p.body.getPosition().x - skeleton.enemyBody.getPosition().x;      // delta x
+            float yD = p.body.getPosition().y - skeleton.enemyBody.getPosition().y;      // delta y
+            float sqDist = xD * xD + yD * yD;  // square distance
+            boolean collision = sqDist <= (projectileShape.getRadius()+circleShape.getRadius()) * (projectileShape.getRadius()+circleShape.getRadius());
+
+            if (collision){
+                world.destroyBody(p.body);
+                world.destroyBody(skeleton.enemyBody);
+            }
+        }
+
+
     }
 
     @Override
@@ -100,7 +131,7 @@ public class GameScreen implements Screen {
         game.getBatch().begin();
         game.getBatch().end();
 
-        handleInput();
+
 
     }
 
