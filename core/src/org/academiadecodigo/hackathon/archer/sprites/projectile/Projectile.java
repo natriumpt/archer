@@ -1,6 +1,5 @@
 package org.academiadecodigo.hackathon.archer.sprites.projectile;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -8,10 +7,15 @@ import com.badlogic.gdx.physics.box2d.*;
 import org.academiadecodigo.hackathon.archer.ArcherGame;
 import org.academiadecodigo.hackathon.archer.screens.GameScreen;
 import org.academiadecodigo.hackathon.archer.sprites.Animatable;
-import org.academiadecodigo.hackathon.archer.sprites.archer.Archer;
 
 public class Projectile extends Animatable {
 
+    public static final String ATLAS = "porjectileset.atlas";
+    public static final String ARROW_N = "arrow_n";
+    public static final String ARROW_S = "arrow_s";
+    public static final String ARROW_E = "arrow_e";
+    public static final float WIDTH = 32;
+    public static final float HEIGTH = 32;
 
     GameScreen gameScreen;
     World world;
@@ -24,11 +28,11 @@ public class Projectile extends Animatable {
         this.gameScreen = gameScreen;
         this.world = gameScreen.getWorld();
         this.fireRight = fireRight;
-        this.atlas = new TextureAtlas("projectileset.atlas");
+        this.atlas = new TextureAtlas(ATLAS);
 
         setTextureRegions();
 
-        setBounds(0, 0, 32 / ArcherGame.PPM, 32 / ArcherGame.PPM);
+        setBounds(0, 0, WIDTH / ArcherGame.PPM, HEIGTH / ArcherGame.PPM);
 
         defineProjectile(vector2.x, vector2.y, velocityVector);
 
@@ -45,11 +49,30 @@ public class Projectile extends Animatable {
         return currentState;
     }
 
+    @Override
     public void setTextureRegions() {
 
-        standingNorth = new TextureRegion(atlas.findRegion("arrow_n"));
-        standingEast = new TextureRegion(atlas.findRegion("arrow_e"));
-        standingSouth = new TextureRegion(atlas.findRegion("arrow_s"));
+        standingNorth = new TextureRegion(atlas.findRegion(ARROW_N));
+        standingEast = new TextureRegion(atlas.findRegion(ARROW_E));
+        standingSouth = new TextureRegion(atlas.findRegion(ARROW_S));
+    }
+
+    @Override
+    public TextureRegion getFrame(float dt) {
+
+        TextureRegion region = standingSouth;
+
+        if (currentOrientation == Orientation.EAST || currentOrientation == Orientation.WEST) {
+            region = standingEast;
+        }
+        if (currentOrientation == Orientation.NORTH) {
+            region = standingNorth;
+        }
+        if (currentOrientation == Orientation.SOUTH) {
+            region = standingSouth;
+        }
+
+        return region;
     }
 
     private void defineProjectile(float x, float y, Vector2 velocityVector) {
@@ -78,39 +101,8 @@ public class Projectile extends Animatable {
 
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(dt));
-
-
     }
 
-    public TextureRegion getFrame(float dt) {
-
-        TextureRegion region = standingSouth;
-
-        if (currentOrientation == Orientation.EAST || currentOrientation == Orientation.WEST) {
-            region = standingEast;
-        }
-        if (currentOrientation == Orientation.NORTH) {
-            region = standingNorth;
-        }
-        if (currentOrientation == Orientation.SOUTH) {
-            region = standingSouth;
-        }
-
-        flipRegionIfNeeded(region);
-
-        return region;
-    }
-
-    private void flipRegionIfNeeded(TextureRegion region) {
-
-        if (currentOrientation == Orientation.WEST && !region.isFlipX()) {
-            region.flip(true, false);
-        }
-
-        if (currentOrientation == Orientation.EAST && region.isFlipX()) {
-            region.flip(true, false);
-        }
-    }
 }
 
 

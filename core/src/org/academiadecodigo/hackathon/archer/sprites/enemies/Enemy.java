@@ -13,16 +13,14 @@ public abstract class Enemy extends Animatable {
     protected World world;
     protected GameScreen gameScreen;
     public Body enemyBody;
-    Vector2 velocity;
 
     private int health;
+
 
     public Enemy(GameScreen screen){
 
         this.gameScreen = screen;
         this.world = screen.getWorld();
-
-        velocity = new Vector2(-1f, -2f);
     }
 
     protected abstract void defineEnemy(float initial_x, float initial_y);
