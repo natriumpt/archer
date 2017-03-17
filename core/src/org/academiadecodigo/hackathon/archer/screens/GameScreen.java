@@ -19,6 +19,7 @@ import org.academiadecodigo.hackathon.archer.ArcherGame;
 import org.academiadecodigo.hackathon.archer.BodyWorldCreator;
 import org.academiadecodigo.hackathon.archer.scenes.Hud;
 import org.academiadecodigo.hackathon.archer.sprites.archer.Archer;
+import org.academiadecodigo.hackathon.archer.sprites.enemies.Enemy;
 import org.academiadecodigo.hackathon.archer.sprites.enemies.Skeleton;
 import org.academiadecodigo.hackathon.archer.sprites.projectile.Projectile;
 import org.academiadecodigo.hackathon.archer.tools.ArcherInputProcessor;
@@ -95,6 +96,7 @@ public class GameScreen implements Screen {
         world.step(1 / 60f, 6, 2);
 
         archer.update(dt);
+
         setActiveEnemies();
 
         hud.update(dt);
@@ -107,6 +109,8 @@ public class GameScreen implements Screen {
         checkEnemyCollisions(dt);
 
     }
+
+
 
     private void checkEnemyCollisions(float dt) {
 
@@ -178,7 +182,13 @@ public class GameScreen implements Screen {
         // begin a new batch and draw the bucket and
 
         game.batch.begin();
+
+        for (Skeleton skeleton: skeletons) {
+            skeleton.draw(game.batch);
+        }
+
         archer.draw(game.batch);
+
         game.batch.end();
 
         game.getBatch().setProjectionMatrix(hud.stage.getCamera().combined);

@@ -16,7 +16,7 @@ public abstract class Enemy extends Sprite {
 
     private int health;
 
-    public Enemy(GameScreen screen, float initial_x, float initial_y){
+    public Enemy(GameScreen screen){
 
         this.gameScreen = screen;
         this.world = screen.getWorld();
