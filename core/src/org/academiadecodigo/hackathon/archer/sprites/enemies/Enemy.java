@@ -14,7 +14,7 @@ public abstract class Enemy extends Sprite {
     private int health;
 
     Vector2 velocity;
-    protected Body enemyBody;
+    public Body enemyBody;
 
 
     public Enemy(GameScreen screen, float initial_x, float initial_y){

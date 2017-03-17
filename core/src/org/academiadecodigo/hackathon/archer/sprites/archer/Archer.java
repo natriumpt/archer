@@ -14,7 +14,7 @@ public class Archer extends Sprite {
     public Body body;
     public Vector2 velocityVector;
     private GameScreen gameScreen;
-    private Array<Projectile> projectiles;
+    public Array<Projectile> projectiles;
 
     public Archer(GameScreen gameScreen) {
 

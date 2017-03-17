@@ -11,8 +11,7 @@ public class Projectile extends Sprite{
 
     GameScreen gameScreen;
     World world;
-    Body body;
-    Archer archer;
+    public Body body;
     boolean fireRight;
 
     public Projectile(GameScreen gameScreen, Vector2 vector2, Vector2 velocityVector, boolean fireRight){
