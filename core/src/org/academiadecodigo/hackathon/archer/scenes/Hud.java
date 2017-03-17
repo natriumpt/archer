@@ -31,10 +31,7 @@ public class Hud {
 
     public Hud(SpriteBatch spriteBatch) {
 
-        score = 0;
-        timeCounter = 0;
-        timeToBeat = 300;
-        timeUp = false;
+        init();
 
         viewport = new FitViewport(ArcherGame.V_WIDTH, ArcherGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, spriteBatch);
@@ -42,16 +39,21 @@ public class Hud {
         Table table = new Table();
 
         initLabels();
-
         prepareTable(table);
-
         stage.addActor(table);
+    }
 
-
+    private void init() {
+        score = 0;
+        timeCounter = 0;
+        timeToBeat = 60;
+        timeUp = false;
     }
 
     public void update(float dt){
+
         timeCounter += dt;
+
         if(timeCounter >= 1){
             if (timeToBeat > 0) {
                 timeToBeat--;
